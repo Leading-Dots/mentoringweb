@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mentorplateform-staging-cb2bc-authRole",
+      "UnauthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorplateform-staging-cb2bc-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorplateform-staging-cb2bc-authRole",
+      "Region": "ap-south-1",
+      "DeploymentBucketName": "amplify-mentorplateform-staging-cb2bc-deployment",
+      "UnauthRoleName": "amplify-mentorplateform-staging-cb2bc-unauthRole",
+      "StackName": "amplify-mentorplateform-staging-cb2bc",
+      "StackId": "arn:aws:cloudformation:ap-south-1:517223944896:stack/amplify-mentorplateform-staging-cb2bc/c999bb90-e2b8-11ef-ac41-02ed6e3689ad",
+      "AmplifyAppId": "d3umymy1rtgzh4"
+    },
+    "categories": {
+      "auth": {
+        "MentorPlateform": {}
+      }
+    }
+  }
+}

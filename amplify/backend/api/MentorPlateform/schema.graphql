@@ -1,0 +1,45 @@
+type Messages @model @auth(rules: [{allow: public}]) {
+  id: ID!
+}
+
+type Notification @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  userID: ID! @index(name: "byUser")
+}
+
+enum Status {
+  SCHEDULED
+  RESCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+type Session @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  duration: Int
+  status: Status
+  mentorId: String
+  menteeId: String
+  Users: [User] @manyToMany(relationName: "SessionUser")
+}
+
+enum Role {
+  MENTOR
+  MENTEE
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  passwordHash: String
+  role: Role
+  bio: String
+  profilePictureUrl: String
+  firebaseToken: String
+  mentorDetails: AWSJSON
+  menteeDetails: AWSJSON
+  Notifications: [Notification] @hasMany(indexName: "byUser", fields: ["id"])
+  sessions: [Session] @manyToMany(relationName: "SessionUser")
+}
