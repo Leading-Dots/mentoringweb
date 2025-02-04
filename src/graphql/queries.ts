@@ -43,7 +43,8 @@ export const listMessages = /* GraphQL */ `query ListMessages(
 export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
   getNotification(id: $id) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -61,7 +62,8 @@ export const listNotifications = /* GraphQL */ `query ListNotifications(
   listNotifications(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      userID
+      mentorID
+      menteeID
       createdAt
       updatedAt
       __typename
@@ -74,15 +76,15 @@ export const listNotifications = /* GraphQL */ `query ListNotifications(
   APITypes.ListNotificationsQueryVariables,
   APITypes.ListNotificationsQuery
 >;
-export const notificationsByUserID = /* GraphQL */ `query NotificationsByUserID(
-  $userID: ID!
+export const notificationsByMentorID = /* GraphQL */ `query NotificationsByMentorID(
+  $mentorID: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelNotificationFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  notificationsByUserID(
-    userID: $userID
+  notificationsByMentorID(
+    mentorID: $mentorID
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -90,7 +92,8 @@ export const notificationsByUserID = /* GraphQL */ `query NotificationsByUserID(
   ) {
     items {
       id
-      userID
+      mentorID
+      menteeID
       createdAt
       updatedAt
       __typename
@@ -100,20 +103,47 @@ export const notificationsByUserID = /* GraphQL */ `query NotificationsByUserID(
   }
 }
 ` as GeneratedQuery<
-  APITypes.NotificationsByUserIDQueryVariables,
-  APITypes.NotificationsByUserIDQuery
+  APITypes.NotificationsByMentorIDQueryVariables,
+  APITypes.NotificationsByMentorIDQuery
+>;
+export const notificationsByMenteeID = /* GraphQL */ `query NotificationsByMenteeID(
+  $menteeID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelNotificationFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  notificationsByMenteeID(
+    menteeID: $menteeID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.NotificationsByMenteeIDQueryVariables,
+  APITypes.NotificationsByMenteeIDQuery
 >;
 export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
   getSession(id: $id) {
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -133,8 +163,9 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       id
       duration
       status
-      mentorId
-      menteeId
+      sessionDate
+      menteeID
+      mentorID
       createdAt
       updatedAt
       __typename
@@ -147,24 +178,143 @@ export const listSessions = /* GraphQL */ `query ListSessions(
   APITypes.ListSessionsQueryVariables,
   APITypes.ListSessionsQuery
 >;
-export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
-  getUser(id: $id) {
+export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
+  $menteeID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelSessionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sessionsByMenteeID(
+    menteeID: $menteeID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      duration
+      status
+      sessionDate
+      menteeID
+      mentorID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SessionsByMenteeIDQueryVariables,
+  APITypes.SessionsByMenteeIDQuery
+>;
+export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
+  $mentorID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelSessionFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sessionsByMentorID(
+    mentorID: $mentorID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      duration
+      status
+      sessionDate
+      menteeID
+      mentorID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SessionsByMentorIDQueryVariables,
+  APITypes.SessionsByMentorIDQuery
+>;
+export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
+  getMentor(id: $id) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
+      nextToken
+      __typename
+    }
     Notifications {
       nextToken
       __typename
     }
-    sessions {
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetMentorQueryVariables, APITypes.GetMentorQuery>;
+export const listMentors = /* GraphQL */ `query ListMentors(
+  $filter: ModelMentorFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMentors(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      firstName
+      lastName
+      email
+      bio
+      profilePictureUrl
+      firebaseToken
+      expertise
+      yearsOfExperience
+      hourlyRate
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListMentorsQueryVariables,
+  APITypes.ListMentorsQuery
+>;
+export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
+  getMentee(id: $id) {
+    id
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
+      __typename
+    }
+    Notifications {
       nextToken
       __typename
     }
@@ -173,84 +323,23 @@ export const getUser = /* GraphQL */ `query GetUser($id: ID!) {
     __typename
   }
 }
-` as GeneratedQuery<APITypes.GetUserQueryVariables, APITypes.GetUserQuery>;
-export const listUsers = /* GraphQL */ `query ListUsers(
-  $filter: ModelUserFilterInput
+` as GeneratedQuery<APITypes.GetMenteeQueryVariables, APITypes.GetMenteeQuery>;
+export const listMentees = /* GraphQL */ `query ListMentees(
+  $filter: ModelMenteeFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
+  listMentees(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
       firstName
       lastName
       email
-      passwordHash
-      role
       bio
       profilePictureUrl
       firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<APITypes.ListUsersQueryVariables, APITypes.ListUsersQuery>;
-export const getSessionUser = /* GraphQL */ `query GetSessionUser($id: ID!) {
-  getSessionUser(id: $id) {
-    id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
-      __typename
-    }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.GetSessionUserQueryVariables,
-  APITypes.GetSessionUserQuery
->;
-export const listSessionUsers = /* GraphQL */ `query ListSessionUsers(
-  $filter: ModelSessionUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  listSessionUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
-    items {
-      id
-      sessionId
-      userId
+      goals
+      preferredMentorExperience
       createdAt
       updatedAt
       __typename
@@ -260,66 +349,6 @@ export const listSessionUsers = /* GraphQL */ `query ListSessionUsers(
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListSessionUsersQueryVariables,
-  APITypes.ListSessionUsersQuery
->;
-export const sessionUsersBySessionId = /* GraphQL */ `query SessionUsersBySessionId(
-  $sessionId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelSessionUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  sessionUsersBySessionId(
-    sessionId: $sessionId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      sessionId
-      userId
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.SessionUsersBySessionIdQueryVariables,
-  APITypes.SessionUsersBySessionIdQuery
->;
-export const sessionUsersByUserId = /* GraphQL */ `query SessionUsersByUserId(
-  $userId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelSessionUserFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  sessionUsersByUserId(
-    userId: $userId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      sessionId
-      userId
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.SessionUsersByUserIdQueryVariables,
-  APITypes.SessionUsersByUserIdQuery
+  APITypes.ListMenteesQueryVariables,
+  APITypes.ListMenteesQuery
 >;

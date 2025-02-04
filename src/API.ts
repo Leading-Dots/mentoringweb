@@ -71,11 +71,13 @@ export type DeleteMessagesInput = {
 
 export type CreateNotificationInput = {
   id?: string | null,
-  userID: string,
+  mentorID?: string | null,
+  menteeID?: string | null,
 };
 
 export type ModelNotificationConditionInput = {
-  userID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
   and?: Array< ModelNotificationConditionInput | null > | null,
   or?: Array< ModelNotificationConditionInput | null > | null,
   not?: ModelNotificationConditionInput | null,
@@ -102,14 +104,16 @@ export type ModelIDInput = {
 export type Notification = {
   __typename: "Notification",
   id: string,
-  userID: string,
+  mentorID?: string | null,
+  menteeID?: string | null,
   createdAt: string,
   updatedAt: string,
 };
 
 export type UpdateNotificationInput = {
   id: string,
-  userID?: string | null,
+  mentorID?: string | null,
+  menteeID?: string | null,
 };
 
 export type DeleteNotificationInput = {
@@ -120,8 +124,9 @@ export type CreateSessionInput = {
   id?: string | null,
   duration?: number | null,
   status?: Status | null,
-  mentorId?: string | null,
-  menteeId?: string | null,
+  sessionDate?: string | null,
+  menteeID: string,
+  mentorID: string,
 };
 
 export enum Status {
@@ -135,8 +140,9 @@ export enum Status {
 export type ModelSessionConditionInput = {
   duration?: ModelIntInput | null,
   status?: ModelStatusInput | null,
-  mentorId?: ModelStringInput | null,
-  menteeId?: ModelStringInput | null,
+  sessionDate?: ModelStringInput | null,
+  menteeID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
   and?: Array< ModelSessionConditionInput | null > | null,
   or?: Array< ModelSessionConditionInput | null > | null,
   not?: ModelSessionConditionInput | null,
@@ -166,54 +172,91 @@ export type Session = {
   id: string,
   duration?: number | null,
   status?: Status | null,
-  mentorId?: string | null,
-  menteeId?: string | null,
-  Users?: ModelSessionUserConnection | null,
+  sessionDate?: string | null,
+  menteeID: string,
+  mentorID: string,
   createdAt: string,
   updatedAt: string,
 };
 
-export type ModelSessionUserConnection = {
-  __typename: "ModelSessionUserConnection",
-  items:  Array<SessionUser | null >,
-  nextToken?: string | null,
-};
-
-export type SessionUser = {
-  __typename: "SessionUser",
+export type UpdateSessionInput = {
   id: string,
-  sessionId: string,
-  userId: string,
-  session: Session,
-  user: User,
-  createdAt: string,
-  updatedAt: string,
+  duration?: number | null,
+  status?: Status | null,
+  sessionDate?: string | null,
+  menteeID?: string | null,
+  mentorID?: string | null,
 };
 
-export type User = {
-  __typename: "User",
+export type DeleteSessionInput = {
+  id: string,
+};
+
+export type CreateMentorInput = {
+  id?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  email?: string | null,
+  bio?: string | null,
+  profilePictureUrl?: string | null,
+  firebaseToken?: string | null,
+  expertise?: Array< string | null > | null,
+  yearsOfExperience?: number | null,
+  hourlyRate?: number | null,
+};
+
+export type ModelMentorConditionInput = {
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  bio?: ModelStringInput | null,
+  profilePictureUrl?: ModelStringInput | null,
+  firebaseToken?: ModelStringInput | null,
+  expertise?: ModelStringInput | null,
+  yearsOfExperience?: ModelIntInput | null,
+  hourlyRate?: ModelFloatInput | null,
+  and?: Array< ModelMentorConditionInput | null > | null,
+  or?: Array< ModelMentorConditionInput | null > | null,
+  not?: ModelMentorConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type Mentor = {
+  __typename: "Mentor",
   id: string,
   firstName?: string | null,
   lastName?: string | null,
   email?: string | null,
-  passwordHash?: string | null,
-  role?: Role | null,
   bio?: string | null,
   profilePictureUrl?: string | null,
   firebaseToken?: string | null,
-  mentorDetails?: string | null,
-  menteeDetails?: string | null,
+  expertise?: Array< string | null > | null,
+  yearsOfExperience?: number | null,
+  hourlyRate?: number | null,
+  Sessions?: ModelSessionConnection | null,
   Notifications?: ModelNotificationConnection | null,
-  sessions?: ModelSessionUserConnection | null,
   createdAt: string,
   updatedAt: string,
 };
 
-export enum Role {
-  MENTOR = "MENTOR",
-  MENTEE = "MENTEE",
-}
-
+export type ModelSessionConnection = {
+  __typename: "ModelSessionConnection",
+  items:  Array<Session | null >,
+  nextToken?: string | null,
+};
 
 export type ModelNotificationConnection = {
   __typename: "ModelNotificationConnection",
@@ -221,96 +264,81 @@ export type ModelNotificationConnection = {
   nextToken?: string | null,
 };
 
-export type UpdateSessionInput = {
+export type UpdateMentorInput = {
   id: string,
-  duration?: number | null,
-  status?: Status | null,
-  mentorId?: string | null,
-  menteeId?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  email?: string | null,
+  bio?: string | null,
+  profilePictureUrl?: string | null,
+  firebaseToken?: string | null,
+  expertise?: Array< string | null > | null,
+  yearsOfExperience?: number | null,
+  hourlyRate?: number | null,
 };
 
-export type DeleteSessionInput = {
+export type DeleteMentorInput = {
   id: string,
 };
 
-export type CreateUserInput = {
+export type CreateMenteeInput = {
   id?: string | null,
   firstName?: string | null,
   lastName?: string | null,
   email?: string | null,
-  passwordHash?: string | null,
-  role?: Role | null,
   bio?: string | null,
   profilePictureUrl?: string | null,
   firebaseToken?: string | null,
-  mentorDetails?: string | null,
-  menteeDetails?: string | null,
+  goals?: Array< string | null > | null,
+  preferredMentorExperience?: string | null,
 };
 
-export type ModelUserConditionInput = {
+export type ModelMenteeConditionInput = {
   firstName?: ModelStringInput | null,
   lastName?: ModelStringInput | null,
   email?: ModelStringInput | null,
-  passwordHash?: ModelStringInput | null,
-  role?: ModelRoleInput | null,
   bio?: ModelStringInput | null,
   profilePictureUrl?: ModelStringInput | null,
   firebaseToken?: ModelStringInput | null,
-  mentorDetails?: ModelStringInput | null,
-  menteeDetails?: ModelStringInput | null,
-  and?: Array< ModelUserConditionInput | null > | null,
-  or?: Array< ModelUserConditionInput | null > | null,
-  not?: ModelUserConditionInput | null,
+  goals?: ModelStringInput | null,
+  preferredMentorExperience?: ModelStringInput | null,
+  and?: Array< ModelMenteeConditionInput | null > | null,
+  or?: Array< ModelMenteeConditionInput | null > | null,
+  not?: ModelMenteeConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelRoleInput = {
-  eq?: Role | null,
-  ne?: Role | null,
-};
-
-export type UpdateUserInput = {
+export type Mentee = {
+  __typename: "Mentee",
   id: string,
   firstName?: string | null,
   lastName?: string | null,
   email?: string | null,
-  passwordHash?: string | null,
-  role?: Role | null,
   bio?: string | null,
   profilePictureUrl?: string | null,
   firebaseToken?: string | null,
-  mentorDetails?: string | null,
-  menteeDetails?: string | null,
+  goals?: Array< string | null > | null,
+  preferredMentorExperience?: string | null,
+  Sessions?: ModelSessionConnection | null,
+  Notifications?: ModelNotificationConnection | null,
+  createdAt: string,
+  updatedAt: string,
 };
 
-export type DeleteUserInput = {
+export type UpdateMenteeInput = {
   id: string,
+  firstName?: string | null,
+  lastName?: string | null,
+  email?: string | null,
+  bio?: string | null,
+  profilePictureUrl?: string | null,
+  firebaseToken?: string | null,
+  goals?: Array< string | null > | null,
+  preferredMentorExperience?: string | null,
 };
 
-export type CreateSessionUserInput = {
-  id?: string | null,
-  sessionId: string,
-  userId: string,
-};
-
-export type ModelSessionUserConditionInput = {
-  sessionId?: ModelIDInput | null,
-  userId?: ModelIDInput | null,
-  and?: Array< ModelSessionUserConditionInput | null > | null,
-  or?: Array< ModelSessionUserConditionInput | null > | null,
-  not?: ModelSessionUserConditionInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-};
-
-export type UpdateSessionUserInput = {
-  id: string,
-  sessionId?: string | null,
-  userId?: string | null,
-};
-
-export type DeleteSessionUserInput = {
+export type DeleteMenteeInput = {
   id: string,
 };
 
@@ -331,7 +359,8 @@ export type ModelMessagesConnection = {
 
 export type ModelNotificationFilterInput = {
   id?: ModelIDInput | null,
-  userID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelNotificationFilterInput | null > | null,
@@ -349,8 +378,9 @@ export type ModelSessionFilterInput = {
   id?: ModelIDInput | null,
   duration?: ModelIntInput | null,
   status?: ModelStatusInput | null,
-  mentorId?: ModelStringInput | null,
-  menteeId?: ModelStringInput | null,
+  sessionDate?: ModelStringInput | null,
+  menteeID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelSessionFilterInput | null > | null,
@@ -358,46 +388,51 @@ export type ModelSessionFilterInput = {
   not?: ModelSessionFilterInput | null,
 };
 
-export type ModelSessionConnection = {
-  __typename: "ModelSessionConnection",
-  items:  Array<Session | null >,
-  nextToken?: string | null,
-};
-
-export type ModelUserFilterInput = {
+export type ModelMentorFilterInput = {
   id?: ModelIDInput | null,
   firstName?: ModelStringInput | null,
   lastName?: ModelStringInput | null,
   email?: ModelStringInput | null,
-  passwordHash?: ModelStringInput | null,
-  role?: ModelRoleInput | null,
   bio?: ModelStringInput | null,
   profilePictureUrl?: ModelStringInput | null,
   firebaseToken?: ModelStringInput | null,
-  mentorDetails?: ModelStringInput | null,
-  menteeDetails?: ModelStringInput | null,
+  expertise?: ModelStringInput | null,
+  yearsOfExperience?: ModelIntInput | null,
+  hourlyRate?: ModelFloatInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  and?: Array< ModelUserFilterInput | null > | null,
-  or?: Array< ModelUserFilterInput | null > | null,
-  not?: ModelUserFilterInput | null,
+  and?: Array< ModelMentorFilterInput | null > | null,
+  or?: Array< ModelMentorFilterInput | null > | null,
+  not?: ModelMentorFilterInput | null,
 };
 
-export type ModelUserConnection = {
-  __typename: "ModelUserConnection",
-  items:  Array<User | null >,
+export type ModelMentorConnection = {
+  __typename: "ModelMentorConnection",
+  items:  Array<Mentor | null >,
   nextToken?: string | null,
 };
 
-export type ModelSessionUserFilterInput = {
+export type ModelMenteeFilterInput = {
   id?: ModelIDInput | null,
-  sessionId?: ModelIDInput | null,
-  userId?: ModelIDInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  email?: ModelStringInput | null,
+  bio?: ModelStringInput | null,
+  profilePictureUrl?: ModelStringInput | null,
+  firebaseToken?: ModelStringInput | null,
+  goals?: ModelStringInput | null,
+  preferredMentorExperience?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  and?: Array< ModelSessionUserFilterInput | null > | null,
-  or?: Array< ModelSessionUserFilterInput | null > | null,
-  not?: ModelSessionUserFilterInput | null,
+  and?: Array< ModelMenteeFilterInput | null > | null,
+  or?: Array< ModelMenteeFilterInput | null > | null,
+  not?: ModelMenteeFilterInput | null,
+};
+
+export type ModelMenteeConnection = {
+  __typename: "ModelMenteeConnection",
+  items:  Array<Mentee | null >,
+  nextToken?: string | null,
 };
 
 export type ModelSubscriptionMessagesFilterInput = {
@@ -440,7 +475,8 @@ export type ModelSubscriptionStringInput = {
 
 export type ModelSubscriptionNotificationFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  userID?: ModelSubscriptionIDInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
@@ -451,8 +487,9 @@ export type ModelSubscriptionSessionFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   duration?: ModelSubscriptionIntInput | null,
   status?: ModelSubscriptionStringInput | null,
-  mentorId?: ModelSubscriptionStringInput | null,
-  menteeId?: ModelSubscriptionStringInput | null,
+  sessionDate?: ModelSubscriptionStringInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionSessionFilterInput | null > | null,
@@ -471,32 +508,49 @@ export type ModelSubscriptionIntInput = {
   notIn?: Array< number | null > | null,
 };
 
-export type ModelSubscriptionUserFilterInput = {
+export type ModelSubscriptionMentorFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   firstName?: ModelSubscriptionStringInput | null,
   lastName?: ModelSubscriptionStringInput | null,
   email?: ModelSubscriptionStringInput | null,
-  passwordHash?: ModelSubscriptionStringInput | null,
-  role?: ModelSubscriptionStringInput | null,
   bio?: ModelSubscriptionStringInput | null,
   profilePictureUrl?: ModelSubscriptionStringInput | null,
   firebaseToken?: ModelSubscriptionStringInput | null,
-  mentorDetails?: ModelSubscriptionStringInput | null,
-  menteeDetails?: ModelSubscriptionStringInput | null,
+  expertise?: ModelSubscriptionStringInput | null,
+  yearsOfExperience?: ModelSubscriptionIntInput | null,
+  hourlyRate?: ModelSubscriptionFloatInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionUserFilterInput | null > | null,
-  or?: Array< ModelSubscriptionUserFilterInput | null > | null,
+  and?: Array< ModelSubscriptionMentorFilterInput | null > | null,
+  or?: Array< ModelSubscriptionMentorFilterInput | null > | null,
 };
 
-export type ModelSubscriptionSessionUserFilterInput = {
+export type ModelSubscriptionFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  in?: Array< number | null > | null,
+  notIn?: Array< number | null > | null,
+};
+
+export type ModelSubscriptionMenteeFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  sessionId?: ModelSubscriptionIDInput | null,
-  userId?: ModelSubscriptionIDInput | null,
+  firstName?: ModelSubscriptionStringInput | null,
+  lastName?: ModelSubscriptionStringInput | null,
+  email?: ModelSubscriptionStringInput | null,
+  bio?: ModelSubscriptionStringInput | null,
+  profilePictureUrl?: ModelSubscriptionStringInput | null,
+  firebaseToken?: ModelSubscriptionStringInput | null,
+  goals?: ModelSubscriptionStringInput | null,
+  preferredMentorExperience?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionSessionUserFilterInput | null > | null,
-  or?: Array< ModelSubscriptionSessionUserFilterInput | null > | null,
+  and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+  or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
 };
 
 export type CreateMessagesMutationVariables = {
@@ -550,7 +604,8 @@ export type CreateNotificationMutation = {
   createNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -565,7 +620,8 @@ export type UpdateNotificationMutation = {
   updateNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -580,7 +636,8 @@ export type DeleteNotificationMutation = {
   deleteNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -597,12 +654,9 @@ export type CreateSessionMutation = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -619,12 +673,9 @@ export type UpdateSessionMutation = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -641,42 +692,38 @@ export type DeleteSessionMutation = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type CreateUserMutationVariables = {
-  input: CreateUserInput,
-  condition?: ModelUserConditionInput | null,
+export type CreateMentorMutationVariables = {
+  input: CreateMentorInput,
+  condition?: ModelMentorConditionInput | null,
 };
 
-export type CreateUserMutation = {
-  createUser?:  {
-    __typename: "User",
+export type CreateMentorMutation = {
+  createMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
-    Notifications?:  {
-      __typename: "ModelNotificationConnection",
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -684,31 +731,30 @@ export type CreateUserMutation = {
   } | null,
 };
 
-export type UpdateUserMutationVariables = {
-  input: UpdateUserInput,
-  condition?: ModelUserConditionInput | null,
+export type UpdateMentorMutationVariables = {
+  input: UpdateMentorInput,
+  condition?: ModelMentorConditionInput | null,
 };
 
-export type UpdateUserMutation = {
-  updateUser?:  {
-    __typename: "User",
+export type UpdateMentorMutation = {
+  updateMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
-    Notifications?:  {
-      __typename: "ModelNotificationConnection",
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -716,31 +762,60 @@ export type UpdateUserMutation = {
   } | null,
 };
 
-export type DeleteUserMutationVariables = {
-  input: DeleteUserInput,
-  condition?: ModelUserConditionInput | null,
+export type DeleteMentorMutationVariables = {
+  input: DeleteMentorInput,
+  condition?: ModelMentorConditionInput | null,
 };
 
-export type DeleteUserMutation = {
-  deleteUser?:  {
-    __typename: "User",
+export type DeleteMentorMutation = {
+  deleteMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
     Notifications?:  {
       __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateMenteeMutationVariables = {
+  input: CreateMenteeInput,
+  condition?: ModelMenteeConditionInput | null,
+};
+
+export type CreateMenteeMutation = {
+  createMentee?:  {
+    __typename: "Mentee",
+    id: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -748,127 +823,61 @@ export type DeleteUserMutation = {
   } | null,
 };
 
-export type CreateSessionUserMutationVariables = {
-  input: CreateSessionUserInput,
-  condition?: ModelSessionUserConditionInput | null,
+export type UpdateMenteeMutationVariables = {
+  input: UpdateMenteeInput,
+  condition?: ModelMenteeConditionInput | null,
 };
 
-export type CreateSessionUserMutation = {
-  createSessionUser?:  {
-    __typename: "SessionUser",
+export type UpdateMenteeMutation = {
+  updateMentee?:  {
+    __typename: "Mentee",
     id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type UpdateSessionUserMutationVariables = {
-  input: UpdateSessionUserInput,
-  condition?: ModelSessionUserConditionInput | null,
+export type DeleteMenteeMutationVariables = {
+  input: DeleteMenteeInput,
+  condition?: ModelMenteeConditionInput | null,
 };
 
-export type UpdateSessionUserMutation = {
-  updateSessionUser?:  {
-    __typename: "SessionUser",
+export type DeleteMenteeMutation = {
+  deleteMentee?:  {
+    __typename: "Mentee",
     id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteSessionUserMutationVariables = {
-  input: DeleteSessionUserInput,
-  condition?: ModelSessionUserConditionInput | null,
-};
-
-export type DeleteSessionUserMutation = {
-  deleteSessionUser?:  {
-    __typename: "SessionUser",
-    id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -914,7 +923,8 @@ export type GetNotificationQuery = {
   getNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -932,7 +942,8 @@ export type ListNotificationsQuery = {
     items:  Array< {
       __typename: "Notification",
       id: string,
-      userID: string,
+      mentorID?: string | null,
+      menteeID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -940,21 +951,45 @@ export type ListNotificationsQuery = {
   } | null,
 };
 
-export type NotificationsByUserIDQueryVariables = {
-  userID: string,
+export type NotificationsByMentorIDQueryVariables = {
+  mentorID: string,
   sortDirection?: ModelSortDirection | null,
   filter?: ModelNotificationFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type NotificationsByUserIDQuery = {
-  notificationsByUserID?:  {
+export type NotificationsByMentorIDQuery = {
+  notificationsByMentorID?:  {
     __typename: "ModelNotificationConnection",
     items:  Array< {
       __typename: "Notification",
       id: string,
-      userID: string,
+      mentorID?: string | null,
+      menteeID?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type NotificationsByMenteeIDQueryVariables = {
+  menteeID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelNotificationFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type NotificationsByMenteeIDQuery = {
+  notificationsByMenteeID?:  {
+    __typename: "ModelNotificationConnection",
+    items:  Array< {
+      __typename: "Notification",
+      id: string,
+      mentorID?: string | null,
+      menteeID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -972,12 +1007,9 @@ export type GetSessionQuery = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -997,8 +1029,9 @@ export type ListSessionsQuery = {
       id: string,
       duration?: number | null,
       status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
+      sessionDate?: string | null,
+      menteeID: string,
+      mentorID: string,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1006,121 +1039,109 @@ export type ListSessionsQuery = {
   } | null,
 };
 
-export type GetUserQueryVariables = {
-  id: string,
-};
-
-export type GetUserQuery = {
-  getUser?:  {
-    __typename: "User",
-    id: string,
-    firstName?: string | null,
-    lastName?: string | null,
-    email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
-    bio?: string | null,
-    profilePictureUrl?: string | null,
-    firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
-    Notifications?:  {
-      __typename: "ModelNotificationConnection",
-      nextToken?: string | null,
-    } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type ListUsersQueryVariables = {
-  filter?: ModelUserFilterInput | null,
+export type SessionsByMenteeIDQueryVariables = {
+  menteeID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelSessionFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListUsersQuery = {
-  listUsers?:  {
-    __typename: "ModelUserConnection",
+export type SessionsByMenteeIDQuery = {
+  sessionsByMenteeID?:  {
+    __typename: "ModelSessionConnection",
     items:  Array< {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type GetSessionUserQueryVariables = {
-  id: string,
-};
-
-export type GetSessionUserQuery = {
-  getSessionUser?:  {
-    __typename: "SessionUser",
-    id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
       __typename: "Session",
       id: string,
       duration?: number | null,
       status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
+      sessionDate?: string | null,
+      menteeID: string,
+      mentorID: string,
       createdAt: string,
       updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type SessionsByMentorIDQueryVariables = {
+  mentorID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelSessionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type SessionsByMentorIDQuery = {
+  sessionsByMentorID?:  {
+    __typename: "ModelSessionConnection",
+    items:  Array< {
+      __typename: "Session",
       id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
+      duration?: number | null,
+      status?: Status | null,
+      sessionDate?: string | null,
+      menteeID: string,
+      mentorID: string,
       createdAt: string,
       updatedAt: string,
-    },
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type GetMentorQueryVariables = {
+  id: string,
+};
+
+export type GetMentorQuery = {
+  getMentor?:  {
+    __typename: "Mentor",
+    id: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type ListSessionUsersQueryVariables = {
-  filter?: ModelSessionUserFilterInput | null,
+export type ListMentorsQueryVariables = {
+  filter?: ModelMentorFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type ListSessionUsersQuery = {
-  listSessionUsers?:  {
-    __typename: "ModelSessionUserConnection",
+export type ListMentorsQuery = {
+  listMentors?:  {
+    __typename: "ModelMentorConnection",
     items:  Array< {
-      __typename: "SessionUser",
+      __typename: "Mentor",
       id: string,
-      sessionId: string,
-      userId: string,
+      firstName?: string | null,
+      lastName?: string | null,
+      email?: string | null,
+      bio?: string | null,
+      profilePictureUrl?: string | null,
+      firebaseToken?: string | null,
+      expertise?: Array< string | null > | null,
+      yearsOfExperience?: number | null,
+      hourlyRate?: number | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1128,45 +1149,55 @@ export type ListSessionUsersQuery = {
   } | null,
 };
 
-export type SessionUsersBySessionIdQueryVariables = {
-  sessionId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelSessionUserFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
+export type GetMenteeQueryVariables = {
+  id: string,
 };
 
-export type SessionUsersBySessionIdQuery = {
-  sessionUsersBySessionId?:  {
-    __typename: "ModelSessionUserConnection",
-    items:  Array< {
-      __typename: "SessionUser",
-      id: string,
-      sessionId: string,
-      userId: string,
-      createdAt: string,
-      updatedAt: string,
-    } | null >,
-    nextToken?: string | null,
+export type GetMenteeQuery = {
+  getMentee?:  {
+    __typename: "Mentee",
+    id: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
-export type SessionUsersByUserIdQueryVariables = {
-  userId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelSessionUserFilterInput | null,
+export type ListMenteesQueryVariables = {
+  filter?: ModelMenteeFilterInput | null,
   limit?: number | null,
   nextToken?: string | null,
 };
 
-export type SessionUsersByUserIdQuery = {
-  sessionUsersByUserId?:  {
-    __typename: "ModelSessionUserConnection",
+export type ListMenteesQuery = {
+  listMentees?:  {
+    __typename: "ModelMenteeConnection",
     items:  Array< {
-      __typename: "SessionUser",
+      __typename: "Mentee",
       id: string,
-      sessionId: string,
-      userId: string,
+      firstName?: string | null,
+      lastName?: string | null,
+      email?: string | null,
+      bio?: string | null,
+      profilePictureUrl?: string | null,
+      firebaseToken?: string | null,
+      goals?: Array< string | null > | null,
+      preferredMentorExperience?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1221,7 +1252,8 @@ export type OnCreateNotificationSubscription = {
   onCreateNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1235,7 +1267,8 @@ export type OnUpdateNotificationSubscription = {
   onUpdateNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1249,7 +1282,8 @@ export type OnDeleteNotificationSubscription = {
   onDeleteNotification?:  {
     __typename: "Notification",
     id: string,
-    userID: string,
+    mentorID?: string | null,
+    menteeID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1265,12 +1299,9 @@ export type OnCreateSessionSubscription = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1286,12 +1317,9 @@ export type OnUpdateSessionSubscription = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1307,41 +1335,37 @@ export type OnDeleteSessionSubscription = {
     id: string,
     duration?: number | null,
     status?: Status | null,
-    mentorId?: string | null,
-    menteeId?: string | null,
-    Users?:  {
-      __typename: "ModelSessionUserConnection",
-      nextToken?: string | null,
-    } | null,
+    sessionDate?: string | null,
+    menteeID: string,
+    mentorID: string,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnCreateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
+export type OnCreateMentorSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorFilterInput | null,
 };
 
-export type OnCreateUserSubscription = {
-  onCreateUser?:  {
-    __typename: "User",
+export type OnCreateMentorSubscription = {
+  onCreateMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
-    Notifications?:  {
-      __typename: "ModelNotificationConnection",
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1349,30 +1373,29 @@ export type OnCreateUserSubscription = {
   } | null,
 };
 
-export type OnUpdateUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
+export type OnUpdateMentorSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorFilterInput | null,
 };
 
-export type OnUpdateUserSubscription = {
-  onUpdateUser?:  {
-    __typename: "User",
+export type OnUpdateMentorSubscription = {
+  onUpdateMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
-    Notifications?:  {
-      __typename: "ModelNotificationConnection",
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1380,30 +1403,58 @@ export type OnUpdateUserSubscription = {
   } | null,
 };
 
-export type OnDeleteUserSubscriptionVariables = {
-  filter?: ModelSubscriptionUserFilterInput | null,
+export type OnDeleteMentorSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorFilterInput | null,
 };
 
-export type OnDeleteUserSubscription = {
-  onDeleteUser?:  {
-    __typename: "User",
+export type OnDeleteMentorSubscription = {
+  onDeleteMentor?:  {
+    __typename: "Mentor",
     id: string,
     firstName?: string | null,
     lastName?: string | null,
     email?: string | null,
-    passwordHash?: string | null,
-    role?: Role | null,
     bio?: string | null,
     profilePictureUrl?: string | null,
     firebaseToken?: string | null,
-    mentorDetails?: string | null,
-    menteeDetails?: string | null,
+    expertise?: Array< string | null > | null,
+    yearsOfExperience?: number | null,
+    hourlyRate?: number | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
     Notifications?:  {
       __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
-    sessions?:  {
-      __typename: "ModelSessionUserConnection",
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateMenteeSubscriptionVariables = {
+  filter?: ModelSubscriptionMenteeFilterInput | null,
+};
+
+export type OnCreateMenteeSubscription = {
+  onCreateMentee?:  {
+    __typename: "Mentee",
+    id: string,
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1411,124 +1462,59 @@ export type OnDeleteUserSubscription = {
   } | null,
 };
 
-export type OnCreateSessionUserSubscriptionVariables = {
-  filter?: ModelSubscriptionSessionUserFilterInput | null,
+export type OnUpdateMenteeSubscriptionVariables = {
+  filter?: ModelSubscriptionMenteeFilterInput | null,
 };
 
-export type OnCreateSessionUserSubscription = {
-  onCreateSessionUser?:  {
-    __typename: "SessionUser",
+export type OnUpdateMenteeSubscription = {
+  onUpdateMentee?:  {
+    __typename: "Mentee",
     id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
 };
 
-export type OnUpdateSessionUserSubscriptionVariables = {
-  filter?: ModelSubscriptionSessionUserFilterInput | null,
+export type OnDeleteMenteeSubscriptionVariables = {
+  filter?: ModelSubscriptionMenteeFilterInput | null,
 };
 
-export type OnUpdateSessionUserSubscription = {
-  onUpdateSessionUser?:  {
-    __typename: "SessionUser",
+export type OnDeleteMenteeSubscription = {
+  onDeleteMentee?:  {
+    __typename: "Mentee",
     id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type OnDeleteSessionUserSubscriptionVariables = {
-  filter?: ModelSubscriptionSessionUserFilterInput | null,
-};
-
-export type OnDeleteSessionUserSubscription = {
-  onDeleteSessionUser?:  {
-    __typename: "SessionUser",
-    id: string,
-    sessionId: string,
-    userId: string,
-    session:  {
-      __typename: "Session",
-      id: string,
-      duration?: number | null,
-      status?: Status | null,
-      mentorId?: string | null,
-      menteeId?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
-    user:  {
-      __typename: "User",
-      id: string,
-      firstName?: string | null,
-      lastName?: string | null,
-      email?: string | null,
-      passwordHash?: string | null,
-      role?: Role | null,
-      bio?: string | null,
-      profilePictureUrl?: string | null,
-      firebaseToken?: string | null,
-      mentorDetails?: string | null,
-      menteeDetails?: string | null,
-      createdAt: string,
-      updatedAt: string,
-    },
+    firstName?: string | null,
+    lastName?: string | null,
+    email?: string | null,
+    bio?: string | null,
+    profilePictureUrl?: string | null,
+    firebaseToken?: string | null,
+    goals?: Array< string | null > | null,
+    preferredMentorExperience?: string | null,
+    Sessions?:  {
+      __typename: "ModelSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    Notifications?:  {
+      __typename: "ModelNotificationConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

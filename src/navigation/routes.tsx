@@ -4,6 +4,8 @@ import { createBrowserRouter } from "react-router-dom";
 import HomeRouter from "./HomeRouter";
 import DashboardLayout from "@/layout/DashboardLayout";
 import AuthLayout from "@/layout/AuthLayout";
+import SignUpPage from "@/pages/auth/SignUpPage";
+import ConfirmSignUpPage from "@/pages/auth/ConfirmSignUpPage";
 
 const routes = [
   {
@@ -17,6 +19,22 @@ const routes = [
         <LoginPage />
       </AuthLayout>
     ),
+  },
+  {
+    path : "/signup",
+    element : (
+      <AuthLayout>
+        <SignUpPage />
+      </AuthLayout>
+    )
+  },
+  {
+    path : "/confirm-signup",
+    element : (
+      <AuthLayout>
+        <ConfirmSignUpPage />
+      </AuthLayout>
+    )
   },
   {
     path: "/home",

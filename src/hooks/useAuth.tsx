@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-  useMemo,
-} from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 
 import {
   handleSignIn,
@@ -15,17 +8,18 @@ import {
   handleForgotPassword,
 } from "@/lib/auth";
 
-import { User } from "@/API";
 import { useLocalStorage } from "./useLocalStorage";
 import client from "@/lib/apiClient";
-import { createUser } from "@/graphql/mutations";
+
+import { createUser } from "@/lib/dbActions";
+import { UserRole } from "types";
 
 type AuthContextType = {
   user: any | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<any>;
   signUp: (email: string, password: string) => Promise<any>;
-  confirmSignUp: (email: string, code: string) => Promise<void>;
+  confirmSignUp: (email: string, code: string, role : UserRole) => Promise<any>;
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
 };
@@ -43,9 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password,
       });
 
-      
-      console.log("nextStep", nextStep);
-      console.log("isSignedIn", isSignedIn);
+      console.log(isSignedIn, nextStep);
       return isSignedIn;
     } catch (error) {
       throw error;
@@ -54,22 +46,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signUp = async (email: string, password: string) => {
     try {
-      const { isSignUpComplete, userId } = await handleSignUp({
+      const { isSignUpComplete, userId, nextStep } = await handleSignUp({
         username: email,
         password,
         email,
       });
-      return { isSignUpComplete, userId };
+      return { isSignUpComplete, userId, nextStep };
     } catch (error) {
       throw error;
     }
   };
 
-  const confirmSignUp = async (email: string, code: string) => {
+  const confirmSignUp = async (email: string, code: string, role: UserRole) => {
     try {
-      const result = await handleConfirmSignUp(email, code);
-      
-      
+      const { isSignUpComplete, userId} = await handleConfirmSignUp(email, code);
+
+      if (isSignUpComplete) {
+        const newUser = await createUser(role, email, userId as string);
+        console.log("new user", newUser);
+        return newUser;
+      }
+
+      return isSignUpComplete;
     } catch (error) {
       throw error;
     }

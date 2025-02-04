@@ -14,16 +14,17 @@ export interface SignInParams {
 // Sign up new user
 export const handleSignUp = async ({ username, password, email }: SignUpParams) => {
     try {
-        const { isSignUpComplete, userId } = await signUp({
+        const { isSignUpComplete, userId, nextStep } = await signUp({
             username,
             password,
             options: {
+                autoSignIn: true,
                 userAttributes: {
                     email,
                 },
             },
         });
-        return { isSignUpComplete, userId };
+        return { isSignUpComplete, userId , nextStep};
     } catch (error) {
         throw error;
     }
@@ -32,10 +33,11 @@ export const handleSignUp = async ({ username, password, email }: SignUpParams) 
 // Confirm sign up with code
 export const handleConfirmSignUp = async (username: string, code: string) => {
     try {
-        await confirmSignUp({
+        const {nextStep, isSignUpComplete, userId} = await confirmSignUp({
             username,
             confirmationCode: code,
         });
+        return {nextStep, isSignUpComplete, userId};
     } catch (error) {
         throw error;
     }

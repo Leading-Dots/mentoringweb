@@ -59,7 +59,8 @@ export const createNotification = /* GraphQL */ `mutation CreateNotification(
 ) {
   createNotification(input: $input, condition: $condition) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -75,7 +76,8 @@ export const updateNotification = /* GraphQL */ `mutation UpdateNotification(
 ) {
   updateNotification(input: $input, condition: $condition) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -91,7 +93,8 @@ export const deleteNotification = /* GraphQL */ `mutation DeleteNotification(
 ) {
   deleteNotification(input: $input, condition: $condition) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -109,12 +112,9 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -132,12 +132,9 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -155,12 +152,9 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -170,27 +164,26 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
   APITypes.DeleteSessionMutationVariables,
   APITypes.DeleteSessionMutation
 >;
-export const createUser = /* GraphQL */ `mutation CreateUser(
-  $input: CreateUserInput!
-  $condition: ModelUserConditionInput
+export const createMentor = /* GraphQL */ `mutation CreateMentor(
+  $input: CreateMentorInput!
+  $condition: ModelMentorConditionInput
 ) {
-  createUser(input: $input, condition: $condition) {
+  createMentor(input: $input, condition: $condition) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
-    Notifications {
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
       nextToken
       __typename
     }
-    sessions {
+    Notifications {
       nextToken
       __typename
     }
@@ -200,30 +193,29 @@ export const createUser = /* GraphQL */ `mutation CreateUser(
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateUserMutationVariables,
-  APITypes.CreateUserMutation
+  APITypes.CreateMentorMutationVariables,
+  APITypes.CreateMentorMutation
 >;
-export const updateUser = /* GraphQL */ `mutation UpdateUser(
-  $input: UpdateUserInput!
-  $condition: ModelUserConditionInput
+export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
+  $input: UpdateMentorInput!
+  $condition: ModelMentorConditionInput
 ) {
-  updateUser(input: $input, condition: $condition) {
+  updateMentor(input: $input, condition: $condition) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
-    Notifications {
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
       nextToken
       __typename
     }
-    sessions {
+    Notifications {
       nextToken
       __typename
     }
@@ -233,30 +225,60 @@ export const updateUser = /* GraphQL */ `mutation UpdateUser(
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateUserMutationVariables,
-  APITypes.UpdateUserMutation
+  APITypes.UpdateMentorMutationVariables,
+  APITypes.UpdateMentorMutation
 >;
-export const deleteUser = /* GraphQL */ `mutation DeleteUser(
-  $input: DeleteUserInput!
-  $condition: ModelUserConditionInput
+export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
+  $input: DeleteMentorInput!
+  $condition: ModelMentorConditionInput
 ) {
-  deleteUser(input: $input, condition: $condition) {
+  deleteMentor(input: $input, condition: $condition) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
+      nextToken
+      __typename
+    }
     Notifications {
       nextToken
       __typename
     }
-    sessions {
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMentorMutationVariables,
+  APITypes.DeleteMentorMutation
+>;
+export const createMentee = /* GraphQL */ `mutation CreateMentee(
+  $input: CreateMenteeInput!
+  $condition: ModelMenteeConditionInput
+) {
+  createMentee(input: $input, condition: $condition) {
+    id
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
+      __typename
+    }
+    Notifications {
       nextToken
       __typename
     }
@@ -266,41 +288,29 @@ export const deleteUser = /* GraphQL */ `mutation DeleteUser(
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteUserMutationVariables,
-  APITypes.DeleteUserMutation
+  APITypes.CreateMenteeMutationVariables,
+  APITypes.CreateMenteeMutation
 >;
-export const createSessionUser = /* GraphQL */ `mutation CreateSessionUser(
-  $input: CreateSessionUserInput!
-  $condition: ModelSessionUserConditionInput
+export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
+  $input: UpdateMenteeInput!
+  $condition: ModelMenteeConditionInput
 ) {
-  createSessionUser(input: $input, condition: $condition) {
+  updateMentee(input: $input, condition: $condition) {
     id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
       __typename
     }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
+    Notifications {
+      nextToken
       __typename
     }
     createdAt
@@ -309,41 +319,29 @@ export const createSessionUser = /* GraphQL */ `mutation CreateSessionUser(
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateSessionUserMutationVariables,
-  APITypes.CreateSessionUserMutation
+  APITypes.UpdateMenteeMutationVariables,
+  APITypes.UpdateMenteeMutation
 >;
-export const updateSessionUser = /* GraphQL */ `mutation UpdateSessionUser(
-  $input: UpdateSessionUserInput!
-  $condition: ModelSessionUserConditionInput
+export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
+  $input: DeleteMenteeInput!
+  $condition: ModelMenteeConditionInput
 ) {
-  updateSessionUser(input: $input, condition: $condition) {
+  deleteMentee(input: $input, condition: $condition) {
     id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
       __typename
     }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
+    Notifications {
+      nextToken
       __typename
     }
     createdAt
@@ -352,49 +350,6 @@ export const updateSessionUser = /* GraphQL */ `mutation UpdateSessionUser(
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateSessionUserMutationVariables,
-  APITypes.UpdateSessionUserMutation
->;
-export const deleteSessionUser = /* GraphQL */ `mutation DeleteSessionUser(
-  $input: DeleteSessionUserInput!
-  $condition: ModelSessionUserConditionInput
-) {
-  deleteSessionUser(input: $input, condition: $condition) {
-    id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
-      __typename
-    }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedMutation<
-  APITypes.DeleteSessionUserMutationVariables,
-  APITypes.DeleteSessionUserMutation
+  APITypes.DeleteMenteeMutationVariables,
+  APITypes.DeleteMenteeMutation
 >;

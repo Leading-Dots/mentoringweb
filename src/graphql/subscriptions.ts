@@ -49,7 +49,8 @@ export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotifica
 ) {
   onCreateNotification(filter: $filter) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -64,7 +65,8 @@ export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotifica
 ) {
   onUpdateNotification(filter: $filter) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -79,7 +81,8 @@ export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotifica
 ) {
   onDeleteNotification(filter: $filter) {
     id
-    userID
+    mentorID
+    menteeID
     createdAt
     updatedAt
     __typename
@@ -94,12 +97,9 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -114,12 +114,9 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -134,12 +131,9 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
     id
     duration
     status
-    mentorId
-    menteeId
-    Users {
-      nextToken
-      __typename
-    }
+    sessionDate
+    menteeID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -149,24 +143,23 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
   APITypes.OnDeleteSessionSubscriptionVariables,
   APITypes.OnDeleteSessionSubscription
 >;
-export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: ModelSubscriptionUserFilterInput) {
-  onCreateUser(filter: $filter) {
+export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter: ModelSubscriptionMentorFilterInput) {
+  onCreateMentor(filter: $filter) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
-    Notifications {
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
       nextToken
       __typename
     }
-    sessions {
+    Notifications {
       nextToken
       __typename
     }
@@ -176,27 +169,26 @@ export const onCreateUser = /* GraphQL */ `subscription OnCreateUser($filter: Mo
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateUserSubscriptionVariables,
-  APITypes.OnCreateUserSubscription
+  APITypes.OnCreateMentorSubscriptionVariables,
+  APITypes.OnCreateMentorSubscription
 >;
-export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: ModelSubscriptionUserFilterInput) {
-  onUpdateUser(filter: $filter) {
+export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter: ModelSubscriptionMentorFilterInput) {
+  onUpdateMentor(filter: $filter) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
-    Notifications {
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
       nextToken
       __typename
     }
-    sessions {
+    Notifications {
       nextToken
       __typename
     }
@@ -206,27 +198,54 @@ export const onUpdateUser = /* GraphQL */ `subscription OnUpdateUser($filter: Mo
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateUserSubscriptionVariables,
-  APITypes.OnUpdateUserSubscription
+  APITypes.OnUpdateMentorSubscriptionVariables,
+  APITypes.OnUpdateMentorSubscription
 >;
-export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: ModelSubscriptionUserFilterInput) {
-  onDeleteUser(filter: $filter) {
+export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter: ModelSubscriptionMentorFilterInput) {
+  onDeleteMentor(filter: $filter) {
     id
     firstName
     lastName
     email
-    passwordHash
-    role
     bio
     profilePictureUrl
     firebaseToken
-    mentorDetails
-    menteeDetails
+    expertise
+    yearsOfExperience
+    hourlyRate
+    Sessions {
+      nextToken
+      __typename
+    }
     Notifications {
       nextToken
       __typename
     }
-    sessions {
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteMentorSubscriptionVariables,
+  APITypes.OnDeleteMentorSubscription
+>;
+export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter: ModelSubscriptionMenteeFilterInput) {
+  onCreateMentee(filter: $filter) {
+    id
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
+      __typename
+    }
+    Notifications {
       nextToken
       __typename
     }
@@ -236,40 +255,26 @@ export const onDeleteUser = /* GraphQL */ `subscription OnDeleteUser($filter: Mo
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteUserSubscriptionVariables,
-  APITypes.OnDeleteUserSubscription
+  APITypes.OnCreateMenteeSubscriptionVariables,
+  APITypes.OnCreateMenteeSubscription
 >;
-export const onCreateSessionUser = /* GraphQL */ `subscription OnCreateSessionUser(
-  $filter: ModelSubscriptionSessionUserFilterInput
-) {
-  onCreateSessionUser(filter: $filter) {
+export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter: ModelSubscriptionMenteeFilterInput) {
+  onUpdateMentee(filter: $filter) {
     id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
       __typename
     }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
+    Notifications {
+      nextToken
       __typename
     }
     createdAt
@@ -278,40 +283,26 @@ export const onCreateSessionUser = /* GraphQL */ `subscription OnCreateSessionUs
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateSessionUserSubscriptionVariables,
-  APITypes.OnCreateSessionUserSubscription
+  APITypes.OnUpdateMenteeSubscriptionVariables,
+  APITypes.OnUpdateMenteeSubscription
 >;
-export const onUpdateSessionUser = /* GraphQL */ `subscription OnUpdateSessionUser(
-  $filter: ModelSubscriptionSessionUserFilterInput
-) {
-  onUpdateSessionUser(filter: $filter) {
+export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter: ModelSubscriptionMenteeFilterInput) {
+  onDeleteMentee(filter: $filter) {
     id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
+    firstName
+    lastName
+    email
+    bio
+    profilePictureUrl
+    firebaseToken
+    goals
+    preferredMentorExperience
+    Sessions {
+      nextToken
       __typename
     }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
+    Notifications {
+      nextToken
       __typename
     }
     createdAt
@@ -320,48 +311,6 @@ export const onUpdateSessionUser = /* GraphQL */ `subscription OnUpdateSessionUs
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateSessionUserSubscriptionVariables,
-  APITypes.OnUpdateSessionUserSubscription
->;
-export const onDeleteSessionUser = /* GraphQL */ `subscription OnDeleteSessionUser(
-  $filter: ModelSubscriptionSessionUserFilterInput
-) {
-  onDeleteSessionUser(filter: $filter) {
-    id
-    sessionId
-    userId
-    session {
-      id
-      duration
-      status
-      mentorId
-      menteeId
-      createdAt
-      updatedAt
-      __typename
-    }
-    user {
-      id
-      firstName
-      lastName
-      email
-      passwordHash
-      role
-      bio
-      profilePictureUrl
-      firebaseToken
-      mentorDetails
-      menteeDetails
-      createdAt
-      updatedAt
-      __typename
-    }
-    createdAt
-    updatedAt
-    __typename
-  }
-}
-` as GeneratedSubscription<
-  APITypes.OnDeleteSessionUserSubscriptionVariables,
-  APITypes.OnDeleteSessionUserSubscription
+  APITypes.OnDeleteMenteeSubscriptionVariables,
+  APITypes.OnDeleteMenteeSubscription
 >;
