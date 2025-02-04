@@ -1,20 +1,13 @@
-import { UseAuthenticator, withAuthenticator } from "@aws-amplify/ui-react";
 import "@aws-amplify/ui-react/styles.css";
-import { Button } from "./components/ui/button";
-import { AuthUser } from "aws-amplify/auth";
 
-type AppProps = {
-  signOut?: UseAuthenticator["signOut"]; //() => void;
-  user?: AuthUser;
-};
+import { RouterProvider } from "react-router-dom";
+import router from "./navigation/routes";
+import { AuthProvider } from "./hooks/useAuth";
 
-const App: React.FC<AppProps> = ({ signOut, user }) => {
+export default function App() {
   return (
-    <div className="flex justify-center items-center h-screen">
-      <Button onClick={signOut}>Click me</Button>
-      <div>{user?.userId}</div>
-    </div>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
-};
-
-export default withAuthenticator(App);
+}
