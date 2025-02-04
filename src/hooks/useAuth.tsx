@@ -9,17 +9,17 @@ import {
 } from "@/lib/auth";
 
 import { useLocalStorage } from "./useLocalStorage";
-import client from "@/lib/apiClient";
 
-import { createUser } from "@/lib/dbActions";
+import { createUser, getUser } from "@/lib/dbActions";
 import { UserRole } from "types";
+import { getCurrentUser } from "aws-amplify/auth";
 
 type AuthContextType = {
   user: any | null;
   loading: boolean;
-  signIn: (email: string, password: string) => Promise<any>;
+  signIn: (email: string, password: string, role: UserRole) => Promise<any>;
   signUp: (email: string, password: string) => Promise<any>;
-  confirmSignUp: (email: string, code: string, role : UserRole) => Promise<any>;
+  confirmSignUp: (email: string, code: string, role: UserRole) => Promise<any>;
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
 };
@@ -30,14 +30,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useLocalStorage<any | null>("user", null);
   const [loading, setLoading] = useState(false);
 
-  const signIn = async (email: string, password: string) => {
+  console.log("user", user);
+
+  const signIn = async (email: string, password: string, role: UserRole) => {
     try {
-      const { isSignedIn, nextStep } = await handleSignIn({
+      const { isSignedIn } = await handleSignIn({
         username: email,
         password,
       });
 
-      console.log(isSignedIn, nextStep);
+      if (isSignedIn) {
+        const userId = (await getCurrentUser())!.userId;
+        const existingUser = await getUser(userId, role);
+        if (!existingUser) {
+          await signOut();
+          throw new Error("User not found");
+        }
+        setUser({ ...existingUser, role });
+      }
       return isSignedIn;
     } catch (error) {
       throw error;
@@ -59,12 +69,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const confirmSignUp = async (email: string, code: string, role: UserRole) => {
     try {
-      const { isSignUpComplete, userId} = await handleConfirmSignUp(email, code);
+      const { isSignUpComplete, userId } = await handleConfirmSignUp(
+        email,
+        code
+      );
 
       if (isSignUpComplete) {
         const newUser = await createUser(role, email, userId as string);
-        console.log("new user", newUser);
-        return newUser;
+        if (!newUser) {
+          await signOut();
+          throw new Error("User not created");
+        }
+        setUser({ ...newUser, role });
       }
 
       return isSignUpComplete;
@@ -76,6 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     try {
       await handleSignOut();
+      setUser(null);
     } catch (error) {
       throw error;
     }

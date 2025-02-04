@@ -36,6 +36,14 @@ export default function SignUpPage() {
     const confirmPassword = formData.get("confirmPassword") as string;
     const role = formData.get("role") as string;
 
+
+
+
+    console.log("values")
+
+    console.log(email, password, confirmPassword, role);
+
+
     if (password !== confirmPassword) {
       console.error("Passwords don't match");
       setIsLoading(false);
@@ -44,15 +52,15 @@ export default function SignUpPage() {
 
     try {
       const response = await signUp(email, password);
-      console.log(response);
+      console.log("response from signup", response);
 
       if (
         !response.isSignUpComplete &&
-        response.nextStep === "CONFIRM_SIGNUP"
+        response.nextStep.signUpStep === "CONFIRM_SIGN_UP"
       ) {
         // Redirect to the confirm signup page
         console.log("Redirect to confirm signup page");
-        router("/confirm-signup", { state: { email, role } });
+        router("/confirm-signup", { state: { email : email, role : role } });
       }
     } catch (error) {
       console.error(error);

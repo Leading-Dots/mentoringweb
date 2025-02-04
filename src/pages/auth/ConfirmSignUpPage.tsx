@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
+import { UserRole } from "types";
 
 export default function ConfirmSignUpPage() {
   const location = useLocation();
@@ -18,18 +19,18 @@ export default function ConfirmSignUpPage() {
 
   const { confirmSignUp } = useAuth();
 
-  if (!location.state) {
-    router("/signup", { replace: true });
-  }
-
-  const { email, role } = location.state;
+  const email = location.state!.email as string;
+  const role = location.state!.role as UserRole;
+  console.log(email, role);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     try {
+      event.preventDefault();
       const formData = new FormData(event.currentTarget);
       const code = formData.get("code") as string;
 
-      console.log(code);
+      console.log("submitting form");
+      console.log(email, code, role);
 
       const { isSignUpComplete } = await confirmSignUp(email, code, role);
 

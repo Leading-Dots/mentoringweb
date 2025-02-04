@@ -12,6 +12,8 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
+import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
+import { UserRole } from "types";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -24,9 +26,10 @@ export default function LoginPage() {
     const formData = new FormData(event.currentTarget);
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
+    const role = formData.get("role") as UserRole;
 
     try {
-      const response = await signIn(email, password);
+      const response = await signIn(email, password, role);
       console.log(response);
 
       return response;
@@ -68,6 +71,18 @@ export default function LoginPage() {
                     autoComplete="current-password"
                     disabled={isLoading}
                   />
+                </div>
+                <div className="grid gap-2">
+                <Label htmlFor="role">Role</Label>
+                <Select name="role" defaultValue="mentee">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a role" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="mentee">Mentee</SelectItem>
+                    <SelectItem value="mentor">Mentor</SelectItem>
+                  </SelectContent>
+                </Select>
                 </div>
                 <Button type="submit" disabled={isLoading}>
                   {isLoading ? "Logging in..." : "Login"}
