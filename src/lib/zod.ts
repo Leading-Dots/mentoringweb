@@ -20,7 +20,7 @@ export const MenteeProfileFormSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   bio: z.string().min(10, "Bio must be at least 10 characters"),
-  profilePictureUrl: z.string().url("Invalid URL").optional(),
+  profilePictureUrl: z.string().optional(),
 
   //Step 2
   goals: z.array(z.string()).min(1, "Select at least one expertise"),

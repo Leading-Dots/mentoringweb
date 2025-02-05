@@ -13,6 +13,7 @@ import { useLocalStorage } from "./useLocalStorage";
 import { createUser, getUser } from "@/lib/dbActions";
 import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
+import { Loader } from "@/components/common/Loader";
 
 type AuthContextType = {
   user: any | null;
@@ -27,6 +28,7 @@ type AuthContextType = {
   ) => Promise<any>;
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
+  refreshUser: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -39,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (email: string, password: string, role: UserRole) => {
     try {
+      setLoading(true);
       const { isSignedIn } = await handleSignIn({
         username: email,
         password,
@@ -59,11 +62,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return isSignedIn;
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const signUp = async (email: string, password: string) => {
     try {
+      setLoading(true);
       const { isSignUpComplete, userId, nextStep } = await handleSignUp({
         username: email,
         password,
@@ -72,6 +78,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { isSignUpComplete, userId, nextStep };
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,6 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     userId: string
   ) => {
     try {
+      setLoading(true);
       const { isSignUpComplete } = await handleConfirmSignUp(email, code);
 
       if (isSignUpComplete) {
@@ -97,15 +106,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return isSignUpComplete;
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
   const signOut = async () => {
     try {
+      setLoading(true);
       await handleSignOut();
       setUser(null);
     } catch (error) {
       throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -114,6 +128,46 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await handleForgotPassword(email);
     } catch (error) {
       throw error;
+    }
+  };
+
+  const refreshUser = async () => {
+    try {
+      setLoading(true);
+      const currentUser = await getCurrentUser();
+      if (currentUser) {
+        const existingUser = await getUser(currentUser.userId, user.role);
+        if (!existingUser) {
+          await signOut();
+          throw new Error("User not found");
+        }
+        setUser({ ...existingUser, role: user.role });
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+  //Todo: This is not working and will be used for switching roles for the same user in the future
+  const switchUserRole = async (role: UserRole) => {
+    try {
+      setLoading(true);
+      const currentUser = await getCurrentUser();
+      if (currentUser) {
+        const existingUser = await getUser(currentUser.userId, role);
+        if (!existingUser) {
+          await signOut();
+          throw new Error("User not found");
+        }
+        setUser({ ...existingUser, role });
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,13 +180,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       confirmSignUp,
       signOut,
       forgotPassword,
+      refreshUser,
     }),
     [user]
   );
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <Loader /> : children}
     </AuthContext.Provider>
   );
 }
