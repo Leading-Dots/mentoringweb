@@ -11,6 +11,7 @@ import {
 import { StepOne } from "./steps/Step1";
 import { StepTwo } from "./steps/Step2";
 import { UserRole } from "types";
+import StepHeader from "./steps/StepHeader";
 
 interface ProfileFormProps {
   role: UserRole;
@@ -53,14 +54,17 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
   };
   return (
     <Form {...form}>
+
+     <StepHeader step={step} />
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {step === 0 && <StepOne />}
         {step === 1 && <StepTwo role={role} />}
 
-        <div className="flex justify-between">
+        <div className="flex justify-between w-full gap-2">
           {step > 0 && (
             <Button
               type="button"
+              className="w-full"
               variant="outline"
               onClick={() => setStep(step - 1)}
             >
@@ -69,11 +73,11 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
           )}
 
           {step === 0 ? (
-            <Button type="button" onClick={handleNext}>
+            <Button type="button" onClick={handleNext} className="w-full">
               Next
             </Button>
           ) : (
-            <Button type="submit">Submit</Button>
+            <Button className="w-full" type="submit">Save</Button>
           )}
         </div>
       </form>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Upload, Pencil } from "lucide-react";
+import { Upload, Pencil, User2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
@@ -52,7 +52,7 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
               <Avatar className="h-24 w-24 hover:opacity-90">
                 <AvatarImage src={value} alt="Profile" />
                 <AvatarFallback>
-                  <Upload className="h-8 w-8 text-muted-foreground" />
+                  <User2 className="h-8 w-8 text-muted-foreground" />
                 </AvatarFallback>
               </Avatar>
               <div className="absolute bottom-0 right-0 rounded-full bg-primary p-1">

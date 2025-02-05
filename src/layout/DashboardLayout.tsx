@@ -20,7 +20,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   //   }
 
   return (
-    <div className="flex min-h-screen flex-col md:flex-row flex-1 max-w-7xl mx-auto ">
+    <div className="flex min-h-screen flex-col md:flex-row flex-1 max-w-7xl mx-auto">
       <Navbar />
 
       <main className="flex-1 ">

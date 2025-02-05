@@ -17,9 +17,9 @@ import {
     const [preview, setPreview] = useState<string>("")
   
     return (
-      <div className="space-y-8">
+      <div className="space-y-4">
         {/* Profile Picture Section */}
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col justify-center items-center space-y-2">
          
           
           <FormField
@@ -81,7 +81,7 @@ import {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="john@example.com" {...field} />
+                <Input type="email" readOnly placeholder="john@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
