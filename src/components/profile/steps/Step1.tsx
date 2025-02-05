@@ -20,10 +20,7 @@ import {
       <div className="space-y-8">
         {/* Profile Picture Section */}
         <div className="flex flex-col items-center space-y-4">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={preview || form.watch("profilePictureUrl")} />
-            <AvatarFallback>CN</AvatarFallback>
-          </Avatar>
+         
           
           <FormField
             control={form.control}

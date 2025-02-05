@@ -42,34 +42,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (email: string, password: string, role: UserRole) => {
     try {
       setLoading(true);
-      const { isSignedIn } = await handleSignIn({
-        username: email,
-        password,
-      });
+      const { isSignedIn } = await handleSignIn({ username: email, password });
+      if (!isSignedIn) return false;
 
-      if (isSignedIn) {
-        const userId = (await getCurrentUser())!.userId;
-        console.log("userId", userId);
-        const existingUser = await getUser(userId, role);
-        if (!existingUser) {
-
-          //TODO: Maybe we create a new user here if not found given user is already signed in and maybe  switching roles or first time logging in
-
-          const newUser = await createUser(role, email, userId); 
-          if (!newUser) {
-            await signOut();
-            throw new Error("User not created");
-          }
-
-          setUser({ ...newUser, role });
-          return isSignedIn;
-        }
-        //Normal flow
-        setUser({ ...existingUser, role });
+      const currentUser = await getCurrentUser();
+      if (!currentUser?.userId) {
+        throw new Error("Failed to get current user");
       }
-      return isSignedIn;
+
+      const userId = currentUser.userId;
+      const existingUser = await getUser(userId, role);
+
+      if (!existingUser) {
+        const newUser = await createUser(role, email, userId);
+        if (!newUser) {
+          await signOut();
+          throw new Error("Failed to create new user");
+        }
+        setUser({ ...newUser, role });
+        return true;
+      }
+
+      setUser({ ...existingUser, role });
+      return true;
     } catch (error) {
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : "Sign in failed";
+      throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
