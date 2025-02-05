@@ -1,9 +1,7 @@
-import {
-  listMentees,
-  listMentors,
-} from "@/graphql/queries";
+import { listMentees, listMentors } from "@/graphql/queries";
 import client from "./apiClient";
 import { createMentee, createMentor } from "@/graphql/mutations";
+import { ProfileStatus } from "@/API";
 type ROLE = "mentor" | "mentee";
 
 export const createUser = async (role: ROLE, email: string, userId: string) => {
@@ -30,6 +28,7 @@ const addMentor = async (email: string, userId: string) => {
         input: {
           email: email,
           mentorId: userId,
+          profileStatus: ProfileStatus.PENDING,
         },
       },
     });
@@ -51,6 +50,7 @@ const addMentee = async (email: string, userId: string) => {
         input: {
           menteeId: userId,
           email: email,
+          profileStatus: ProfileStatus.PENDING,
         },
       },
     });

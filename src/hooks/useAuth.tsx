@@ -14,6 +14,7 @@ import { createUser, getUser } from "@/lib/dbActions";
 import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 
+
 type AuthContextType = {
   user: any | null;
   loading: boolean;
