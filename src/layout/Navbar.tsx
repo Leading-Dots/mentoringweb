@@ -3,16 +3,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Sheet,
   SheetContent,
-  SheetFooter,
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import {
   GaugeCircle,
-  Home,
   HomeIcon,
   LogOut,
-  LucideIcon,
   Menu,
   MessagesSquare,
   School2,
@@ -131,8 +128,12 @@ const Navbar = () => {
         {/* add logout button at the bottom */}
 
         <div className="flex flex-col items-start gap-2 mt-auto">
-          <Button variant="ghost" size="sm">
+          <Button
+            onClick={signOut}
+           variant="ghost" size="sm">
             <LogOut className="h-4 w-4" />
+            <span>Logout</span>
+
           </Button>
         </div>
       </div>

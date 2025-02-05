@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useLocalStorage<any | null>("user", null);
   const [loading, setLoading] = useState(false);
 
-  console.log("user", user);
+  console.log("user", user); 
 
   const signIn = async (email: string, password: string, role: UserRole) => {
     try {
@@ -52,9 +52,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log("userId", userId);
         const existingUser = await getUser(userId, role);
         if (!existingUser) {
-          //TODO: Maybe we create a new user here if not found
-          await signOut();
-          throw new Error("User not found");
+
+          //TODO: Maybe we create a new user here if not found given user is already signed in and maybe  switching roles or first time logging in
+
+          const newUser = await createUser(role, email, userId); 
+          if (!newUser) {
+            await signOut();
+            throw new Error("User not created");
+          }
+
+          setUser({ ...newUser, role });
+          return isSignedIn;
         }
         //Normal flow
         setUser({ ...existingUser, role });
@@ -149,7 +157,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     }
   };
-  
 
   //Todo: This is not working and will be used for switching roles for the same user in the future
   const switchUserRole = async (role: UserRole) => {
