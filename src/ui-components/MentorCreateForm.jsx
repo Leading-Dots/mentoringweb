@@ -14,6 +14,7 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SelectField,
   Text,
   TextField,
   useTheme,
@@ -198,6 +199,8 @@ export default function MentorCreateForm(props) {
     expertise: [],
     yearsOfExperience: "",
     hourlyRate: "",
+    profileStatus: "",
+    mentorId: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -214,6 +217,10 @@ export default function MentorCreateForm(props) {
     initialValues.yearsOfExperience
   );
   const [hourlyRate, setHourlyRate] = React.useState(initialValues.hourlyRate);
+  const [profileStatus, setProfileStatus] = React.useState(
+    initialValues.profileStatus
+  );
+  const [mentorId, setMentorId] = React.useState(initialValues.mentorId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirstName(initialValues.firstName);
@@ -226,6 +233,8 @@ export default function MentorCreateForm(props) {
     setCurrentExpertiseValue("");
     setYearsOfExperience(initialValues.yearsOfExperience);
     setHourlyRate(initialValues.hourlyRate);
+    setProfileStatus(initialValues.profileStatus);
+    setMentorId(initialValues.mentorId);
     setErrors({});
   };
   const [currentExpertiseValue, setCurrentExpertiseValue] = React.useState("");
@@ -240,6 +249,8 @@ export default function MentorCreateForm(props) {
     expertise: [],
     yearsOfExperience: [],
     hourlyRate: [],
+    profileStatus: [],
+    mentorId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -276,6 +287,8 @@ export default function MentorCreateForm(props) {
           expertise,
           yearsOfExperience,
           hourlyRate,
+          profileStatus,
+          mentorId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -347,6 +360,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -379,6 +394,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -411,6 +428,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -443,6 +462,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -475,6 +496,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -509,6 +532,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -537,6 +562,8 @@ export default function MentorCreateForm(props) {
               expertise: values,
               yearsOfExperience,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             values = result?.expertise ?? values;
@@ -598,6 +625,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience: value,
               hourlyRate,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.yearsOfExperience ?? value;
@@ -636,6 +665,8 @@ export default function MentorCreateForm(props) {
               expertise,
               yearsOfExperience,
               hourlyRate: value,
+              profileStatus,
+              mentorId,
             };
             const result = onChange(modelFields);
             value = result?.hourlyRate ?? value;
@@ -649,6 +680,90 @@ export default function MentorCreateForm(props) {
         errorMessage={errors.hourlyRate?.errorMessage}
         hasError={errors.hourlyRate?.hasError}
         {...getOverrideProps(overrides, "hourlyRate")}
+      ></TextField>
+      <SelectField
+        label="Profile status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={profileStatus}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus: value,
+              mentorId,
+            };
+            const result = onChange(modelFields);
+            value = result?.profileStatus ?? value;
+          }
+          if (errors.profileStatus?.hasError) {
+            runValidationTasks("profileStatus", value);
+          }
+          setProfileStatus(value);
+        }}
+        onBlur={() => runValidationTasks("profileStatus", profileStatus)}
+        errorMessage={errors.profileStatus?.errorMessage}
+        hasError={errors.profileStatus?.hasError}
+        {...getOverrideProps(overrides, "profileStatus")}
+      >
+        <option
+          children="Pending"
+          value="PENDING"
+          {...getOverrideProps(overrides, "profileStatusoption0")}
+        ></option>
+        <option
+          children="Published"
+          value="PUBLISHED"
+          {...getOverrideProps(overrides, "profileStatusoption1")}
+        ></option>
+        <option
+          children="Rejected"
+          value="REJECTED"
+          {...getOverrideProps(overrides, "profileStatusoption2")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Mentor id"
+        isRequired={false}
+        isReadOnly={false}
+        value={mentorId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus,
+              mentorId: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.mentorId ?? value;
+          }
+          if (errors.mentorId?.hasError) {
+            runValidationTasks("mentorId", value);
+          }
+          setMentorId(value);
+        }}
+        onBlur={() => runValidationTasks("mentorId", mentorId)}
+        errorMessage={errors.mentorId?.errorMessage}
+        hasError={errors.mentorId?.hasError}
+        {...getOverrideProps(overrides, "mentorId")}
       ></TextField>
       <Flex
         justifyContent="space-between"

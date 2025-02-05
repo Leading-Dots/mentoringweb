@@ -37,6 +37,7 @@ export const handleConfirmSignUp = async (username: string, code: string) => {
             username,
             confirmationCode: code,
         });
+        console.log("nextStep", nextStep, isSignUpComplete, userId);
         return {nextStep, isSignUpComplete, userId};
     } catch (error) {
         throw error;

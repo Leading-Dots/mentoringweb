@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { Mentor } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -32,6 +32,8 @@ export declare type MentorUpdateFormInputValues = {
     expertise?: string[];
     yearsOfExperience?: number;
     hourlyRate?: number;
+    profileStatus?: string;
+    mentorId?: string;
 };
 export declare type MentorUpdateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -43,6 +45,8 @@ export declare type MentorUpdateFormValidationValues = {
     expertise?: ValidationFunction<string>;
     yearsOfExperience?: ValidationFunction<number>;
     hourlyRate?: ValidationFunction<number>;
+    profileStatus?: ValidationFunction<string>;
+    mentorId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MentorUpdateFormOverridesProps = {
@@ -56,6 +60,8 @@ export declare type MentorUpdateFormOverridesProps = {
     expertise?: PrimitiveOverrideProps<TextFieldProps>;
     yearsOfExperience?: PrimitiveOverrideProps<TextFieldProps>;
     hourlyRate?: PrimitiveOverrideProps<TextFieldProps>;
+    profileStatus?: PrimitiveOverrideProps<SelectFieldProps>;
+    mentorId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MentorUpdateFormProps = React.PropsWithChildren<{
     overrides?: MentorUpdateFormOverridesProps | undefined | null;

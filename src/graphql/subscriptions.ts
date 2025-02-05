@@ -163,6 +163,8 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -192,6 +194,8 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -221,6 +225,8 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -249,6 +255,8 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename
@@ -277,6 +285,8 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename
@@ -305,6 +315,8 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename

@@ -28,6 +28,8 @@ export default function LoginPage() {
     const password = formData.get("password") as string;
     const role = formData.get("role") as UserRole;
 
+    console.log("From Login Page", email, password, role);
+
     try {
       const response = await signIn(email, password, role);
       console.log(response);
@@ -41,8 +43,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex h-screen items-center justify-center">
-      <Card className="w-[350px]">
+    <div className="flex flex-col items-center justify-center h-screen">
+      <Card className="flex flex-col max-w-2xl w-full">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>

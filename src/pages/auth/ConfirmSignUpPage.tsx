@@ -21,6 +21,7 @@ export default function ConfirmSignUpPage() {
 
   const email = location.state!.email as string;
   const role = location.state!.role as UserRole;
+  const userId = location.state!.userId as string;
   console.log(email, role);
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -32,7 +33,7 @@ export default function ConfirmSignUpPage() {
       console.log("submitting form");
       console.log(email, code, role);
 
-      const { isSignUpComplete } = await confirmSignUp(email, code, role);
+      const { isSignUpComplete } = await confirmSignUp(email, code, role, userId);
 
       console.log("Signed in successfully", isSignUpComplete);
 

@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
 } | null;
@@ -31,6 +31,8 @@ export declare type MentorCreateFormInputValues = {
     expertise?: string[];
     yearsOfExperience?: number;
     hourlyRate?: number;
+    profileStatus?: string;
+    mentorId?: string;
 };
 export declare type MentorCreateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -42,6 +44,8 @@ export declare type MentorCreateFormValidationValues = {
     expertise?: ValidationFunction<string>;
     yearsOfExperience?: ValidationFunction<number>;
     hourlyRate?: ValidationFunction<number>;
+    profileStatus?: ValidationFunction<string>;
+    mentorId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MentorCreateFormOverridesProps = {
@@ -55,6 +59,8 @@ export declare type MentorCreateFormOverridesProps = {
     expertise?: PrimitiveOverrideProps<TextFieldProps>;
     yearsOfExperience?: PrimitiveOverrideProps<TextFieldProps>;
     hourlyRate?: PrimitiveOverrideProps<TextFieldProps>;
+    profileStatus?: PrimitiveOverrideProps<SelectFieldProps>;
+    mentorId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MentorCreateFormProps = React.PropsWithChildren<{
     overrides?: MentorCreateFormOverridesProps | undefined | null;

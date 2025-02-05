@@ -1,6 +1,9 @@
-import { getMentee, getMentor } from "@/graphql/queries";
+import {
+  listMentees,
+  listMentors,
+} from "@/graphql/queries";
 import client from "./apiClient";
-import { createMentor } from "@/graphql/mutations";
+import { createMentee, createMentor } from "@/graphql/mutations";
 type ROLE = "mentor" | "mentee";
 
 export const createUser = async (role: ROLE, email: string, userId: string) => {
@@ -25,8 +28,8 @@ const addMentor = async (email: string, userId: string) => {
       query: createMentor,
       variables: {
         input: {
-          id: userId,
           email: email,
+          mentorId: userId,
         },
       },
     });
@@ -43,10 +46,10 @@ const addMentor = async (email: string, userId: string) => {
 const addMentee = async (email: string, userId: string) => {
   try {
     const { data, errors } = await client.graphql({
-      query: createMentor,
+      query: createMentee,
       variables: {
         input: {
-          id: userId,
+          menteeId: userId,
           email: email,
         },
       },
@@ -55,7 +58,7 @@ const addMentee = async (email: string, userId: string) => {
     if (errors) {
       console.error(errors);
     }
-    return data.createMentor;
+    return data.createMentee;
   } catch (error) {
     console.error(error);
   }
@@ -64,16 +67,21 @@ const addMentee = async (email: string, userId: string) => {
 const findMentor = async (userId: string) => {
   try {
     const { data, errors } = await client.graphql({
-      query: getMentor,
+      query: listMentors,
       variables: {
-        id: userId,
+        filter: {
+          mentorId: {
+            eq: userId,
+          },
+        },
       },
     });
+
     if (errors) {
       console.error(errors);
     }
     console.log(data);
-    return data.getMentor;
+    return data.listMentors.items[0];
   } catch (error) {
     console.error(error);
   }
@@ -82,16 +90,21 @@ const findMentor = async (userId: string) => {
 const findMentee = async (userId: string) => {
   try {
     const { data, errors } = await client.graphql({
-      query: getMentee,
+      query: listMentees,
       variables: {
-        id: userId,
+        filter: {
+          menteeId: {
+            eq: userId,
+          },
+        },
       },
     });
+
     if (errors) {
       console.error(errors);
     }
     console.log(data);
-    return data.getMentee;
+    return data.listMentees.items[0];
   } catch (error) {
     console.error(error);
   }

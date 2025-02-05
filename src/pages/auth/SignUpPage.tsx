@@ -60,7 +60,7 @@ export default function SignUpPage() {
       ) {
         // Redirect to the confirm signup page
         console.log("Redirect to confirm signup page");
-        router("/confirm-signup", { state: { email : email, role : role } });
+        router("/confirm-signup", { state: { email : email, role : role, userId : response!.userId } });
       }
     } catch (error) {
       console.error(error);

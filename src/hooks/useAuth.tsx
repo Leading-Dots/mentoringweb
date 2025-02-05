@@ -19,7 +19,7 @@ type AuthContextType = {
   loading: boolean;
   signIn: (email: string, password: string, role: UserRole) => Promise<any>;
   signUp: (email: string, password: string) => Promise<any>;
-  confirmSignUp: (email: string, code: string, role: UserRole) => Promise<any>;
+  confirmSignUp: (email: string, code: string, role: UserRole, userId : string) => Promise<any>;
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
 };
@@ -41,6 +41,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (isSignedIn) {
         const userId = (await getCurrentUser())!.userId;
+        console.log("userId", userId);
         const existingUser = await getUser(userId, role);
         if (!existingUser) {
           await signOut();
@@ -67,19 +68,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const confirmSignUp = async (email: string, code: string, role: UserRole) => {
+  const confirmSignUp = async (email: string, code: string, role: UserRole, userId : string) => {
     try {
-      const { isSignUpComplete, userId } = await handleConfirmSignUp(
-        email,
-        code
-      );
+      const { isSignUpComplete } = await handleConfirmSignUp(email, code);
 
       if (isSignUpComplete) {
-        const newUser = await createUser(role, email, userId as string);
+        const newUser = await createUser(role, email, userId);
         if (!newUser) {
           await signOut();
           throw new Error("User not created");
         }
+        console.log("newUser", newUser);
         setUser({ ...newUser, role });
       }
 

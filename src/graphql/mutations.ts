@@ -187,6 +187,8 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -219,6 +221,8 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -251,6 +255,8 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -282,6 +288,8 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename
@@ -313,6 +321,8 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename
@@ -344,6 +354,8 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename

@@ -264,6 +264,8 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    profileStatus
+    mentorId
     createdAt
     updatedAt
     __typename
@@ -287,6 +289,8 @@ export const listMentors = /* GraphQL */ `query ListMentors(
       expertise
       yearsOfExperience
       hourlyRate
+      profileStatus
+      mentorId
       createdAt
       updatedAt
       __typename
@@ -318,6 +322,8 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
       nextToken
       __typename
     }
+    profileStatus
+    menteeId
     createdAt
     updatedAt
     __typename
@@ -340,6 +346,8 @@ export const listMentees = /* GraphQL */ `query ListMentees(
       firebaseToken
       goals
       preferredMentorExperience
+      profileStatus
+      menteeId
       createdAt
       updatedAt
       __typename

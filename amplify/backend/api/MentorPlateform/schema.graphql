@@ -1,3 +1,9 @@
+enum ProfileStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
 enum Status {
   SCHEDULED
   RESCHEDULED
@@ -37,6 +43,8 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   hourlyRate: Float
   Sessions: [Session] @hasMany(indexName: "byMentor", fields: ["id"])
   Notifications: [Notification] @hasMany(indexName: "byMentor", fields: ["id"])
+  profileStatus: ProfileStatus
+  mentorId: String
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -51,5 +59,7 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   preferredMentorExperience: String
   Sessions: [Session] @hasMany(indexName: "byMentee", fields: ["id"])
   Notifications: [Notification] @hasMany(indexName: "byMentee", fields: ["id"])
+  profileStatus: ProfileStatus
+  menteeId: String
 }
  

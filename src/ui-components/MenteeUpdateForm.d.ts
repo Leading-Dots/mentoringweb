@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { Mentee } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -31,6 +31,8 @@ export declare type MenteeUpdateFormInputValues = {
     firebaseToken?: string;
     goals?: string[];
     preferredMentorExperience?: string;
+    profileStatus?: string;
+    menteeId?: string;
 };
 export declare type MenteeUpdateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -41,6 +43,8 @@ export declare type MenteeUpdateFormValidationValues = {
     firebaseToken?: ValidationFunction<string>;
     goals?: ValidationFunction<string>;
     preferredMentorExperience?: ValidationFunction<string>;
+    profileStatus?: ValidationFunction<string>;
+    menteeId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MenteeUpdateFormOverridesProps = {
@@ -53,6 +57,8 @@ export declare type MenteeUpdateFormOverridesProps = {
     firebaseToken?: PrimitiveOverrideProps<TextFieldProps>;
     goals?: PrimitiveOverrideProps<TextFieldProps>;
     preferredMentorExperience?: PrimitiveOverrideProps<TextFieldProps>;
+    profileStatus?: PrimitiveOverrideProps<SelectFieldProps>;
+    menteeId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MenteeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MenteeUpdateFormOverridesProps | undefined | null;

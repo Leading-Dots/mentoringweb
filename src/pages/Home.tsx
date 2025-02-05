@@ -1,23 +1,24 @@
-import { Mentee } from "@/API";
+import { Mentee, Mentor } from "@/API";
 import { Button } from "@/components/ui/button";
-import { listMentees } from "@/graphql/queries";
+import {  listMentors } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
 import { useState } from "react";
 
 const Home = () => {
-  const [users, setUsers] = useState<Mentee[]>([]);
-  const {signOut} = useAuth();
+  const [users, setUsers] = useState<Mentor[]>([]);
+  const {signOut, user} = useAuth();
   const getUser = async () => {
     const { data } = await client.graphql({
-      query: listMentees,
+      query: listMentors,
     });
     console.log(data);
-    setUsers(data.listMentees.items);
+    setUsers(data.listMentors.items);
   };
   return (
     <div>
 
+      <h1>Welcome {user?.email}</h1>
       <Button
         onClick={() => {
           signOut();
@@ -27,7 +28,7 @@ const Home = () => {
       <button onClick={getUser}>Get Users</button>
       <ul>
         {users.map((user) => (
-          <li key={user.id}>{user.firstName}</li>
+          <li key={user.id}>{user.email}</li>
         ))}
       </ul>
     </div>

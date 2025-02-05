@@ -14,6 +14,7 @@ import {
   Grid,
   Icon,
   ScrollView,
+  SelectField,
   Text,
   TextField,
   useTheme,
@@ -199,6 +200,8 @@ export default function MenteeUpdateForm(props) {
     firebaseToken: "",
     goals: [],
     preferredMentorExperience: "",
+    profileStatus: "",
+    menteeId: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -213,6 +216,10 @@ export default function MenteeUpdateForm(props) {
   const [goals, setGoals] = React.useState(initialValues.goals);
   const [preferredMentorExperience, setPreferredMentorExperience] =
     React.useState(initialValues.preferredMentorExperience);
+  const [profileStatus, setProfileStatus] = React.useState(
+    initialValues.profileStatus
+  );
+  const [menteeId, setMenteeId] = React.useState(initialValues.menteeId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = menteeRecord
@@ -227,6 +234,8 @@ export default function MenteeUpdateForm(props) {
     setGoals(cleanValues.goals ?? []);
     setCurrentGoalsValue("");
     setPreferredMentorExperience(cleanValues.preferredMentorExperience);
+    setProfileStatus(cleanValues.profileStatus);
+    setMenteeId(cleanValues.menteeId);
     setErrors({});
   };
   const [menteeRecord, setMenteeRecord] = React.useState(menteeModelProp);
@@ -256,6 +265,8 @@ export default function MenteeUpdateForm(props) {
     firebaseToken: [],
     goals: [],
     preferredMentorExperience: [],
+    profileStatus: [],
+    menteeId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -291,6 +302,8 @@ export default function MenteeUpdateForm(props) {
           firebaseToken: firebaseToken ?? null,
           goals: goals ?? null,
           preferredMentorExperience: preferredMentorExperience ?? null,
+          profileStatus: profileStatus ?? null,
+          menteeId: menteeId ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -359,6 +372,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -390,6 +405,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -421,6 +438,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -452,6 +471,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -483,6 +504,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -516,6 +539,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken: value,
               goals,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -543,6 +568,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals: values,
               preferredMentorExperience,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             values = result?.goals ?? values;
@@ -599,6 +626,8 @@ export default function MenteeUpdateForm(props) {
               firebaseToken,
               goals,
               preferredMentorExperience: value,
+              profileStatus,
+              menteeId,
             };
             const result = onChange(modelFields);
             value = result?.preferredMentorExperience ?? value;
@@ -617,6 +646,88 @@ export default function MenteeUpdateForm(props) {
         errorMessage={errors.preferredMentorExperience?.errorMessage}
         hasError={errors.preferredMentorExperience?.hasError}
         {...getOverrideProps(overrides, "preferredMentorExperience")}
+      ></TextField>
+      <SelectField
+        label="Profile status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={profileStatus}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus: value,
+              menteeId,
+            };
+            const result = onChange(modelFields);
+            value = result?.profileStatus ?? value;
+          }
+          if (errors.profileStatus?.hasError) {
+            runValidationTasks("profileStatus", value);
+          }
+          setProfileStatus(value);
+        }}
+        onBlur={() => runValidationTasks("profileStatus", profileStatus)}
+        errorMessage={errors.profileStatus?.errorMessage}
+        hasError={errors.profileStatus?.hasError}
+        {...getOverrideProps(overrides, "profileStatus")}
+      >
+        <option
+          children="Pending"
+          value="PENDING"
+          {...getOverrideProps(overrides, "profileStatusoption0")}
+        ></option>
+        <option
+          children="Published"
+          value="PUBLISHED"
+          {...getOverrideProps(overrides, "profileStatusoption1")}
+        ></option>
+        <option
+          children="Rejected"
+          value="REJECTED"
+          {...getOverrideProps(overrides, "profileStatusoption2")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Mentee id"
+        isRequired={false}
+        isReadOnly={false}
+        value={menteeId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.menteeId ?? value;
+          }
+          if (errors.menteeId?.hasError) {
+            runValidationTasks("menteeId", value);
+          }
+          setMenteeId(value);
+        }}
+        onBlur={() => runValidationTasks("menteeId", menteeId)}
+        errorMessage={errors.menteeId?.errorMessage}
+        hasError={errors.menteeId?.hasError}
+        {...getOverrideProps(overrides, "menteeId")}
       ></TextField>
       <Flex
         justifyContent="space-between"
