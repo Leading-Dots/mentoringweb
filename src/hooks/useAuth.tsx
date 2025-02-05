@@ -14,13 +14,17 @@ import { createUser, getUser } from "@/lib/dbActions";
 import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 
-
 type AuthContextType = {
   user: any | null;
   loading: boolean;
   signIn: (email: string, password: string, role: UserRole) => Promise<any>;
   signUp: (email: string, password: string) => Promise<any>;
-  confirmSignUp: (email: string, code: string, role: UserRole, userId : string) => Promise<any>;
+  confirmSignUp: (
+    email: string,
+    code: string,
+    role: UserRole,
+    userId: string
+  ) => Promise<any>;
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
 };
@@ -45,9 +49,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         console.log("userId", userId);
         const existingUser = await getUser(userId, role);
         if (!existingUser) {
+          //TODO: Maybe we create a new user here if not found
           await signOut();
           throw new Error("User not found");
         }
+        //Normal flow
         setUser({ ...existingUser, role });
       }
       return isSignedIn;
@@ -69,7 +75,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const confirmSignUp = async (email: string, code: string, role: UserRole, userId : string) => {
+  const confirmSignUp = async (
+    email: string,
+    code: string,
+    role: UserRole,
+    userId: string
+  ) => {
     try {
       const { isSignUpComplete } = await handleConfirmSignUp(email, code);
 
