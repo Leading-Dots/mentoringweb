@@ -7,10 +7,10 @@ const ProfilePage = () => {
 
 
 
-
+  console.log("user", user);
   return (
     <div className="flex flex-col max-w-2xl gap-2 p-4">
-      <ProfileForm role={"mentee"} initialData={user} />
+      <ProfileForm role={"mentee"}  />
     </div>
   );
 };

@@ -31,31 +31,28 @@ const Navbar = () => {
   const { signOut, user } = useAuth();
   const location = useLocation();
 
-  const isProfileComplete = user?.profile_complete === "1" ? true : false;
-  console.log("isProfileComplete", isProfileComplete);
-
   const [open, setOpen] = useState(false);
 
   const mentorNavItems: NavItem[] = [
     {
       title: "Home",
       url: "/home",
-      icon: <HomeIcon />,
+      icon: <HomeIcon className="h-5 w-5"  />,
     },
     {
       title: "Profile",
       url: "/profile",
-      icon: <User2 />,
+      icon: <User2 className="h-5 w-5"/>,
     },
     {
       title: "Sessions",
       url: "/sessions",
-      icon: <GaugeCircle />,
+      icon: <GaugeCircle className="h-5 w-5"/>,
     },
     {
       title: "Messages",
       url: "/messages",
-      icon: <MessagesSquare />,
+      icon: <MessagesSquare className="h-5 w-5"/>,
     },
   ];
 
@@ -63,29 +60,29 @@ const Navbar = () => {
     {
       title: "Home",
       url: "/home",
-      icon: <HomeIcon />,
+      icon: <HomeIcon  className="h-5 w-5"/>,
     },
     {
       title: "Search Mentors",
       url: "/search-mentors",
-      icon: <UserCircle2 />,
+      icon: <UserCircle2 className="h-5 w-5" />,
     },
     {
       title: "Profile",
       url: "/profile",
-      icon: <User2 />,
+      icon: <User2  className="h-5 w-5"/>,
     },
     {
       title: "Messages",
       url: "/messages",
-      icon: <MessagesSquare />,
+      icon: <MessagesSquare className="h-5 w-5" />,
     },
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
 
   const NavContent = () => (
-    <nav className="space-y-3 my-4">
+    <nav className="space-y-4 my-4">
       {navItems.map((item) => {
         const isActive = location.pathname === item.url;
 
@@ -95,7 +92,7 @@ const Navbar = () => {
             key={item.title}
             to={item.url}
             className={cn(
-              "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
+              "flex items-center  gap-3 rounded-lg p-2 text-sm transition-colors",
               isActive
                 ? "bg-secondary text-secondary-foreground"
                 : "hover:bg-secondary/80"
