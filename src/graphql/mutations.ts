@@ -8,6 +8,81 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest(
+  $input: CreateSessionRequestInput!
+  $condition: ModelSessionRequestConditionInput
+) {
+  createSessionRequest(input: $input, condition: $condition) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateSessionRequestMutationVariables,
+  APITypes.CreateSessionRequestMutation
+>;
+export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest(
+  $input: UpdateSessionRequestInput!
+  $condition: ModelSessionRequestConditionInput
+) {
+  updateSessionRequest(input: $input, condition: $condition) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateSessionRequestMutationVariables,
+  APITypes.UpdateSessionRequestMutation
+>;
+export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest(
+  $input: DeleteSessionRequestInput!
+  $condition: ModelSessionRequestConditionInput
+) {
+  deleteSessionRequest(input: $input, condition: $condition) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteSessionRequestMutationVariables,
+  APITypes.DeleteSessionRequestMutation
+>;
 export const createMessages = /* GraphQL */ `mutation CreateMessages(
   $input: CreateMessagesInput!
   $condition: ModelMessagesConditionInput
@@ -115,6 +190,11 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -135,6 +215,11 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -155,6 +240,11 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -189,6 +279,10 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -223,6 +317,10 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -257,6 +355,10 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -290,6 +392,10 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -323,6 +429,10 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -356,6 +466,10 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename

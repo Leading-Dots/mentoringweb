@@ -1,3 +1,23 @@
+enum SessionRequestStatus {
+  SENT
+  ACCEPTED
+  REJECTED
+}
+
+type SessionRequest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  sessionID: ID! @index(name: "bySession")
+  proposedCost: String
+  mentorNote: String
+  menteeNote: String
+  duration: Int
+  proposedSessionTime: AWSDateTime
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  status: SessionRequestStatus
+  initiatedBy: ID
+}
+
 enum ProfileStatus {
   PENDING
   PUBLISHED
@@ -28,6 +48,8 @@ type Session @model @auth(rules: [{allow: public}]) {
   sessionDate: AWSDateTime
   menteeID: ID! @index(name: "byMentee")
   mentorID: ID! @index(name: "byMentor")
+  SessionRequests: [SessionRequest] @hasMany(indexName: "bySession", fields: ["id"])
+  cost: String
 }
 
 type Mentor @model @auth(rules: [{allow: public}]) {
@@ -45,6 +67,7 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   Notifications: [Notification] @hasMany(indexName: "byMentor", fields: ["id"])
   profileStatus: ProfileStatus
   mentorId: String
+  SessionRequests: [SessionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -61,5 +84,6 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   Notifications: [Notification] @hasMany(indexName: "byMentee", fields: ["id"])
   profileStatus: ProfileStatus
   menteeId: String
+  SessionRequests: [SessionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
 }
  

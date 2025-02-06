@@ -1,4 +1,5 @@
 import { Mentee, Mentor } from "@/API";
+import ListComponent from "@/components/home/ListComponent";
 import { Button } from "@/components/ui/button";
 import { listMentors } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,25 +23,24 @@ const Home = () => {
     await switchUserRole();
   };
   return (
-    <div>
-      <h1>Welcome {user?.email}</h1>
-      <Button
-        onClick={() => {
-          signOut();
-        }}
+    <main className="container py-4 space-y-5">
+      <div
+        className="max-w-3xl"
       >
-        SignOut
-      </Button>
-      <h1>Home</h1>
-      <button onClick={getUser}>Get Users</button>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>{user.email}</li>
-        ))}
-      </ul>
+        <h2 className="text-2xl font-semibold">Welcome</h2>
 
-      <Button onClick={handleRoleSwitch}>Switch Role</Button>
-    </div>
+
+
+        <div className="flex items-center gap-4">
+
+          <ListComponent />
+        </div>
+
+      </div>
+
+
+     
+    </main>
   );
 };
 

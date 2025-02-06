@@ -7,6 +7,9 @@ import AuthLayout from "@/layout/AuthLayout";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import ConfirmSignUpPage from "@/pages/auth/ConfirmSignUpPage";
 import ProfilePage from "@/pages/root/ProfilePage";
+import CreateSessionRequestPage from "@/pages/root/CreateSessionRequestPage";
+import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
+import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
 
 const routes = [
   {
@@ -22,20 +25,20 @@ const routes = [
     ),
   },
   {
-    path : "/signup",
-    element : (
+    path: "/signup",
+    element: (
       <AuthLayout>
         <SignUpPage />
       </AuthLayout>
-    )
+    ),
   },
   {
-    path : "/confirm-signup",
-    element : (
+    path: "/confirm-signup",
+    element: (
       <AuthLayout>
         <ConfirmSignUpPage />
       </AuthLayout>
-    )
+    ),
   },
   {
     path: "/home",
@@ -46,13 +49,37 @@ const routes = [
     ),
   },
   {
-    path : "/profile",
-    element : (
+    path: "/profile",
+    element: (
       <DashboardLayout>
         <ProfilePage />
       </DashboardLayout>
-    )
-  }
+    ),
+  },
+  {
+    path: "/sessionRequest",
+    element: (
+      <DashboardLayout>
+        <CreateSessionRequestPage />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/mentor/:id",
+    element: (
+      <DashboardLayout>
+        <MentorProfilePage />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/mentee/:id",
+    element: (
+      <DashboardLayout>
+        <MenteeProfilePage />
+      </DashboardLayout>
+    ),
+  },
 ];
 
 const router = createBrowserRouter(routes);

@@ -8,6 +8,172 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!) {
+  getSessionRequest(id: $id) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetSessionRequestQueryVariables,
+  APITypes.GetSessionRequestQuery
+>;
+export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
+  $filter: ModelSessionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listSessionRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      sessionID
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListSessionRequestsQueryVariables,
+  APITypes.ListSessionRequestsQuery
+>;
+export const sessionRequestsBySessionID = /* GraphQL */ `query SessionRequestsBySessionID(
+  $sessionID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelSessionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sessionRequestsBySessionID(
+    sessionID: $sessionID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      sessionID
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SessionRequestsBySessionIDQueryVariables,
+  APITypes.SessionRequestsBySessionIDQuery
+>;
+export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByMentorID(
+  $mentorID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelSessionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sessionRequestsByMentorID(
+    mentorID: $mentorID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      sessionID
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SessionRequestsByMentorIDQueryVariables,
+  APITypes.SessionRequestsByMentorIDQuery
+>;
+export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByMenteeID(
+  $menteeID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelSessionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  sessionRequestsByMenteeID(
+    menteeID: $menteeID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      sessionID
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.SessionRequestsByMenteeIDQueryVariables,
+  APITypes.SessionRequestsByMenteeIDQuery
+>;
 export const getMessages = /* GraphQL */ `query GetMessages($id: ID!) {
   getMessages(id: $id) {
     id
@@ -144,6 +310,11 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -166,6 +337,7 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       sessionDate
       menteeID
       mentorID
+      cost
       createdAt
       updatedAt
       __typename
@@ -199,6 +371,7 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       sessionDate
       menteeID
       mentorID
+      cost
       createdAt
       updatedAt
       __typename
@@ -232,6 +405,7 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       sessionDate
       menteeID
       mentorID
+      cost
       createdAt
       updatedAt
       __typename
@@ -266,6 +440,10 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -324,6 +502,10 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename

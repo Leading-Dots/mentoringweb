@@ -1,3 +1,4 @@
+import { ProfilePopover } from "@/components/common/ProfilePopover";
 import { useAuth } from "@/hooks/useAuth";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { Inbox } from "lucide-react";
@@ -26,6 +27,7 @@ const DashboardHeader = () => {
         {formatHeaderTitle(location.pathname)} - {user.role}
       </h1>
       <div className="flex flex-1 justify-end items-center gap-4">
+        <ProfilePopover />
         <Link to="/notifications">
           <div className="flex items-center gap-2 cursor-pointer">
             <Inbox size={24} />

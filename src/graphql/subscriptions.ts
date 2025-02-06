@@ -8,6 +8,78 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessionRequest(
+  $filter: ModelSubscriptionSessionRequestFilterInput
+) {
+  onCreateSessionRequest(filter: $filter) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateSessionRequestSubscriptionVariables,
+  APITypes.OnCreateSessionRequestSubscription
+>;
+export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessionRequest(
+  $filter: ModelSubscriptionSessionRequestFilterInput
+) {
+  onUpdateSessionRequest(filter: $filter) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateSessionRequestSubscriptionVariables,
+  APITypes.OnUpdateSessionRequestSubscription
+>;
+export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessionRequest(
+  $filter: ModelSubscriptionSessionRequestFilterInput
+) {
+  onDeleteSessionRequest(filter: $filter) {
+    id
+    sessionID
+    proposedCost
+    mentorNote
+    menteeNote
+    duration
+    proposedSessionTime
+    mentorID
+    menteeID
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteSessionRequestSubscriptionVariables,
+  APITypes.OnDeleteSessionRequestSubscription
+>;
 export const onCreateMessages = /* GraphQL */ `subscription OnCreateMessages($filter: ModelSubscriptionMessagesFilterInput) {
   onCreateMessages(filter: $filter) {
     id
@@ -100,6 +172,11 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -117,6 +194,11 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -134,6 +216,11 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
     sessionDate
     menteeID
     mentorID
+    SessionRequests {
+      nextToken
+      __typename
+    }
+    cost
     createdAt
     updatedAt
     __typename
@@ -165,6 +252,10 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -196,6 +287,10 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -227,6 +322,10 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
     }
     profileStatus
     mentorId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -257,6 +356,10 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -287,6 +390,10 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -317,6 +424,10 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
     }
     profileStatus
     menteeId
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
