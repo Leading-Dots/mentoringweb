@@ -15,6 +15,7 @@ import { createUser, getUser } from "@/lib/dbActions";
 import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Loader } from "@/components/common/Loader";
+import { showToast } from "@/lib/toast";
 
 type AuthContextType = {
   user: any | null;
@@ -30,6 +31,7 @@ type AuthContextType = {
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   refreshUser: () => Promise<void>;
+  switchUserRole : () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -158,14 +160,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   //Todo: This is not working and will be used for switching roles for the same user in the future
-  const switchUserRole = async (role: UserRole) => {
+  const switchUserRole = async () => {
     try {
       setLoading(true);
       const currentUser = await getCurrentUser();
+      const role = user.role === "mentor" ? "mentee" : "mentor";
       if (currentUser) {
         const existingUser = await getUser(currentUser.userId, role);
         if (!existingUser) {
-          await signOut();
+          showToast("User not found", "error");
           throw new Error("User not found");
         }
         setUser({ ...existingUser, role });
@@ -187,6 +190,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut,
       forgotPassword,
       refreshUser,
+      switchUserRole,
     }),
     [user]
   );
