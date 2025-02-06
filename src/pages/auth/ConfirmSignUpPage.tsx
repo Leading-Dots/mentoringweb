@@ -17,7 +17,7 @@ export default function ConfirmSignUpPage() {
   const location = useLocation();
   const router = useNavigate();
 
-  const { confirmSignUp } = useAuth();
+  const { confirmSignUp, signIn } = useAuth();
 
   const email = location.state!.email as string;
   const role = location.state!.role as UserRole;
@@ -34,6 +34,8 @@ export default function ConfirmSignUpPage() {
       console.log(email, code, role);
 
       const { isSignUpComplete } = await confirmSignUp(email, code, role, userId);
+
+      
 
       console.log("Signed in successfully", isSignUpComplete);
 

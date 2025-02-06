@@ -6,6 +6,7 @@ import {
   handleConfirmSignUp,
   handleSignUp,
   handleForgotPassword,
+  getCurrentAuthUser,
 } from "@/lib/auth";
 
 import { useLocalStorage } from "./useLocalStorage";
@@ -140,7 +141,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const refreshUser = async () => {
     try {
       setLoading(true);
-      const currentUser = await getCurrentUser();
+      const currentUser = await getCurrentAuthUser();
       if (currentUser) {
         const existingUser = await getUser(currentUser.userId, user.role);
         if (!existingUser) {

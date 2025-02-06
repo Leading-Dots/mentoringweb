@@ -613,9 +613,13 @@ export default function MenteeUpdateForm(props) {
         label="Preferred mentor experience"
         isRequired={false}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={preferredMentorExperience}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
               firstName,

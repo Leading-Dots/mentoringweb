@@ -29,7 +29,7 @@ export declare type MenteeCreateFormInputValues = {
     profilePictureUrl?: string;
     firebaseToken?: string;
     goals?: string[];
-    preferredMentorExperience?: string;
+    preferredMentorExperience?: number;
     profileStatus?: string;
     menteeId?: string;
 };
@@ -41,7 +41,7 @@ export declare type MenteeCreateFormValidationValues = {
     profilePictureUrl?: ValidationFunction<string>;
     firebaseToken?: ValidationFunction<string>;
     goals?: ValidationFunction<string>;
-    preferredMentorExperience?: ValidationFunction<string>;
+    preferredMentorExperience?: ValidationFunction<number>;
     profileStatus?: ValidationFunction<string>;
     menteeId?: ValidationFunction<string>;
 };

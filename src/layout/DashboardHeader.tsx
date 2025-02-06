@@ -1,9 +1,11 @@
+import { useAuth } from "@/hooks/useAuth";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
 import { Inbox } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const DashboardHeader = () => {
   const location = useLocation();
+  const {user} = useAuth();
   const formatHeaderTitle = (pathname: string) => {
     // Get the first part of the path (e.g., 'profile' from 'profile/steps')
     const firstPath = pathname.split("/").filter(Boolean)[0] || "";
@@ -21,7 +23,7 @@ const DashboardHeader = () => {
   return (
     <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
       <h1 className="text-xl font-semibold">
-        {formatHeaderTitle(location.pathname)}
+        {formatHeaderTitle(location.pathname)} - {user.role}
       </h1>
       <div className="flex flex-1 justify-end items-center gap-4">
         <Link to="/notifications">
