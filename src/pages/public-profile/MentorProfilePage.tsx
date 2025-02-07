@@ -1,6 +1,6 @@
 import { Mentor } from "@/API";
 import { useEffect, useState } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getUser } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -126,13 +126,13 @@ const MentorProfilePage = () => {
         </div>
       </section>
       <section className="flex justify-center my-12">
-        <CreateSessionRequestModal>
-        <Button
-          size="lg"
-          className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
-        >
-          Book a Session
-        </Button>
+        <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
+          <Button
+            size="lg"
+            className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
+          >
+            Book a Session
+          </Button>
         </CreateSessionRequestModal>
       </section>
     </div>

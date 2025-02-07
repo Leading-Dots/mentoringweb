@@ -127,7 +127,7 @@ const MenteeProfilePage = () => {
         </div>
       </section>
       <section className="flex justify-center my-12">
-        <CreateSessionRequestModal>
+        <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
           <Button
             size="lg"
             className="flex items-center w-full font-semibold hover:scale-105 transition-transform"

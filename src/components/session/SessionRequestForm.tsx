@@ -13,16 +13,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { DatePicker } from "../common/DatePicker";
+
+import { DateTimePicker } from "../common/DatePicker";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
@@ -77,11 +69,12 @@ export function SessionRequestForm({
         <FormField
           control={form.control}
           name="proposedCost"
+          
           render={({ field }) => (
             <FormItem>
               <FormLabel>Proposed Cost ($)</FormLabel>
               <FormControl>
-                <Input placeholder="Enter amount" {...field} />
+                <Input type="number" placeholder="Enter amount" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +109,7 @@ export function SessionRequestForm({
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Session Date & Time</FormLabel>
-              <DatePicker date={field.value} onChange={field.onChange} />
+              <DateTimePicker date={field.value} onChange={field.onChange} />
               <FormMessage />
             </FormItem>
           )}
