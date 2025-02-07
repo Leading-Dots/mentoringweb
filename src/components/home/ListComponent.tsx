@@ -1,6 +1,6 @@
 
 import { useAuth } from '@/hooks/useAuth';
-import MenteeList from './MenteeList';
+import MenteeList from './mentee/MenteeList';
 import MentorList from './mentor/MentorList';
 
 const ListComponent = () => {

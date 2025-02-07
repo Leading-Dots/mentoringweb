@@ -10,6 +10,7 @@ import ProfilePage from "@/pages/root/ProfilePage";
 import CreateSessionRequestPage from "@/pages/root/CreateSessionRequestPage";
 import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
 import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
+import SearchPage from "@/pages/root/SearchPage";
 
 const routes = [
   {
@@ -77,6 +78,14 @@ const routes = [
     element: (
       <DashboardLayout>
         <MenteeProfilePage />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "/search-mentors",
+    element: (
+      <DashboardLayout>
+        <SearchPage />
       </DashboardLayout>
     ),
   },

@@ -35,3 +35,7 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
     preferredMentorExperience: data.preferredMentorExperience || 0,
   } as MenteeProfileFormValues;
 };
+
+export const getInitials = (firstName?: string | null, lastName?: string | null) => {
+  return `${firstName?.[0] || ""}${lastName?.[0] || ""}`;
+};

@@ -41,6 +41,8 @@ const MentorList = () => {
 
   return (
     <div className="flex flex-col gap-3">
+      <h3 className="text-2xl font-semibold">Find mentees</h3>
+
       {mentors.map((mentor) => (
         <MentorCard key={mentor.id} mentor={mentor} />
       ))}

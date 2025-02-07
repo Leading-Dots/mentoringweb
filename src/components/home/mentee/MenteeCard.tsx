@@ -1,61 +1,60 @@
-import type { Mentor } from "@/API";
+import type { Mentee } from "@/API";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { getInitials } from "@/lib/utils";
-import { Briefcase, DollarSign } from "lucide-react";
+import { Briefcase } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-interface MentorCardProps {
-  mentor: Mentor;
+interface MenteeCardProps {
+  mentee: Mentee;
 }
 
-export const MentorCard = ({ mentor }: MentorCardProps) => {
+export const MenteeCard = ({ mentee }: MenteeCardProps) => {
   const router = useNavigate();
 
+  console.log(mentee);
   const handleProfileClick = () => {
-    router(`/mentor/${mentor!.mentorId}`);
+    console.log(mentee.menteeId);
+    router(`/mentee/${mentee.menteeId}`);
   };
 
   return (
     <Card
       className="transition-all hover:shadow-lg"
-      aria-label="Mentor card"
+      aria-label="mentee card"
       onClick={handleProfileClick}
     >
       <CardContent className="pt-6 flex flex-col gap-1">
         <div className="flex items-center gap-4 mb-4">
           <Avatar className="h-12 w-12 border-2 border-primary">
             <AvatarImage
-              src={mentor.profilePictureUrl || ""}
-              alt={`${mentor.firstName} ${mentor.lastName}`}
+              src={mentee.profilePictureUrl || ""}
+              alt={`${mentee.firstName} ${mentee.lastName}`}
             />
             <AvatarFallback className="text-lg bg-primary text-primary-foreground">
-              {getInitials(mentor.firstName, mentor.lastName)}
+              {getInitials(mentee.firstName, mentee.lastName)}
             </AvatarFallback>
           </Avatar>
           <div>
             <h3 className="font-semibold text-lg">
-              {mentor.firstName} {mentor.lastName}
+              {mentee.firstName} {mentee.lastName}
             </h3>
-            <p className="text-sm text-muted-foreground">{mentor.bio}</p>
+            <p className="text-sm text-muted-foreground">{mentee.bio}</p>
           </div>
         </div>
         <div className="flex justify-between gap-2 mb-4">
-          {mentor.expertise?.slice(0, 4).map((skill) => (
+          {mentee.goals?.slice(0, 4).map((skill) => (
             <Badge key={skill} variant="secondary">
               {skill}
             </Badge>
           ))}
         </div>
         <div className="flex items-center justify-evenly gap-2 text-sm text-muted-foreground">
-          <div className="flex items-center gap-1">
-            <DollarSign className="h-4 w-4 text-green-500" />
-            <span>${mentor.hourlyRate}/hr</span>
-          </div>
+          
           <div className="flex items-center gap-1">
             <Briefcase className="h-4 w-4 text-blue-500" />
-            <span>{mentor.yearsOfExperience} years exp.</span>
+            <span>{mentee.preferredMentorExperience} years exp. preferred</span>
           </div>
         </div>
       </CardContent>
