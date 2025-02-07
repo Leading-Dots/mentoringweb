@@ -3,12 +3,13 @@ import { Mentee } from "@/API";
 import { useEffect, useState } from "react";
 import { getUser } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card,  CardContent } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getInitials } from "@/lib/utils";
 import { Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
 
 const MenteeProfilePage = () => {
   const params = useParams();
@@ -126,12 +127,14 @@ const MenteeProfilePage = () => {
         </div>
       </section>
       <section className="flex justify-center my-12">
-        <Button
-          size="lg"
-          className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
-        >
-          Book a Session
-        </Button>
+        <CreateSessionRequestModal>
+          <Button
+            size="lg"
+            className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
+          >
+            Book a Session
+          </Button>
+        </CreateSessionRequestModal>
       </section>
     </div>
   );

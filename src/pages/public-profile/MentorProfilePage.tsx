@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { getInitials } from "@/lib/utils";
 import { Briefcase, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
 
 const MentorProfilePage = () => {
   const params = useParams();
@@ -125,12 +126,14 @@ const MentorProfilePage = () => {
         </div>
       </section>
       <section className="flex justify-center my-12">
+        <CreateSessionRequestModal>
         <Button
           size="lg"
           className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
         >
           Book a Session
         </Button>
+        </CreateSessionRequestModal>
       </section>
     </div>
   );
