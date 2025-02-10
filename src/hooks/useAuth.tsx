@@ -16,6 +16,7 @@ import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Loader } from "@/components/common/Loader";
 import { showToast } from "@/lib/toast";
+import { fetchUserAttributes } from "aws-amplify/auth";
 
 type AuthContextType = {
   user: any | null;
@@ -57,6 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const existingUser = await getUser(userId, role);
 
       if (!existingUser) {
+        
         const newUser = await createUser(role, email, userId);
         if (!newUser) {
           await signOut();

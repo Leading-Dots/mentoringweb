@@ -62,6 +62,8 @@ export function CreateSessionRequestModal({
         });
 
         showToast("Session request sent successfully", "success");
+        return response;
+
       } else {
         // Send session request to mentor
         const response = await client.graphql({
@@ -80,13 +82,15 @@ export function CreateSessionRequestModal({
           },
         });
 
+
         showToast("Session request sent successfully", "success");
-        setOpen(false);
+        return response;
       }
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
       setLoading(false);
+      setOpen(false);
     }
   };
   const getOtherSessionUser = async (userId: string) => {

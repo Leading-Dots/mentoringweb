@@ -1,50 +1,69 @@
-"use client";
-
-import React, { useState } from "react";
+import * as z from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useAuth } from "@/hooks/useAuth";
-import { Select, SelectContent, SelectTrigger, SelectValue, SelectItem } from "@/components/ui/select";
 import { UserRole } from "types";
+import { Link } from "react-router-dom";
+
+const formSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+  role: z.enum(["mentee", "mentor"] as const),
+});
+
+type FormData = z.infer<typeof formSchema>;
 
 export default function LoginPage() {
-  const [isLoading, setIsLoading] = useState(false);
   const { signIn } = useAuth();
 
-  async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setIsLoading(true);
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      role: "mentee",
+    },
+  });
 
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const role = formData.get("role") as UserRole;
-
-    console.log("From Login Page", email, password, role);
-
+  async function onSubmit(data: FormData) {
     try {
-      const response = await signIn(email, password, role);
+      const response = await signIn(data.email, data.password, data.role);
       console.log(response);
-
       return response;
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <Card className="flex flex-col max-w-2xl w-full">
+    <div className="flex w-full max-w-sm flex-col gap-6">
+      <div className="flex flex-col gap-6">
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>
@@ -52,48 +71,87 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={onSubmit}>
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="name@example.com"
-                    autoComplete="email"
-                  />
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    autoComplete="current-password"
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="grid gap-2">
-                <Label htmlFor="role">Role</Label>
-                <Select name="role" defaultValue="mentee">
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="mentee">Mentee</SelectItem>
-                    <SelectItem value="mentor">Mentor</SelectItem>
-                  </SelectContent>
-                </Select>
-                </div>
-                <Button type="submit" disabled={isLoading}>
-                  {isLoading ? "Logging in..." : "Login"}
+            <Form {...form}>
+              <form
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="grid gap-4"
+              >
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="name@example.com"
+                          type="email"
+                          autoComplete="email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          autoComplete="current-password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select a role" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="mentee">Mentee</SelectItem>
+                          <SelectItem value="mentor">Mentor</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" disabled={form.formState.isSubmitting}>
+                  {form.formState.isSubmitting ? "Logging in..." : "Login"}
                 </Button>
-              </div>
-            </form>
+              </form>
+            </Form>
           </CardContent>
+          <CardFooter className="text-muted-foreground text-sm flex flex-col justify-center ">
+            Don't have an account?
+            <Link
+              to={"/signup"}
+              className="hover:underline underline-offset-4 text-primary"
+            >
+              Register
+            </Link>
+          </CardFooter>
         </Card>
       </div>
-    );
-  }
-
+    </div>
+  );
+}
