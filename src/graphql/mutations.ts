@@ -14,7 +14,6 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
 ) {
   createSessionRequest(input: $input, condition: $condition) {
     id
-    sessionID
     proposedCost
     mentorNote
     menteeNote
@@ -39,7 +38,6 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
 ) {
   updateSessionRequest(input: $input, condition: $condition) {
     id
-    sessionID
     proposedCost
     mentorNote
     menteeNote
@@ -64,7 +62,6 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
 ) {
   deleteSessionRequest(input: $input, condition: $condition) {
     id
-    sessionID
     proposedCost
     mentorNote
     menteeNote
@@ -190,13 +187,25 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     sessionDate
     menteeID
     mentorID
-    SessionRequests {
-      nextToken
+    cost
+    SessionRequest {
+      id
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
       __typename
     }
-    cost
     createdAt
     updatedAt
+    sessionSessionRequestId
     __typename
   }
 }
@@ -215,13 +224,25 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     sessionDate
     menteeID
     mentorID
-    SessionRequests {
-      nextToken
+    cost
+    SessionRequest {
+      id
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
       __typename
     }
-    cost
     createdAt
     updatedAt
+    sessionSessionRequestId
     __typename
   }
 }
@@ -240,13 +261,25 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     sessionDate
     menteeID
     mentorID
-    SessionRequests {
-      nextToken
+    cost
+    SessionRequest {
+      id
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
       __typename
     }
-    cost
     createdAt
     updatedAt
+    sessionSessionRequestId
     __typename
   }
 }

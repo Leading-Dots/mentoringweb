@@ -21,7 +21,7 @@ type AuthContextType = {
   user: any | null;
   loading: boolean;
   signIn: (email: string, password: string, role: UserRole) => Promise<any>;
-  signUp: (email: string, password: string) => Promise<any>;
+  signUp: (email: string, password: string, role : UserRole) => Promise<any>;
   confirmSignUp: (
     email: string,
     code: string,
@@ -76,13 +76,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signUp = async (email: string, password: string) => {
+  const signUp = async (email: string, password: string, role : UserRole) => {
     try {
       setLoading(true);
       const { isSignUpComplete, userId, nextStep } = await handleSignUp({
         username: email,
         password,
         email,
+        role
       });
       return { isSignUpComplete, userId, nextStep };
     } catch (error) {

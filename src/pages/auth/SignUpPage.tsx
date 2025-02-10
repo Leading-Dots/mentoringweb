@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { UserRole } from "types";
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -51,7 +52,7 @@ export default function SignUpPage() {
     }
 
     try {
-      const response = await signUp(email, password);
+      const response = await signUp(email, password, role as UserRole);
       console.log("response from signup", response);
 
       if (

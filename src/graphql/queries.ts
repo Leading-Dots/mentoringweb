@@ -11,7 +11,6 @@ type GeneratedQuery<InputType, OutputType> = string & {
 export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!) {
   getSessionRequest(id: $id) {
     id
-    sessionID
     proposedCost
     mentorNote
     menteeNote
@@ -38,7 +37,6 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
   listSessionRequests(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
-      sessionID
       proposedCost
       mentorNote
       menteeNote
@@ -60,44 +58,6 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
   APITypes.ListSessionRequestsQueryVariables,
   APITypes.ListSessionRequestsQuery
 >;
-export const sessionRequestsBySessionID = /* GraphQL */ `query SessionRequestsBySessionID(
-  $sessionID: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelSessionRequestFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  sessionRequestsBySessionID(
-    sessionID: $sessionID
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      sessionID
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.SessionRequestsBySessionIDQueryVariables,
-  APITypes.SessionRequestsBySessionIDQuery
->;
 export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByMentorID(
   $mentorID: ID!
   $sortDirection: ModelSortDirection
@@ -114,7 +74,6 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
   ) {
     items {
       id
-      sessionID
       proposedCost
       mentorNote
       menteeNote
@@ -152,7 +111,6 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
   ) {
     items {
       id
-      sessionID
       proposedCost
       mentorNote
       menteeNote
@@ -310,13 +268,25 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     sessionDate
     menteeID
     mentorID
-    SessionRequests {
-      nextToken
+    cost
+    SessionRequest {
+      id
+      proposedCost
+      mentorNote
+      menteeNote
+      duration
+      proposedSessionTime
+      mentorID
+      menteeID
+      status
+      initiatedBy
+      createdAt
+      updatedAt
       __typename
     }
-    cost
     createdAt
     updatedAt
+    sessionSessionRequestId
     __typename
   }
 }
@@ -340,6 +310,7 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       cost
       createdAt
       updatedAt
+      sessionSessionRequestId
       __typename
     }
     nextToken
@@ -374,6 +345,7 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       cost
       createdAt
       updatedAt
+      sessionSessionRequestId
       __typename
     }
     nextToken
@@ -408,6 +380,7 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       cost
       createdAt
       updatedAt
+      sessionSessionRequestId
       __typename
     }
     nextToken

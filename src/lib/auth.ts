@@ -7,11 +7,13 @@ import {
   getCurrentUser,
   autoSignIn,
 } from "aws-amplify/auth";
+import { UserRole } from "types";
 
 export interface SignUpParams {
   username: string;
   password: string;
   email: string;
+  role: UserRole;
 }
 
 export interface SignInParams {
@@ -24,8 +26,10 @@ export const handleSignUp = async ({
   username,
   password,
   email,
+  role,
 }: SignUpParams) => {
   try {
+    console.log("sign up", username, password, email, role);
     const { isSignUpComplete, userId, nextStep } = await signUp({
       username,
       password,
@@ -33,6 +37,7 @@ export const handleSignUp = async ({
         autoSignIn: true,
         userAttributes: {
           email,
+          "custom:role": role,
         },
       },
     });
