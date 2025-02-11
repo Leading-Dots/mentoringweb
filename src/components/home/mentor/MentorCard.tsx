@@ -42,11 +42,16 @@ export const MentorCard = ({ mentor }: MentorCardProps) => {
           </div>
         </div>
         <div className="flex justify-between gap-2 mb-4">
-          {mentor.expertise?.slice(0, 4).map((skill) => (
+            {mentor.expertise?.slice(0, 2).map((skill) => (
             <Badge key={skill} variant="secondary">
               {skill}
             </Badge>
-          ))}
+            ))}
+            {mentor.expertise && mentor.expertise.length > 2 && (
+            <Badge variant="secondary">
+              +{mentor.expertise.length - 2} more
+            </Badge>
+            )}
         </div>
         <div className="flex items-center justify-evenly gap-2 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">

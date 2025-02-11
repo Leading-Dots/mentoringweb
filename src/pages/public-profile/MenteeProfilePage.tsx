@@ -10,6 +10,7 @@ import { getInitials } from "@/lib/utils";
 import { Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
+import { PublicProfileLoader } from "./PublicProfileLoader";
 
 const MenteeProfilePage = () => {
   const params = useParams();
@@ -47,9 +48,7 @@ const MenteeProfilePage = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
-      </div>
+      <PublicProfileLoader />
     );
   }
 
@@ -113,7 +112,9 @@ const MenteeProfilePage = () => {
 
       {/* Expertise Section */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Areas of Expertise</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          Wants to learn
+        </h2>
         <div className="flex flex-wrap gap-2">
           {(mentee.goals ?? []).map((skill, index) => (
             <Badge

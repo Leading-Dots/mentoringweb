@@ -44,11 +44,18 @@ export const MenteeCard = ({ mentee }: MenteeCardProps) => {
           </div>
         </div>
         <div className="flex justify-between gap-2 mb-4">
-          {mentee.goals?.slice(0, 4).map((skill) => (
-            <Badge key={skill} variant="secondary">
+            <>
+            {mentee.goals?.slice(0, 2).map((skill) => (
+              <Badge key={skill} variant="secondary">
               {skill}
-            </Badge>
-          ))}
+              </Badge>
+            ))}
+            {mentee.goals && mentee.goals.length > 2 && (
+              <Badge variant="secondary">
+              +{mentee.goals.length - 2} more
+              </Badge>
+            )}
+            </>
         </div>
         <div className="flex items-center justify-evenly gap-2 text-sm text-muted-foreground">
           

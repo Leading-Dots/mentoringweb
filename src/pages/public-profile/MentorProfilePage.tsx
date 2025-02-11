@@ -10,6 +10,7 @@ import { getInitials } from "@/lib/utils";
 import { Briefcase, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
+import { PublicProfileLoader } from "./PublicProfileLoader";
 
 const MentorProfilePage = () => {
   const params = useParams();
@@ -30,20 +31,18 @@ const MentorProfilePage = () => {
         throw new Error("Mentor not found");
       }
       setMentor(data as Mentor);
-      setLoading(false);
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Failed to load profile"
       );
+    } finally {
       setLoading(false);
     }
   };
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
-      </div>
+      <PublicProfileLoader />
     );
   }
 

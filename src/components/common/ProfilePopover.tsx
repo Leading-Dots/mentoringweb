@@ -7,14 +7,15 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { UserCircle, SwitchCamera, ChevronDown } from "lucide-react";
+import { UserCircle, SwitchCamera } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
+import { getInitials } from "@/lib/utils";
 
 export function ProfilePopover() {
   const router = useNavigate();
-  const { switchUserRole } = useAuth();
+  const { switchUserRole, user } = useAuth();
   const [open, setOpen] = useState(false);
 
   const handleProfileClick = () => {
@@ -33,7 +34,9 @@ export function ProfilePopover() {
         <Button variant="ghost" className="flex items-center gap-2">
           <Avatar className="h-8 w-8">
             <AvatarImage src="/placeholder-avatar.jpg" />
-            <AvatarFallback>U</AvatarFallback>
+            <AvatarFallback>
+              {getInitials(user?.firstName, user?.lastName)}
+            </AvatarFallback>
           </Avatar>
         </Button>
       </PopoverTrigger>
