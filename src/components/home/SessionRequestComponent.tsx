@@ -1,4 +1,4 @@
-import { SessionRequest } from "@/API";
+import { SessionRequest, SessionRequestStatus, Status } from "@/API";
 import {
   sessionRequestsByMenteeID,
   sessionRequestsByMentorID,
@@ -13,6 +13,7 @@ import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
 import SessionRequestDetailsModal from "./modal/SessionRequestDetailsModal";
 import { Button } from "../ui/button";
+import { set } from "date-fns";
 
 const SessionRequestComponent = () => {
   const { user } = useAuth();
@@ -34,7 +35,14 @@ const SessionRequestComponent = () => {
         });
 
         if (data) {
-          setSessionRequests(data.sessionRequestsByMentorID.items);
+          //show only pending requests
+
+          const pendingRequests = data.sessionRequestsByMentorID.items.filter(
+            (request: SessionRequest) =>
+              request.status === SessionRequestStatus.SENT
+          );
+
+          setSessionRequests(pendingRequests);
         }
       } else {
         console.log(user?.menteeId, "mentee");
@@ -46,7 +54,13 @@ const SessionRequestComponent = () => {
         });
 
         if (data) {
-          setSessionRequests(data.sessionRequestsByMenteeID.items);
+          //show only pending requests
+
+          const pendingRequests = data.sessionRequestsByMenteeID.items.filter(
+            (request: SessionRequest) =>
+              request.status === SessionRequestStatus.SENT
+          );
+          setSessionRequests(pendingRequests);
         }
       }
     } catch (error) {
@@ -116,7 +130,7 @@ const SessionRequestComponent = () => {
 
               <CardFooter className="p-0 pt-4">
                 <SessionRequestDetailsModal sessionRequest={request}>
-                    <Button variant="outline">View Details</Button>
+                  <Button variant="outline">View Details</Button>
                 </SessionRequestDetailsModal>
               </CardFooter>
             </Card>

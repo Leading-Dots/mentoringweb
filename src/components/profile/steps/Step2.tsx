@@ -1,29 +1,42 @@
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useFormContext } from "react-hook-form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useFormContext } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { MultiSelect } from "@/components/common/MultiSelect";
 
 interface StepTwoProps {
-  role: "mentor" | "mentee"
+  role: "mentor" | "mentee";
 }
 
 export function StepTwo({ role }: StepTwoProps) {
-  const form = useFormContext()
+  const form = useFormContext();
 
   const expertiseOptions = [
-    "Frontend Development",
-    "Backend Development",
-    "Full Stack Development",
-    "DevOps",
-    "UI/UX Design",
-  ]
+    { label: "Frontend Development", value: "Frontend Development" },
+    { label: "Backend Development", value: "Backend Development" },
+    { label: "Full Stack Development", value: "Full Stack Development" },
+    { label: "DevOps", value: "DevOps" },
+    { label: "UI/UX Design", value: "UI/UX Design" },
+  ];
 
   const goalOptions = [
-    "Learn Frontend",
-    "Learn Backend",
-    "Career Switch",
-    "Skill Enhancement",
-    "Project Building",
+    { label: "Learn a new technology", value: "Learn a new technology" },
+    { label: "Improve my coding skills", value: "Improve my coding skills" },
+    { label: "Prepare for interviews", value: "Prepare for interviews" },
+    { label: "Build a portfolio", value: "Build a portfolio" },
+
   ]
 
   if (role === "mentor") {
@@ -35,23 +48,11 @@ export function StepTwo({ role }: StepTwoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Expertise</FormLabel>
-              <Select
-                onValueChange={(value) => field.onChange([value])}
-                defaultValue={field.value?.[0]}
-              >
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select your expertise" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {expertiseOptions.map((option) => (
-                    <SelectItem key={option} value={option}>
-                      {option}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <MultiSelect
+                options={expertiseOptions}
+                onValueChange={(value) => field.onChange(value)}
+                defaultValue={field.value}
+              />
               <FormMessage />
             </FormItem>
           )}
@@ -64,10 +65,10 @@ export function StepTwo({ role }: StepTwoProps) {
             <FormItem>
               <FormLabel>Years of Experience</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
-                  type="number" 
-                  onChange={e => field.onChange(parseInt(e.target.value))}
+                <Input
+                  {...field}
+                  type="number"
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>
               <FormMessage />
@@ -82,10 +83,10 @@ export function StepTwo({ role }: StepTwoProps) {
             <FormItem>
               <FormLabel>Hourly Rate ($)</FormLabel>
               <FormControl>
-                <Input 
-                  {...field} 
+                <Input
+                  {...field}
                   type="number"
-                  onChange={e => field.onChange(parseInt(e.target.value))}
+                  onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>
               <FormMessage />
@@ -93,7 +94,7 @@ export function StepTwo({ role }: StepTwoProps) {
           )}
         />
       </div>
-    )
+    );
   }
 
   return (
@@ -104,23 +105,11 @@ export function StepTwo({ role }: StepTwoProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Learning Goals</FormLabel>
-            <Select
-              onValueChange={(value) => field.onChange([value])}
-              defaultValue={field.value?.[0]}
-            >
-              <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select your goals" />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {goalOptions.map((option) => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <MultiSelect
+              options={goalOptions}
+              onValueChange={(value) => field.onChange(value)}
+              defaultValue={field.value || []}
+            />
             <FormMessage />
           </FormItem>
         )}
@@ -133,10 +122,10 @@ export function StepTwo({ role }: StepTwoProps) {
           <FormItem>
             <FormLabel>Preferred Mentor Experience (years)</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
+              <Input
+                {...field}
                 type="number"
-                onChange={e => field.onChange(parseInt(e.target.value))}
+                onChange={(e) => field.onChange(parseInt(e.target.value))}
               />
             </FormControl>
             <FormMessage />
@@ -144,5 +133,5 @@ export function StepTwo({ role }: StepTwoProps) {
         )}
       />
     </div>
-  )
+  );
 }
