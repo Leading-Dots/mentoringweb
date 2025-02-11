@@ -29,6 +29,7 @@ import {
 import { useAuth } from "@/hooks/useAuth";
 import { UserRole } from "types";
 import { Link } from "react-router-dom";
+import { RoleSelect } from "@/components/common/RoleSelect";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -122,14 +123,10 @@ export default function LoginPage() {
                         defaultValue={field.value}
                       >
                         <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
-                          </SelectTrigger>
+                          <RoleSelect
+                            onRoleChange={(role) => field.onChange(role)}
+                          />
                         </FormControl>
-                        <SelectContent>
-                          <SelectItem value="mentee">Mentee</SelectItem>
-                          <SelectItem value="mentor">Mentor</SelectItem>
-                        </SelectContent>
                       </Select>
                       <FormMessage />
                     </FormItem>

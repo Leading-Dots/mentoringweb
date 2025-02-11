@@ -32,6 +32,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { showToast } from "@/lib/toast";
+import { RoleSelect } from "@/components/common/RoleSelect";
 
 const signUpSchema = z
   .object({
@@ -154,20 +155,9 @@ export default function SignUpPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Role</FormLabel>
-                      <Select
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select a role" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="mentee">Mentee</SelectItem>
-                          <SelectItem value="mentor">Mentor</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <RoleSelect
+                        onRoleChange={(role) => field.onChange(role)}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
