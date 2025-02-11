@@ -23,6 +23,7 @@ export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessio
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -47,6 +48,7 @@ export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessio
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -71,6 +73,7 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -175,6 +178,7 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -195,6 +199,7 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -215,6 +220,7 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename

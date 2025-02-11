@@ -24,6 +24,7 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -49,6 +50,7 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -74,6 +76,7 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -193,6 +196,7 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -216,6 +220,7 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -239,6 +244,7 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename

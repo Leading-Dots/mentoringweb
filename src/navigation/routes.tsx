@@ -11,6 +11,8 @@ import CreateSessionRequestPage from "@/pages/root/CreateSessionRequestPage";
 import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
 import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
 import SearchPage from "@/pages/root/SearchPage";
+import SessionsPage from "@/pages/root/SessionsPage";
+import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 
 const routes = [
   {
@@ -89,6 +91,23 @@ const routes = [
       </DashboardLayout>
     ),
   },
+  {
+    path: "/sessions",
+    element: (
+      <DashboardLayout>
+        <SessionsPage />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path : "/sessions/:id",
+    element : (
+      <DashboardLayout>
+        <SessionDetailsPage />
+      </DashboardLayout>
+    )
+  }
+
 ];
 
 const router = createBrowserRouter(routes);

@@ -16,6 +16,7 @@ type SessionRequest @model @auth(rules: [{allow: public}]) {
   status: SessionRequestStatus
   initiatedBy: String
   sessionID: String
+  sessionTitle: String
 }
 
 enum ProfileStatus {
@@ -51,6 +52,7 @@ type Session @model @auth(rules: [{allow: public}]) {
   cost: String
   meetingLink: String
   sessionRequestID: String!
+  sessionTitle: String
 }
 
 type Mentor @model @auth(rules: [{allow: public}]) {

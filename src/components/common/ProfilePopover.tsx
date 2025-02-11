@@ -35,7 +35,7 @@ export function ProfilePopover() {
           <Avatar className="h-8 w-8">
             <AvatarImage src="/placeholder-avatar.jpg" />
             <AvatarFallback>
-              {getInitials(user?.firstName, user?.lastName)}
+              {getInitials(user?.firstName, user?.lastName) || "U"}  
             </AvatarFallback>
           </Avatar>
         </Button>

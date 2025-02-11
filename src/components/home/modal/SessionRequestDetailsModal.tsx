@@ -54,10 +54,11 @@ const SessionRequestDetailsModal = ({
       if (data) {
         // create a new session
 
-        const { data } = await client.graphql({
+        const { data, errors } = await client.graphql({
           query: createSession,
           variables: {
             input: {
+              sessionTitle: sessionRequest.sessionTitle,
               mentorID: sessionRequest.mentorID,
               menteeID: sessionRequest.menteeID,
               sessionRequestID: sessionRequest.id,
@@ -70,6 +71,7 @@ const SessionRequestDetailsModal = ({
         });
 
         if (data) {
+          console.log(errors);
           showToast(
             "Session created successfully",
             "success",
@@ -138,7 +140,7 @@ const SessionRequestDetailsModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent className="">
+      <DialogContent>
         {loading ? (
           <DialogLoader />
         ) : (
@@ -233,8 +235,9 @@ const SessionRequestDetailsModal = ({
               </Button>
 
               <Button
-                className="w-full"
-                variant="destructive"
+                className="w-full text-destructive"
+                variant="outline"
+
                 onClick={() => onReject(sessionRequest)}
               >
                 Reject

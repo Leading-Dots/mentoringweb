@@ -18,6 +18,7 @@ import { DateTimePicker } from "../common/DatePicker";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
+    title: z.string().min(1, "Title is required"),
     proposedCost: z.string().min(1, "Proposed cost is required"),
     note: z
       .string()
@@ -43,6 +44,7 @@ export function SessionRequestForm({
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema(isMentor)),
     defaultValues: {
+      title: "",
       proposedCost: "",
       note: "",
       duration: 60,
@@ -68,8 +70,21 @@ export function SessionRequestForm({
       >
         <FormField
           control={form.control}
+          name="title"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="proposedCost"
-          
           render={({ field }) => (
             <FormItem>
               <FormLabel>Proposed Cost ($)</FormLabel>

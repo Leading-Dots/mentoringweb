@@ -21,6 +21,7 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
     status
     initiatedBy
     sessionID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -48,6 +49,7 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
       status
       initiatedBy
       sessionID
+      sessionTitle
       createdAt
       updatedAt
       __typename
@@ -86,6 +88,7 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
       status
       initiatedBy
       sessionID
+      sessionTitle
       createdAt
       updatedAt
       __typename
@@ -124,6 +127,7 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
       status
       initiatedBy
       sessionID
+      sessionTitle
       createdAt
       updatedAt
       __typename
@@ -275,6 +279,7 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     cost
     meetingLink
     sessionRequestID
+    sessionTitle
     createdAt
     updatedAt
     __typename
@@ -300,6 +305,7 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       cost
       meetingLink
       sessionRequestID
+      sessionTitle
       createdAt
       updatedAt
       __typename
@@ -336,6 +342,7 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       cost
       meetingLink
       sessionRequestID
+      sessionTitle
       createdAt
       updatedAt
       __typename
@@ -372,6 +379,7 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       cost
       meetingLink
       sessionRequestID
+      sessionTitle
       createdAt
       updatedAt
       __typename

@@ -43,13 +43,16 @@ export function CreateSessionRequestModal({
         // Send session request to mentee
 
         const requestData = {
+          sessionTitle : data.title,
           mentorID: user?.mentorId,
           menteeID: otherUserId,
           status: SessionRequestStatus.SENT,
           mentorNote: data.mentorNote,
+          menteeNote: "No Note",
           duration: data.duration,
           proposedSessionTime: data.proposedSessionTime,
           proposedCost: data.proposedCost,
+          sessionID: "nosession",
           initiatedBy: "mentor", //TODO: Check if this is correct
         };
 
@@ -63,25 +66,26 @@ export function CreateSessionRequestModal({
 
         showToast("Session request sent successfully", "success");
         return response;
-
       } else {
         // Send session request to mentor
         const response = await client.graphql({
           query: createSessionRequest,
           variables: {
             input: {
+              sessionTitle: data.title,
               mentorID: otherUserId,
               menteeID: user?.menteeId,
               status: SessionRequestStatus.SENT,
               menteeNote: data.menteeNote,
+              mentorNote: "No Note",
               duration: data.duration,
               proposedSessionTime: data.proposedSessionTime,
               proposedCost: data.proposedCost,
+              sessionID: "nosession",
               initiatedBy: "mentee", //TODO: Check if this is correct
             },
           },
         });
-
 
         showToast("Session request sent successfully", "success");
         return response;
