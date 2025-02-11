@@ -20,6 +20,7 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -46,6 +47,7 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
       menteeID
       status
       initiatedBy
+      sessionID
       createdAt
       updatedAt
       __typename
@@ -83,6 +85,7 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
       menteeID
       status
       initiatedBy
+      sessionID
       createdAt
       updatedAt
       __typename
@@ -120,6 +123,7 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
       menteeID
       status
       initiatedBy
+      sessionID
       createdAt
       updatedAt
       __typename
@@ -269,24 +273,10 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
@@ -308,9 +298,10 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       menteeID
       mentorID
       cost
+      meetingLink
+      sessionRequestID
       createdAt
       updatedAt
-      sessionSessionRequestId
       __typename
     }
     nextToken
@@ -343,9 +334,10 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       menteeID
       mentorID
       cost
+      meetingLink
+      sessionRequestID
       createdAt
       updatedAt
-      sessionSessionRequestId
       __typename
     }
     nextToken
@@ -378,9 +370,10 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       menteeID
       mentorID
       cost
+      meetingLink
+      sessionRequestID
       createdAt
       updatedAt
-      sessionSessionRequestId
       __typename
     }
     nextToken

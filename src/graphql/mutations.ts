@@ -23,6 +23,7 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -47,6 +48,7 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -71,6 +73,7 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -188,24 +191,10 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
@@ -225,24 +214,10 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
@@ -262,24 +237,10 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }

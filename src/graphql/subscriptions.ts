@@ -22,6 +22,7 @@ export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessio
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -45,6 +46,7 @@ export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessio
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -68,6 +70,7 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
     menteeID
     status
     initiatedBy
+    sessionID
     createdAt
     updatedAt
     __typename
@@ -170,24 +173,10 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
@@ -204,24 +193,10 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
@@ -238,24 +213,10 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
     menteeID
     mentorID
     cost
-    SessionRequest {
-      id
-      proposedCost
-      mentorNote
-      menteeNote
-      duration
-      proposedSessionTime
-      mentorID
-      menteeID
-      status
-      initiatedBy
-      createdAt
-      updatedAt
-      __typename
-    }
+    meetingLink
+    sessionRequestID
     createdAt
     updatedAt
-    sessionSessionRequestId
     __typename
   }
 }
