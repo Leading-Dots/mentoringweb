@@ -1,0 +1,92 @@
+enum SessionRequestStatus {
+  SENT
+  ACCEPTED
+  REJECTED
+}
+
+type SessionRequest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  proposedCost: String
+  mentorNote: String
+  menteeNote: String
+  duration: Int
+  proposedSessionTime: AWSDateTime
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  status: SessionRequestStatus
+  initiatedBy: String
+  sessionID: String
+  sessionTitle: String
+}
+
+enum ProfileStatus {
+  PENDING
+  PUBLISHED
+  REJECTED
+}
+
+enum Status {
+  SCHEDULED
+  RESCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+type Messages @model @auth(rules: [{allow: public}]) {
+  id: ID!
+}
+
+type Notification @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  mentorID: ID @index(name: "byMentor")
+  menteeID: ID @index(name: "byMentee")
+}
+
+type Session @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  duration: Int
+  status: Status
+  sessionDate: AWSDateTime
+  menteeID: ID! @index(name: "byMentee")
+  mentorID: ID! @index(name: "byMentor")
+  cost: String
+  meetingLink: String
+  sessionRequestID: String!
+  sessionTitle: String
+}
+
+type Mentor @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  bio: String
+  profilePictureUrl: String
+  firebaseToken: String
+  expertise: [String]
+  yearsOfExperience: Int
+  hourlyRate: Float
+  Sessions: [Session] @hasMany(indexName: "byMentor", fields: ["id"])
+  Notifications: [Notification] @hasMany(indexName: "byMentor", fields: ["id"])
+  profileStatus: ProfileStatus
+  mentorId: String
+  SessionRequests: [SessionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
+}
+
+type Mentee @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  firstName: String
+  lastName: String
+  email: String
+  bio: String
+  profilePictureUrl: String
+  firebaseToken: String
+  goals: [String]
+  preferredMentorExperience: Int
+  Sessions: [Session] @hasMany(indexName: "byMentee", fields: ["id"])
+  Notifications: [Notification] @hasMany(indexName: "byMentee", fields: ["id"])
+  profileStatus: ProfileStatus
+  menteeId: String
+  SessionRequests: [SessionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
+}
+ 
