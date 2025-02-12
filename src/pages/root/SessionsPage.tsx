@@ -60,7 +60,7 @@ const SessionsPage = () => {
     fetchSessions(user.role);
   }, [user.role]);
   return (
-    <div className="flex flex-col mx-auto py-10 px-4 max-w-4xl">
+    <div className="flex flex-col p-3 max-w-3xl">
       {loading ? (
         <div className="text-center">Loading...</div>
       ) : (

@@ -117,16 +117,18 @@ const SessionRequestComponent = () => {
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
-                <p className="text-sm text-muted-foreground">
+                <CardContent className="p-0">
+                <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-none">
                   {request.initiatedBy === "mentor"
-                    ? request.mentorNote
-                    : request.menteeNote}
+                  ? request.mentorNote
+                  : request.menteeNote}
                 </p>
-                <div className="flex gap-2 mt-4">
-                  <Badge variant="secondary">Status: {request.status}</Badge>
+                <div className="flex flex-wrap gap-2 mt-4">
+                  <Badge variant="secondary" className="text-xs md:text-sm">
+                  Status: {request.status}
+                  </Badge>
                 </div>
-              </CardContent>
+                </CardContent>
 
               <CardFooter className="p-0 pt-4">
                 <SessionRequestDetailsModal sessionRequest={request}>

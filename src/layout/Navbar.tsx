@@ -73,6 +73,11 @@ const Navbar = () => {
       icon: <User2  className="h-5 w-5"/>,
     },
     {
+      title: "Sessions",
+      url: "/sessions",
+      icon: <GaugeCircle className="h-5 w-5"/>,
+    },
+    {
       title: "Messages",
       url: "/messages",
       icon: <MessagesSquare className="h-5 w-5" />,

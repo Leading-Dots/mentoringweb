@@ -1,28 +1,70 @@
-import { Mentor } from "@/API";
+import { Mentor, Session } from "@/API";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getUser } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { getInitials } from "@/lib/utils";
-import { Briefcase, DollarSign } from "lucide-react";
+import { Briefcase, DollarSign, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
 import { PublicProfileLoader } from "./PublicProfileLoader";
+import { useAuth } from "@/hooks/useAuth";
+import { listSessions } from "@/graphql/queries";
+import client from "@/lib/apiClient";
 
 const MentorProfilePage = () => {
   const params = useParams();
   const [mentor, setMentor] = useState<Mentor>({} as Mentor);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (params.id) {
       fetchMentorProfile();
+      checkSession();
     }
   }, [params.id]);
+
+
+  const checkSession = async () => {
+    try {
+      const userId = user?.role === "mentee" ? user?.menteeId : user?.mentorId;
+      const { data } = await client.graphql({
+        query: listSessions,
+        variables: {
+          filter: {
+            and: [
+              {
+                menteeID: {
+                  eq: userId,
+                },
+              },
+              {
+                mentorID: {
+                  eq: params.id,
+                },
+              },
+            ],
+          },
+        },
+      });
+      if (data.listSessions?.items.length > 0) {
+        console.error(data.listSessions.items[0]);
+        setCurrentMeeting(data!.listSessions!.items[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const isCurrentUser =
+    user?.menteeId === params.id || user?.mentorId === params.id;
 
   const fetchMentorProfile = async () => {
     try {
@@ -41,9 +83,7 @@ const MentorProfilePage = () => {
   };
 
   if (loading) {
-    return (
-      <PublicProfileLoader />
-    );
+    return <PublicProfileLoader />;
   }
 
   if (error || !mentor) {
@@ -72,6 +112,15 @@ const MentorProfilePage = () => {
           <p className="text-gray-600 mt-2 text-base leading-relaxed max-w-2xl">
             {mentor.bio}
           </p>
+        </div>
+        <div className="flex items-center gap-4">
+          <Link
+            to={`/chat/${mentor.mentorId}`}
+            className="flex items-center gap-1 text-primary"
+          >
+            <MessageCircle className="w-5 h-5" />
+            <span>{mentor.email}</span>
+          </Link>
         </div>
       </div>
 
@@ -125,14 +174,26 @@ const MentorProfilePage = () => {
         </div>
       </section>
       <section className="flex justify-center my-12">
-        <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
-          <Button
-            size="lg"
-            className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
-          >
-            Book a Session
-          </Button>
-        </CreateSessionRequestModal>
+        {currentMeeting ? (
+          <Link to={`/sessions/${currentMeeting.id}`} className="w-full">
+            <Button
+              size="lg"
+              className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
+            >
+              View Current Session
+            </Button>
+          </Link>
+        ) : (
+          <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
+            <Button
+              size="lg"
+              disabled={isCurrentUser}
+              className="flex items-center w-full font-semibold hover:scale-105 transition-transform"
+            >
+              Book a Session
+            </Button>
+          </CreateSessionRequestModal>
+        )}
       </section>
     </div>
   );
