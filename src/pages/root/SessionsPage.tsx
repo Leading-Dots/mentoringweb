@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { UserRole } from "types";
 
 import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { Calendar, Clock } from "lucide-react";
 
 import {
   Card,
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { formatTime } from "@/lib/utils";
 const SessionsPage = () => {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -64,38 +65,37 @@ const SessionsPage = () => {
       {loading ? (
         <div className="text-center">Loading...</div>
       ) : (
-        <div className="flex flex-col md:flex-row md:flex-wrap gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           {sessions.map((session) => (
-            <Card key={session.id} className="w-full md:w-1/2">
+            <Card key={session.id} className="w-full md:w-80 space-y-4">
               <CardHeader className="pb-2">
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-6 w-6 text-primary" />
+                <div className="flex items-center justify-between">
+                  <Calendar className="h-5 w-5 text-primary" />
+                  <Badge variant="outline" className="capitalize">
+                    {session.status}
+                  </Badge>
                 </div>
-                <CardTitle className="text-base">
+                <CardTitle className="text-lg">
                   {session.sessionTitle}
                 </CardTitle>
               </CardHeader>
               <CardContent className="pb-2">
-                <div className="flex flex-col gap-2">
-                  <div className="flex items-center gap-2">
-                    <Badge variant="outline" className="capitalize">
-                      {session.status}
-                    </Badge>
+                <div className="flex flex-col gap-2 text-sm">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                    {new Date(session.sessionDate!!).toLocaleDateString()}
                   </div>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                      {new Date(session.sessionDate!!).toLocaleDateString()}
-                    </div>
-
-                    <div className="flex items-center gap-1.5">
-                      <Badge variant={"default"}>${session.cost}</Badge>
-                    </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                    {formatTime(new Date(session.sessionDate!!))}
                   </div>
+                  <Badge variant="default" className="w-fit">
+                    ${session.cost}
+                  </Badge>
                 </div>
               </CardContent>
-              <CardFooter className="pt-2">
-                <Link to={`/sessions/${session.id}`}>
+              <CardFooter className="pt-0">
+                <Link to={`/sessions/${session.id}`} className="w-full">
                   <Button variant="outline" size="sm" className="w-full">
                     View Details
                   </Button>

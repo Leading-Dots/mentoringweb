@@ -76,7 +76,7 @@ export function DateTimePicker({ date, onChange }: DateTimePickerProps) {
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
             {date ? (
-              format(date, "MM/dd/yyyy hh:mm aa")
+              format(date, "dd/MM/yyyy hh:mm aa")
             ) : (
               <span>MM/DD/YYYY hh:mm aa</span>
             )}

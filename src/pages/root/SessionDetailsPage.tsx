@@ -12,6 +12,7 @@ import { Link, Navigate, useParams } from "react-router-dom";
 import { SessionDetailsSkeleton } from "@/components/session/SessionDetailsLoader";
 import RescheduleSessionModal from "@/components/modal/RescheduleSessionModal";
 import AddMeetingLinkModal from "@/components/modal/AddMeetingLinkModal";
+import { formatTime } from "@/lib/utils";
 const SessionDetailsPage = () => {
   const params = useParams();
   const { user } = useAuth();
@@ -99,7 +100,7 @@ const SessionDetailsPage = () => {
         {/* Participants Card */}
         <Card className="w-full sm:w-80 shadow-md">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg sm:text-xl">
+            <CardTitle className="text-md font-semibold sm:text-lg">
               Session Participants
             </CardTitle>
           </CardHeader>
@@ -116,19 +117,19 @@ const SessionDetailsPage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-sm sm:text-md text-muted-foreground">
-                <Calendar className="size-5 sm:size-6 text-blue-500" />
-                Date
+              <CardTitle className="flex items-center gap-2 text-md text-muted-foreground">
+                <Calendar className=" sm:size-6 text-blue-500" />
+                Date & Time
               </CardTitle>
             </CardHeader>
             <CardContent className="text-base sm:text-lg font-medium">
-              {new Date(session?.sessionDate || "").toLocaleDateString()}
+              {new Date(session?.sessionDate || "").toLocaleDateString()} @ {formatTime(new Date(session?.sessionDate || ""))}
             </CardContent>
           </Card>
 
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-sm sm:text-md text-muted-foreground">
+              <CardTitle className="flex items-center gap-2 text-md text-muted-foreground">
                 <Clock className="size-5 sm:size-6 text-green-500" />
                 Duration
               </CardTitle>
@@ -140,7 +141,7 @@ const SessionDetailsPage = () => {
 
           <Card className="hover:shadow-lg transition-shadow">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-sm sm:text-md text-muted-foreground">
+              <CardTitle className="flex items-center gap-2 text-md sm:text-md text-muted-foreground">
                 <DollarSign className="size-5 sm:size-6 text-purple-500" />
                 Cost
               </CardTitle>

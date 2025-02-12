@@ -40,3 +40,11 @@ export const getInitials = (firstName?: string | null, lastName?: string | null)
   if (!firstName && !lastName) return "U";
   return `${firstName?.[0] || ""}${lastName?.[0] || ""}`;
 };
+
+export const formatTime = (date: Date) => {
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  });
+}

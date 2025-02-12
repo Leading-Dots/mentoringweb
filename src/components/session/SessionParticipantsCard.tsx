@@ -17,7 +17,7 @@ const SessionParticipantsCard = ({
       {mentor && (
         <Link to={`/mentor/${mentor.mentorId}`}>
           <div className="flex items-center gap-2">
-            <Avatar className="size-9 cursor-pointer hover:opacity-80">
+            <Avatar className="size-10 cursor-pointer hover:opacity-80">
               <AvatarImage
                 src={mentor?.profilePictureUrl!!}
                 alt={mentor?.firstName!!}
@@ -35,7 +35,7 @@ const SessionParticipantsCard = ({
       {mentee && (
         <Link to={`/mentee/${mentee.menteeId}`}>
           <div className="flex items-center gap-2">
-            <Avatar className="size-9 cursor-pointer hover:opacity-80">
+            <Avatar className="size-10 cursor-pointer hover:opacity-80">
               <AvatarImage
                 src={mentee?.profilePictureUrl!!}
                 alt={mentee?.firstName!!}
