@@ -32,7 +32,7 @@ export function ProfilePopover() {
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2">
-          <Avatar className="h-8 w-8">
+          <Avatar className="size-9">
             <AvatarImage src="/placeholder-avatar.jpg" />
             <AvatarFallback>
               {getInitials(user?.firstName, user?.lastName) || "U"}  

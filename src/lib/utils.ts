@@ -37,5 +37,6 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
 };
 
 export const getInitials = (firstName?: string | null, lastName?: string | null) => {
+  if (!firstName && !lastName) return "U";
   return `${firstName?.[0] || ""}${lastName?.[0] || ""}`;
 };
