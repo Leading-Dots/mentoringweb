@@ -99,7 +99,7 @@ const Navbar = () => {
             className={cn(
               "flex items-center  gap-3 rounded-lg p-2 text-sm transition-colors",
               isActive
-                ? "bg-primary/50 text-secondary-foreground"
+                ? "bg-muted text-secondary-foreground"
                 : "hover:bg-secondary/80"
             )}
             {...(item?.isExternal && {

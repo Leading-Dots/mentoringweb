@@ -70,7 +70,7 @@ const SessionsPage = () => {
             <Card key={session.id} className="w-full md:w-80 space-y-4">
               <CardHeader className="pb-2">
                 <div className="flex items-center justify-between">
-                  <Calendar className="h-5 w-5 text-primary" />
+                  <Calendar className="size-8 text-primary" />
                   <Badge variant="outline" className="capitalize">
                     {session.status}
                   </Badge>
