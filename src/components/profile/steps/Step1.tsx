@@ -46,6 +46,7 @@ export function StepOne() {
                 <ImageUpload
                   value={field.value}
                   onChange={(url) => {
+                    console.log("Image URL", url);
                     field.onChange(url);
                     setPreview(url);
                   }}

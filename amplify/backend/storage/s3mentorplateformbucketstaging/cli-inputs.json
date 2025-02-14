@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3mentorplateformbucketstaging",
+  "bucketName": "mentor-plateform-bucket-staging",
+  "policyUUID": "ddbed96c",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ]
+}

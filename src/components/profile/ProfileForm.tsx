@@ -45,6 +45,10 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
     try {
       console.log("data", data);
 
+
+      //uploadImage
+
+      
       if (role === "mentor") {
         const mentorData = data as MentorProfileFormValues;
         const response = await client.graphql({
@@ -59,6 +63,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
               expertise: mentorData.expertise,
               yearsOfExperience: mentorData.yearsOfExperience,
               hourlyRate: mentorData.hourlyRate,
+              profilePictureUrl: mentorData.profilePictureUrl || null,
               profileStatus: ProfileStatus.PUBLISHED,
             },
           },
@@ -84,6 +89,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
               email: menteeData.email,
               bio: menteeData.bio,
               goals: menteeData.goals,
+              profilePictureUrl: menteeData.profilePictureUrl || null,
               preferredMentorExperience: menteeData.preferredMentorExperience,
               profileStatus: ProfileStatus.PUBLISHED,
             },

@@ -8,6 +8,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
+import { uploadProfileImage } from "@/lib/storage";
+import { useAuth } from "@/hooks/useAuth";
 
 interface ImageUploadProps {
   value: string;
@@ -16,6 +18,7 @@ interface ImageUploadProps {
 
 export function ImageUpload({ value, onChange }: ImageUploadProps) {
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
 
   const onFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files?.[0]) return;
@@ -27,8 +30,14 @@ export function ImageUpload({ value, onChange }: ImageUploadProps) {
       // 1. Upload the file to your storage (e.g., S3, Cloudinary)
       // 2. Get back the URL
       // 3. Call onChange with the URL
-      const fakeUrl = URL.createObjectURL(file);
-      onChange(fakeUrl);
+
+      // const url = await uploadProfileImage(file, user.id);
+      // console.log("Image URL in ImageUpload Component", url);
+
+      //fake upload
+
+      const url = URL.createObjectURL(file);
+      onChange(url);
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
