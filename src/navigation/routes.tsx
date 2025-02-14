@@ -13,6 +13,7 @@ import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
 import SearchPage from "@/pages/root/SearchPage";
 import SessionsPage from "@/pages/root/SessionsPage";
 import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
+import InboxPage from "@/pages/root/InboxPage";
 
 const routes = [
   {
@@ -104,6 +105,14 @@ const routes = [
     element : (
       <DashboardLayout>
         <SessionDetailsPage />
+      </DashboardLayout>
+    )
+  },
+  {
+    path : "/inbox",
+    element : (
+      <DashboardLayout>
+        <InboxPage />
       </DashboardLayout>
     )
   }

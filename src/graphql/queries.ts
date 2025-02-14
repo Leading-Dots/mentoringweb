@@ -8,6 +8,110 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
+  getChatRoom(id: $id) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetChatRoomQueryVariables,
+  APITypes.GetChatRoomQuery
+>;
+export const listChatRooms = /* GraphQL */ `query ListChatRooms(
+  $filter: ModelChatRoomFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listChatRooms(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      mentorID
+      menteeID
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListChatRoomsQueryVariables,
+  APITypes.ListChatRoomsQuery
+>;
+export const chatRoomsByMentorID = /* GraphQL */ `query ChatRoomsByMentorID(
+  $mentorID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelChatRoomFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  chatRoomsByMentorID(
+    mentorID: $mentorID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ChatRoomsByMentorIDQueryVariables,
+  APITypes.ChatRoomsByMentorIDQuery
+>;
+export const chatRoomsByMenteeID = /* GraphQL */ `query ChatRoomsByMenteeID(
+  $menteeID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelChatRoomFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  chatRoomsByMenteeID(
+    menteeID: $menteeID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      name
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ChatRoomsByMenteeIDQueryVariables,
+  APITypes.ChatRoomsByMenteeIDQuery
+>;
 export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!) {
   getSessionRequest(id: $id) {
     id
@@ -143,6 +247,15 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
 export const getMessages = /* GraphQL */ `query GetMessages($id: ID!) {
   getMessages(id: $id) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -160,6 +273,15 @@ export const listMessages = /* GraphQL */ `query ListMessages(
   listMessages(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      content
+      username
+      userRole
+      chatroomID
+      senderId
+      recieverId
+      timestamp
+      senderUsername
+      recieverUsername
       createdAt
       updatedAt
       __typename
@@ -171,6 +293,43 @@ export const listMessages = /* GraphQL */ `query ListMessages(
 ` as GeneratedQuery<
   APITypes.ListMessagesQueryVariables,
   APITypes.ListMessagesQuery
+>;
+export const messagesByChatroomID = /* GraphQL */ `query MessagesByChatroomID(
+  $chatroomID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelMessagesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  messagesByChatroomID(
+    chatroomID: $chatroomID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      content
+      username
+      userRole
+      chatroomID
+      senderId
+      recieverId
+      timestamp
+      senderUsername
+      recieverUsername
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.MessagesByChatroomIDQueryVariables,
+  APITypes.MessagesByChatroomIDQuery
 >;
 export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
   getNotification(id: $id) {
@@ -418,6 +577,10 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -477,6 +640,10 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
     profileStatus
     menteeId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }

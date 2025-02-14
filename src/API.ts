@@ -2,6 +2,124 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type CreateChatRoomInput = {
+  id?: string | null,
+  mentorID: string,
+  menteeID: string,
+  name?: string | null,
+};
+
+export type ModelChatRoomConditionInput = {
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelChatRoomConditionInput | null > | null,
+  or?: Array< ModelChatRoomConditionInput | null > | null,
+  not?: ModelChatRoomConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelIDInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export enum ModelAttributeTypes {
+  binary = "binary",
+  binarySet = "binarySet",
+  bool = "bool",
+  list = "list",
+  map = "map",
+  number = "number",
+  numberSet = "numberSet",
+  string = "string",
+  stringSet = "stringSet",
+  _null = "_null",
+}
+
+
+export type ModelSizeInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+};
+
+export type ModelStringInput = {
+  ne?: string | null,
+  eq?: string | null,
+  le?: string | null,
+  lt?: string | null,
+  ge?: string | null,
+  gt?: string | null,
+  contains?: string | null,
+  notContains?: string | null,
+  between?: Array< string | null > | null,
+  beginsWith?: string | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+  size?: ModelSizeInput | null,
+};
+
+export type ChatRoom = {
+  __typename: "ChatRoom",
+  id: string,
+  mentorID: string,
+  menteeID: string,
+  Messages?: ModelMessagesConnection | null,
+  name?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelMessagesConnection = {
+  __typename: "ModelMessagesConnection",
+  items:  Array<Messages | null >,
+  nextToken?: string | null,
+};
+
+export type Messages = {
+  __typename: "Messages",
+  id: string,
+  content?: string | null,
+  username?: string | null,
+  userRole?: string | null,
+  chatroomID: string,
+  senderId: string,
+  recieverId: string,
+  timestamp?: string | null,
+  senderUsername?: string | null,
+  recieverUsername?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateChatRoomInput = {
+  id: string,
+  mentorID?: string | null,
+  menteeID?: string | null,
+  name?: string | null,
+};
+
+export type DeleteChatRoomInput = {
+  id: string,
+};
+
 export type CreateSessionRequestInput = {
   id?: string | null,
   proposedCost?: string | null,
@@ -43,46 +161,6 @@ export type ModelSessionRequestConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelStringInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
-};
-
-export enum ModelAttributeTypes {
-  binary = "binary",
-  binarySet = "binarySet",
-  bool = "bool",
-  list = "list",
-  map = "map",
-  number = "number",
-  numberSet = "numberSet",
-  string = "string",
-  stringSet = "stringSet",
-  _null = "_null",
-}
-
-
-export type ModelSizeInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-};
-
 export type ModelIntInput = {
   ne?: number | null,
   eq?: number | null,
@@ -93,22 +171,6 @@ export type ModelIntInput = {
   between?: Array< number | null > | null,
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelIDInput = {
-  ne?: string | null,
-  eq?: string | null,
-  le?: string | null,
-  lt?: string | null,
-  ge?: string | null,
-  gt?: string | null,
-  contains?: string | null,
-  notContains?: string | null,
-  between?: Array< string | null > | null,
-  beginsWith?: string | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-  size?: ModelSizeInput | null,
 };
 
 export type ModelSessionRequestStatusInput = {
@@ -155,9 +217,27 @@ export type DeleteSessionRequestInput = {
 
 export type CreateMessagesInput = {
   id?: string | null,
+  content?: string | null,
+  username?: string | null,
+  userRole?: string | null,
+  chatroomID: string,
+  senderId: string,
+  recieverId: string,
+  timestamp?: string | null,
+  senderUsername?: string | null,
+  recieverUsername?: string | null,
 };
 
 export type ModelMessagesConditionInput = {
+  content?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  userRole?: ModelStringInput | null,
+  chatroomID?: ModelIDInput | null,
+  senderId?: ModelStringInput | null,
+  recieverId?: ModelStringInput | null,
+  timestamp?: ModelStringInput | null,
+  senderUsername?: ModelStringInput | null,
+  recieverUsername?: ModelStringInput | null,
   and?: Array< ModelMessagesConditionInput | null > | null,
   or?: Array< ModelMessagesConditionInput | null > | null,
   not?: ModelMessagesConditionInput | null,
@@ -165,15 +245,17 @@ export type ModelMessagesConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type Messages = {
-  __typename: "Messages",
-  id: string,
-  createdAt: string,
-  updatedAt: string,
-};
-
 export type UpdateMessagesInput = {
   id: string,
+  content?: string | null,
+  username?: string | null,
+  userRole?: string | null,
+  chatroomID?: string | null,
+  senderId?: string | null,
+  recieverId?: string | null,
+  timestamp?: string | null,
+  senderUsername?: string | null,
+  recieverUsername?: string | null,
 };
 
 export type DeleteMessagesInput = {
@@ -366,6 +448,7 @@ export type Mentor = {
   profileStatus?: ProfileStatus | null,
   mentorId?: string | null,
   SessionRequests?: ModelSessionRequestConnection | null,
+  ChatRooms?: ModelChatRoomConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -385,6 +468,12 @@ export type ModelNotificationConnection = {
 export type ModelSessionRequestConnection = {
   __typename: "ModelSessionRequestConnection",
   items:  Array<SessionRequest | null >,
+  nextToken?: string | null,
+};
+
+export type ModelChatRoomConnection = {
+  __typename: "ModelChatRoomConnection",
+  items:  Array<ChatRoom | null >,
   nextToken?: string | null,
 };
 
@@ -455,6 +544,7 @@ export type Mentee = {
   profileStatus?: ProfileStatus | null,
   menteeId?: string | null,
   SessionRequests?: ModelSessionRequestConnection | null,
+  ChatRooms?: ModelChatRoomConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -477,6 +567,24 @@ export type DeleteMenteeInput = {
   id: string,
 };
 
+export type ModelChatRoomFilterInput = {
+  id?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelChatRoomFilterInput | null > | null,
+  or?: Array< ModelChatRoomFilterInput | null > | null,
+  not?: ModelChatRoomFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelSessionRequestFilterInput = {
   id?: ModelIDInput | null,
   proposedCost?: ModelStringInput | null,
@@ -497,25 +605,22 @@ export type ModelSessionRequestFilterInput = {
   not?: ModelSessionRequestFilterInput | null,
 };
 
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
-
 export type ModelMessagesFilterInput = {
   id?: ModelIDInput | null,
+  content?: ModelStringInput | null,
+  username?: ModelStringInput | null,
+  userRole?: ModelStringInput | null,
+  chatroomID?: ModelIDInput | null,
+  senderId?: ModelStringInput | null,
+  recieverId?: ModelStringInput | null,
+  timestamp?: ModelStringInput | null,
+  senderUsername?: ModelStringInput | null,
+  recieverUsername?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelMessagesFilterInput | null > | null,
   or?: Array< ModelMessagesFilterInput | null > | null,
   not?: ModelMessagesFilterInput | null,
-};
-
-export type ModelMessagesConnection = {
-  __typename: "ModelMessagesConnection",
-  items:  Array<Messages | null >,
-  nextToken?: string | null,
 };
 
 export type ModelNotificationFilterInput = {
@@ -598,23 +703,15 @@ export type ModelMenteeConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionSessionRequestFilterInput = {
+export type ModelSubscriptionChatRoomFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  proposedCost?: ModelSubscriptionStringInput | null,
-  mentorNote?: ModelSubscriptionStringInput | null,
-  menteeNote?: ModelSubscriptionStringInput | null,
-  duration?: ModelSubscriptionIntInput | null,
-  proposedSessionTime?: ModelSubscriptionStringInput | null,
   mentorID?: ModelSubscriptionIDInput | null,
   menteeID?: ModelSubscriptionIDInput | null,
-  status?: ModelSubscriptionStringInput | null,
-  initiatedBy?: ModelSubscriptionStringInput | null,
-  sessionID?: ModelSubscriptionStringInput | null,
-  sessionTitle?: ModelSubscriptionStringInput | null,
+  name?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionSessionRequestFilterInput | null > | null,
-  or?: Array< ModelSubscriptionSessionRequestFilterInput | null > | null,
+  and?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -647,6 +744,25 @@ export type ModelSubscriptionStringInput = {
   notIn?: Array< string | null > | null,
 };
 
+export type ModelSubscriptionSessionRequestFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  proposedCost?: ModelSubscriptionStringInput | null,
+  mentorNote?: ModelSubscriptionStringInput | null,
+  menteeNote?: ModelSubscriptionStringInput | null,
+  duration?: ModelSubscriptionIntInput | null,
+  proposedSessionTime?: ModelSubscriptionStringInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
+  status?: ModelSubscriptionStringInput | null,
+  initiatedBy?: ModelSubscriptionStringInput | null,
+  sessionID?: ModelSubscriptionStringInput | null,
+  sessionTitle?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionSessionRequestFilterInput | null > | null,
+  or?: Array< ModelSubscriptionSessionRequestFilterInput | null > | null,
+};
+
 export type ModelSubscriptionIntInput = {
   ne?: number | null,
   eq?: number | null,
@@ -661,6 +777,15 @@ export type ModelSubscriptionIntInput = {
 
 export type ModelSubscriptionMessagesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  content?: ModelSubscriptionStringInput | null,
+  username?: ModelSubscriptionStringInput | null,
+  userRole?: ModelSubscriptionStringInput | null,
+  chatroomID?: ModelSubscriptionIDInput | null,
+  senderId?: ModelSubscriptionStringInput | null,
+  recieverId?: ModelSubscriptionStringInput | null,
+  timestamp?: ModelSubscriptionStringInput | null,
+  senderUsername?: ModelSubscriptionStringInput | null,
+  recieverUsername?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMessagesFilterInput | null > | null,
@@ -741,6 +866,69 @@ export type ModelSubscriptionMenteeFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
   or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+};
+
+export type CreateChatRoomMutationVariables = {
+  input: CreateChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type CreateChatRoomMutation = {
+  createChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateChatRoomMutationVariables = {
+  input: UpdateChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type UpdateChatRoomMutation = {
+  updateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteChatRoomMutationVariables = {
+  input: DeleteChatRoomInput,
+  condition?: ModelChatRoomConditionInput | null,
+};
+
+export type DeleteChatRoomMutation = {
+  deleteChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateSessionRequestMutationVariables = {
@@ -827,6 +1015,15 @@ export type CreateMessagesMutation = {
   createMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -841,6 +1038,15 @@ export type UpdateMessagesMutation = {
   updateMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -855,6 +1061,15 @@ export type DeleteMessagesMutation = {
   deleteMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1009,6 +1224,10 @@ export type CreateMentorMutation = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1044,6 +1263,10 @@ export type UpdateMentorMutation = {
     mentorId?: string | null,
     SessionRequests?:  {
       __typename: "ModelSessionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1083,6 +1306,10 @@ export type DeleteMentorMutation = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1117,6 +1344,10 @@ export type CreateMenteeMutation = {
     menteeId?: string | null,
     SessionRequests?:  {
       __typename: "ModelSessionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1155,6 +1386,10 @@ export type UpdateMenteeMutation = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1191,8 +1426,102 @@ export type DeleteMenteeMutation = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetChatRoomQueryVariables = {
+  id: string,
+};
+
+export type GetChatRoomQuery = {
+  getChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListChatRoomsQueryVariables = {
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListChatRoomsQuery = {
+  listChatRooms?:  {
+    __typename: "ModelChatRoomConnection",
+    items:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      mentorID: string,
+      menteeID: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChatRoomsByMentorIDQueryVariables = {
+  mentorID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatRoomsByMentorIDQuery = {
+  chatRoomsByMentorID?:  {
+    __typename: "ModelChatRoomConnection",
+    items:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      mentorID: string,
+      menteeID: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ChatRoomsByMenteeIDQueryVariables = {
+  menteeID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelChatRoomFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ChatRoomsByMenteeIDQuery = {
+  chatRoomsByMenteeID?:  {
+    __typename: "ModelChatRoomConnection",
+    items:  Array< {
+      __typename: "ChatRoom",
+      id: string,
+      mentorID: string,
+      menteeID: string,
+      name?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -1322,6 +1651,15 @@ export type GetMessagesQuery = {
   getMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1339,6 +1677,45 @@ export type ListMessagesQuery = {
     items:  Array< {
       __typename: "Messages",
       id: string,
+      content?: string | null,
+      username?: string | null,
+      userRole?: string | null,
+      chatroomID: string,
+      senderId: string,
+      recieverId: string,
+      timestamp?: string | null,
+      senderUsername?: string | null,
+      recieverUsername?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type MessagesByChatroomIDQueryVariables = {
+  chatroomID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMessagesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MessagesByChatroomIDQuery = {
+  messagesByChatroomID?:  {
+    __typename: "ModelMessagesConnection",
+    items:  Array< {
+      __typename: "Messages",
+      id: string,
+      content?: string | null,
+      username?: string | null,
+      userRole?: string | null,
+      chatroomID: string,
+      senderId: string,
+      recieverId: string,
+      timestamp?: string | null,
+      senderUsername?: string | null,
+      recieverUsername?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -1569,6 +1946,10 @@ export type GetMentorQuery = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1634,6 +2015,10 @@ export type GetMenteeQuery = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1665,6 +2050,66 @@ export type ListMenteesQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnCreateChatRoomSubscription = {
+  onCreateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnUpdateChatRoomSubscription = {
+  onUpdateChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteChatRoomSubscriptionVariables = {
+  filter?: ModelSubscriptionChatRoomFilterInput | null,
+};
+
+export type OnDeleteChatRoomSubscription = {
+  onDeleteChatRoom?:  {
+    __typename: "ChatRoom",
+    id: string,
+    mentorID: string,
+    menteeID: string,
+    Messages?:  {
+      __typename: "ModelMessagesConnection",
+      nextToken?: string | null,
+    } | null,
+    name?: string | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -1748,6 +2193,15 @@ export type OnCreateMessagesSubscription = {
   onCreateMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1761,6 +2215,15 @@ export type OnUpdateMessagesSubscription = {
   onUpdateMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1774,6 +2237,15 @@ export type OnDeleteMessagesSubscription = {
   onDeleteMessages?:  {
     __typename: "Messages",
     id: string,
+    content?: string | null,
+    username?: string | null,
+    userRole?: string | null,
+    chatroomID: string,
+    senderId: string,
+    recieverId: string,
+    timestamp?: string | null,
+    senderUsername?: string | null,
+    recieverUsername?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1921,6 +2393,10 @@ export type OnCreateMentorSubscription = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1955,6 +2431,10 @@ export type OnUpdateMentorSubscription = {
     mentorId?: string | null,
     SessionRequests?:  {
       __typename: "ModelSessionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1993,6 +2473,10 @@ export type OnDeleteMentorSubscription = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2026,6 +2510,10 @@ export type OnCreateMenteeSubscription = {
     menteeId?: string | null,
     SessionRequests?:  {
       __typename: "ModelSessionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -2063,6 +2551,10 @@ export type OnUpdateMenteeSubscription = {
       __typename: "ModelSessionRequestConnection",
       nextToken?: string | null,
     } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2096,6 +2588,10 @@ export type OnDeleteMenteeSubscription = {
     menteeId?: string | null,
     SessionRequests?:  {
       __typename: "ModelSessionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    ChatRooms?:  {
+      __typename: "ModelChatRoomConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,

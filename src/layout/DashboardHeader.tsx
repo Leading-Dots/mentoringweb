@@ -30,7 +30,7 @@ const DashboardHeader = () => {
       <div className="flex flex-1 justify-end items-center">
       <RoleBadge role={user.role} />
         <ProfilePopover />
-        <Link to="/notifications">
+        <Link to="/inbox">
           <div className="flex items-center gap-2 cursor-pointer">
             <Inbox size={24} />
           </div>

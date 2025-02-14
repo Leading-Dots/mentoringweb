@@ -1,3 +1,11 @@
+type ChatRoom @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  Messages: [Messages] @hasMany(indexName: "byChatRoom", fields: ["id"])
+  name: String
+}
+
 enum SessionRequestStatus {
   SENT
   ACCEPTED
@@ -34,6 +42,15 @@ enum Status {
 
 type Messages @model @auth(rules: [{allow: public}]) {
   id: ID!
+  content: String
+  username: String
+  userRole: String
+  chatroomID: ID! @index(name: "byChatRoom")
+  senderId: String!
+  recieverId: String!
+  timestamp: AWSDateTime
+  senderUsername: String
+  recieverUsername: String
 }
 
 type Notification @model @auth(rules: [{allow: public}]) {
@@ -71,6 +88,7 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   profileStatus: ProfileStatus
   mentorId: String
   SessionRequests: [SessionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
+  ChatRooms: [ChatRoom] @hasMany(indexName: "byMentor", fields: ["id"])
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -88,5 +106,6 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   profileStatus: ProfileStatus
   menteeId: String
   SessionRequests: [SessionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
+  ChatRooms: [ChatRoom] @hasMany(indexName: "byMentee", fields: ["id"])
 }
  

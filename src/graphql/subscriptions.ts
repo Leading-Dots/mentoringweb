@@ -8,6 +8,63 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+  onCreateChatRoom(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateChatRoomSubscriptionVariables,
+  APITypes.OnCreateChatRoomSubscription
+>;
+export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+  onUpdateChatRoom(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateChatRoomSubscriptionVariables,
+  APITypes.OnUpdateChatRoomSubscription
+>;
+export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($filter: ModelSubscriptionChatRoomFilterInput) {
+  onDeleteChatRoom(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteChatRoomSubscriptionVariables,
+  APITypes.OnDeleteChatRoomSubscription
+>;
 export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessionRequest(
   $filter: ModelSubscriptionSessionRequestFilterInput
 ) {
@@ -86,6 +143,15 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
 export const onCreateMessages = /* GraphQL */ `subscription OnCreateMessages($filter: ModelSubscriptionMessagesFilterInput) {
   onCreateMessages(filter: $filter) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -98,6 +164,15 @@ export const onCreateMessages = /* GraphQL */ `subscription OnCreateMessages($fi
 export const onUpdateMessages = /* GraphQL */ `subscription OnUpdateMessages($filter: ModelSubscriptionMessagesFilterInput) {
   onUpdateMessages(filter: $filter) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -110,6 +185,15 @@ export const onUpdateMessages = /* GraphQL */ `subscription OnUpdateMessages($fi
 export const onDeleteMessages = /* GraphQL */ `subscription OnDeleteMessages($filter: ModelSubscriptionMessagesFilterInput) {
   onDeleteMessages(filter: $filter) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -256,6 +340,10 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -288,6 +376,10 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
     profileStatus
     mentorId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }
@@ -326,6 +418,10 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -357,6 +453,10 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
     profileStatus
     menteeId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }
@@ -394,6 +494,10 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -425,6 +529,10 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
     profileStatus
     menteeId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }

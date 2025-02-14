@@ -1,18 +1,20 @@
-import { Mentee, Mentor, Session } from "@/API";
-import SessionParticipantsCard from "@/components/session/SessionParticipantsCard";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getSession } from "@/graphql/queries";
-import { useAuth } from "@/hooks/useAuth";
-import client from "@/lib/apiClient";
-import { getUser } from "@/lib/dbActions";
-import { Calendar, Clock, DollarSign, ExternalLink } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
+import { Calendar, Clock, DollarSign, ExternalLink, Users } from "lucide-react";
+import { Mentee, Mentor, Session } from "@/API";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import SessionParticipantsCard from "@/components/session/SessionParticipantsCard";
 import { SessionDetailsSkeleton } from "@/components/session/SessionDetailsLoader";
 import RescheduleSessionModal from "@/components/modal/RescheduleSessionModal";
 import AddMeetingLinkModal from "@/components/modal/AddMeetingLinkModal";
+import { useAuth } from "@/hooks/useAuth";
+import client from "@/lib/apiClient";
+import { getUser } from "@/lib/dbActions";
+import { getSession } from "@/graphql/queries";
 import { formatTime } from "@/lib/utils";
+
 const SessionDetailsPage = () => {
   const params = useParams();
   const { user } = useAuth();
@@ -25,12 +27,7 @@ const SessionDetailsPage = () => {
   const authenticateUser = () => {
     if (session) {
       const participants = [session.menteeID, session.mentorID];
-
-      // If the user is not a participant in the session, redirect them to the sessions page
-      if (
-        !participants.includes(user?.menteeID) ||
-        !participants.includes(user?.mentorID)
-      ) {
+      if (!participants.includes(user?.menteeID) || !participants.includes(user?.mentorID)) {
         return <Navigate to="/sessions" />;
       }
     }
@@ -79,108 +76,119 @@ const SessionDetailsPage = () => {
 
   useEffect(() => {
     fetchAll();
-  }, [params!.id]);
+  }, [params.id]);
 
   if (loading) {
     return <SessionDetailsSkeleton />;
   }
 
   return (
-    <div className="container mx-auto p-4 sm:p-6">
-      {/* Hero Section */}
-      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start gap-4">
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
-            {session?.sessionTitle}
-          </h2>
-          <p className="text-base sm:text-lg text-muted-foreground">
-            {mentor?.firstName} - {mentee?.firstName}
-          </p>
-        </div>
-        {/* Participants Card */}
-        <Card className="w-full sm:w-80 shadow-md">
-          <CardHeader className="pb-3">
-            <CardTitle className="text-md font-semibold sm:text-lg">
-              Session Participants
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {session && (
-              <SessionParticipantsCard mentor={mentor} mentee={mentee} />
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Session Details */}
-      <div className="space-y-6 sm:space-y-8">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-md text-muted-foreground">
-                <Calendar className=" sm:size-6 text-blue-500" />
-                Date & Time
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-base sm:text-lg font-medium">
-              {new Date(session?.sessionDate || "").toLocaleDateString()} @ {formatTime(new Date(session?.sessionDate || ""))}
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-md text-muted-foreground">
-                <Clock className="size-5 sm:size-6 text-green-500" />
-                Duration
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-base sm:text-lg font-medium">
-              {session?.duration} minutes
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-md sm:text-md text-muted-foreground">
-                <DollarSign className="size-5 sm:size-6 text-purple-500" />
-                Cost
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="text-base sm:text-lg font-medium">
-              ${session?.cost}
-            </CardContent>
-          </Card>
+    <div className="min-h-screen  py-8">
+      <div className="container max-w-6xl mx-auto px-4">
+        {/* Header Section */}
+        <div className=" rounded-xl p-6 mb-6">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">
+                {session?.sessionTitle}
+              </h1>
+              <div className="flex items-center gap-2 text-gray-600">
+                <Users className="h-4 w-4" />
+                <span>
+                  {mentor?.firstName} & {mentee?.firstName}
+                </span>
+              </div>
+            </div>
+            <div className="flex gap-3 w-full md:w-auto">
+              {session?.meetingLink ? (
+                <Link to={session.meetingLink} target="_blank" className="flex-1 md:flex-none">
+                  <Button className="w-full" size="lg">
+                    <ExternalLink className="mr-2 h-5 w-5" />
+                    Join Meeting
+                  </Button>
+                </Link>
+              ) : (
+                <AddMeetingLinkModal sessionId={session?.id!!} onConfirm={fetchAll}>
+                  <Button className="w-full md:w-auto" size="lg">
+                    Add Meeting Link
+                  </Button>
+                </AddMeetingLinkModal>
+              )}
+              <RescheduleSessionModal
+                sessionId={session?.id!!}
+                currentSessionDate={session?.sessionDate!!}
+                onConfirm={fetchAll}
+              >
+                <Button variant="outline" size="lg" className="w-full md:w-auto">
+                  Reschedule
+                </Button>
+              </RescheduleSessionModal>
+            </div>
+          </div>
         </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 pt-4">
-          {session?.meetingLink ? (
-            <Link
-              to={session.meetingLink}
-              target="_blank"
-              className="w-full sm:flex-1"
-            >
-              <Button size="icon"  className="w-full" variant="default">
-                <ExternalLink className="size-5" />
-                Join Meeting
-              </Button>
-            </Link>
-          ) : (
-            <AddMeetingLinkModal sessionId={session?.id!!} onConfirm={fetchAll}>
-              <Button size="lg" className="w-full sm:flex-1" variant="default">
-                Add Meeting Link
-              </Button>
-            </AddMeetingLinkModal>
-          )}
-          <RescheduleSessionModal
-            sessionId={session?.id!!}
-            currentSessionDate={session?.sessionDate!!}
-            onConfirm={fetchAll}
-          >
-            <Button size="lg" className="w-full sm:flex-1" variant="outline">
-              Reschedule Session
-            </Button>
-          </RescheduleSessionModal>
+        {/* Main Content */}
+        <div className="grid md:grid-cols-3 gap-6">
+          {/* Session Details */}
+          <div className="md:col-span-2 space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <Card className="bg-white">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
+                    <Calendar className="mr-2 h-4 w-4 text-blue-500" />
+                    Date & Time
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg font-semibold">
+                    {new Date(session?.sessionDate || "").toLocaleDateString()}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {formatTime(new Date(session?.sessionDate || ""))}
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
+                    <Clock className="mr-2 h-4 w-4 text-green-500" />
+                    Duration
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg font-semibold">{session?.duration} min</p>
+                  <p className="text-sm text-gray-600">Session Length</p>
+                </CardContent>
+              </Card>
+
+              <Card className="bg-white">
+                <CardHeader className="pb-3">
+                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
+                    <DollarSign className="mr-2 h-4 w-4 text-purple-500" />
+                    Session Cost
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg font-semibold">${session?.cost}</p>
+                  <p className="text-sm text-gray-600">Total Amount</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* Participants Sidebar */}
+          <div className="md:col-span-1">
+            <Card className="bg-white">
+              <CardHeader>
+                <CardTitle className="text-xl">Participants</CardTitle>
+                <Separator />
+              </CardHeader>
+              <CardContent>
+                {session && <SessionParticipantsCard mentor={mentor} mentee={mentee} />}
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>

@@ -17,6 +17,9 @@
       },
       "api": {
         "MentorPlateform": {}
+      },
+      "storage": {
+        "s3mentorplateformbucketstaging": {}
       }
     }
   }

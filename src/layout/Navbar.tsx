@@ -49,11 +49,7 @@ const Navbar = () => {
       url: "/sessions",
       icon: <GaugeCircle className="h-5 w-5"/>,
     },
-    {
-      title: "Messages",
-      url: "/messages",
-      icon: <MessagesSquare className="h-5 w-5"/>,
-    },
+   
   ];
 
   const menteeNavItems: NavItem[] = [
@@ -77,11 +73,7 @@ const Navbar = () => {
       url: "/sessions",
       icon: <GaugeCircle className="h-5 w-5"/>,
     },
-    {
-      title: "Messages",
-      url: "/messages",
-      icon: <MessagesSquare className="h-5 w-5" />,
-    },
+   
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
@@ -118,11 +110,12 @@ const Navbar = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="hidden md:flex h-screen w-64 flex-col border-r bg-background p-6">
-        <div className="flex flex-col items-center">
-          <Link to="/home">
-            <School2 className="h-8 w-8 text-primary" />
-          </Link>
+      <div className="hidden md:flex h-screen w-64 flex-col border-r bg-background p-6 gap-6">
+        <div className="flex flex-col items-center my-2">
+            <Link to="/home" className="flex flex-col items-center gap-2">
+            <School2 className="h-10 w-10 text-primary" />
+            <span className="font-semibold text-xl text-primary">Mentor Plateform</span>
+            </Link>
         </div>
 
         <NavContent />

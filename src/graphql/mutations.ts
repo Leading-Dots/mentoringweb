@@ -8,6 +8,72 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
+  $input: CreateChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  createChatRoom(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateChatRoomMutationVariables,
+  APITypes.CreateChatRoomMutation
+>;
+export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
+  $input: UpdateChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  updateChatRoom(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateChatRoomMutationVariables,
+  APITypes.UpdateChatRoomMutation
+>;
+export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
+  $input: DeleteChatRoomInput!
+  $condition: ModelChatRoomConditionInput
+) {
+  deleteChatRoom(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    Messages {
+      nextToken
+      __typename
+    }
+    name
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteChatRoomMutationVariables,
+  APITypes.DeleteChatRoomMutation
+>;
 export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest(
   $input: CreateSessionRequestInput!
   $condition: ModelSessionRequestConditionInput
@@ -92,6 +158,15 @@ export const createMessages = /* GraphQL */ `mutation CreateMessages(
 ) {
   createMessages(input: $input, condition: $condition) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -107,6 +182,15 @@ export const updateMessages = /* GraphQL */ `mutation UpdateMessages(
 ) {
   updateMessages(input: $input, condition: $condition) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -122,6 +206,15 @@ export const deleteMessages = /* GraphQL */ `mutation DeleteMessages(
 ) {
   deleteMessages(input: $input, condition: $condition) {
     id
+    content
+    username
+    userRole
+    chatroomID
+    senderId
+    recieverId
+    timestamp
+    senderUsername
+    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -283,6 +376,10 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -318,6 +415,10 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
     profileStatus
     mentorId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }
@@ -359,6 +460,10 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -393,6 +498,10 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
     profileStatus
     menteeId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }
@@ -433,6 +542,10 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    ChatRooms {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -467,6 +580,10 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
     profileStatus
     menteeId
     SessionRequests {
+      nextToken
+      __typename
+    }
+    ChatRooms {
       nextToken
       __typename
     }
