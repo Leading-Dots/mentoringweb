@@ -1,20 +1,19 @@
 import { Mentor, Session } from "@/API";
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { getUser } from "@/lib/dbActions";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getUser, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { getInitials } from "@/lib/utils";
-import { 
-  Briefcase, 
-  DollarSign, 
-  MessageCircle, 
-  Mail, 
+import {
+  Briefcase,
+  DollarSign,
+  MessageCircle,
+  Mail,
   Calendar,
   GraduationCap,
-  Target
+  Target,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
@@ -25,13 +24,15 @@ import client from "@/lib/apiClient";
 
 const MentorProfilePage = () => {
   const params = useParams();
+  const router = useNavigate();
   const [mentor, setMentor] = useState<Mentor>({} as Mentor);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
   const { user } = useAuth();
 
-  const isCurrentUser = user?.menteeId === params.id || user?.mentorId === params.id;
+  const isCurrentUser =
+    user?.menteeId === params.id || user?.mentorId === params.id;
 
   useEffect(() => {
     if (params.id) {
@@ -39,6 +40,22 @@ const MentorProfilePage = () => {
       checkSession();
     }
   }, [params.id]);
+
+  const handleChat = async () => {
+    try {
+      const chatId = await intiateChat({
+        mentorId: mentor.mentorId as string,
+        menteeId:
+          user?.role === "mentee" ? user?.menteeId : (user?.mentorId as string),
+        mentorName: `${mentor.firstName} ${mentor.lastName}`,
+        menteeName: `${user?.firstName} ${user?.lastName}`,
+      });
+
+      router(`/chat/${chatId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const checkSession = async () => {
     try {
@@ -100,7 +117,7 @@ const MentorProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen">
       <div className="container max-w-4xl">
         {/* Profile Header */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-6">
@@ -113,7 +130,7 @@ const MentorProfilePage = () => {
                 </AvatarFallback>
               </Avatar>
             </div>
-            
+
             <div className="flex-grow space-y-4">
               <div>
                 <h1 className="text-3xl font-bold text-gray-900">
@@ -124,18 +141,20 @@ const MentorProfilePage = () => {
                   <span>{mentor.email}</span>
                 </div>
               </div>
-              
+
               <p className="text-gray-600 text-lg leading-relaxed">
                 {mentor.bio}
               </p>
 
               <div className="flex gap-4 pt-2">
-                <Link to={`/chat/${mentor.mentorId}`}>
-                  <Button variant="outline" className="gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                    Message
-                  </Button>
-                </Link>
+                <Button
+                  variant="outline"
+                  onClick={handleChat}
+                  className="gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Message
+                </Button>
                 {currentMeeting ? (
                   <Link to={`/sessions/${currentMeeting.id}`}>
                     <Button className="gap-2">
@@ -204,12 +223,8 @@ const MentorProfilePage = () => {
                 <div className="flex items-center gap-3">
                   <DollarSign className="w-5 h-5 text-gray-400" />
                   <div>
-                    <h3 className="font-medium text-gray-900">
-                      Hourly Rate
-                    </h3>
-                    <p className="text-gray-600">
-                      ₹{mentor.hourlyRate}/hour
-                    </p>
+                    <h3 className="font-medium text-gray-900">Hourly Rate</h3>
+                    <p className="text-gray-600">₹{mentor.hourlyRate}/hour</p>
                   </div>
                 </div>
               </CardContent>
@@ -223,12 +238,14 @@ const MentorProfilePage = () => {
                 <CardTitle>Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Link to={`/chat/${mentor.mentorId}`} className="block">
-                  <Button variant="outline" className="w-full justify-start gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                    Send Message
-                  </Button>
-                </Link>
+                <Button
+                  onClick={handleChat}
+                  variant="outline"
+                  className="w-full justify-start gap-2"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Send Message
+                </Button>
                 {currentMeeting ? (
                   <Link to={`/sessions/${currentMeeting.id}`} className="block">
                     <Button className="w-full justify-start gap-2">

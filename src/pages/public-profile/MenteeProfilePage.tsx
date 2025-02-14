@@ -5,7 +5,6 @@ import { getUser } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { getInitials } from "@/lib/utils";
 import { 
   Briefcase, 
@@ -97,7 +96,7 @@ const MenteeProfilePage = () => {
   }
 
   return (
-    <div className="min-h-screen py-8">
+    <div className="min-h-screen">
       <div className="container max-w-4xl">
         {/* Profile Header */}
         <div className="bg-white rounded-xl shadow-sm p-8 mb-6">

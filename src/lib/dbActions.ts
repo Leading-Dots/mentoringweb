@@ -1,8 +1,19 @@
-import { listMentees, listMentors } from "@/graphql/queries";
+import { listChatRooms, listMentees, listMentors } from "@/graphql/queries";
 import client from "./apiClient";
-import { createMentee, createMentor } from "@/graphql/mutations";
+import {
+  createChatRoom,
+  createMentee,
+  createMentor,
+} from "@/graphql/mutations";
 import { ProfileStatus } from "@/API";
 type ROLE = "mentor" | "mentee";
+
+interface IntiateChatRoom {
+  mentorId: string;
+  menteeId: string;
+  mentorName: string;
+  menteeName: string;
+}
 
 export const createUser = async (role: ROLE, email: string, userId: string) => {
   if (role === "mentor") {
@@ -105,6 +116,62 @@ const findMentee = async (userId: string) => {
     }
     console.log(data);
     return data.listMentees.items[0];
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const intiateChat = async ({
+  mentorId,
+  menteeId,
+  mentorName,
+  menteeName,
+}: IntiateChatRoom) => {
+  try {
+    //bascially we run action when user clicks on chat button if there no chatrrrom between mentor and mentee we create one otherwise we just redirect to chatroom
+    //we return chatroom id
+
+    const { data, errors } = await client.graphql({
+      query: listChatRooms,
+      variables: {
+        filter: {
+          and: [
+            {
+              mentorID: {
+                eq: mentorId,
+              },
+              menteeID: {
+                eq: menteeId,
+              },
+            },
+          ],
+        },
+      },
+    });
+
+    if (data.listChatRooms && data.listChatRooms.items.length > 0) {
+      return data.listChatRooms.items[0].id;
+    }
+    // if chatroom does not exist we create one
+
+    const { data: chatRoomData, errors: chatRoomErrors } = await client.graphql(
+      {
+        query: createChatRoom,
+        variables: {
+          input: {
+            name: `${mentorName} - ${menteeName}`,
+            mentorID: mentorId,
+            menteeID: menteeId,
+          },
+        },
+      }
+    );
+
+    if (chatRoomErrors) {
+      console.error(chatRoomErrors);
+    }
+
+    return chatRoomData.createChatRoom.id;
   } catch (error) {
     console.error(error);
   }

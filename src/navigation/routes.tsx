@@ -14,6 +14,7 @@ import SearchPage from "@/pages/root/SearchPage";
 import SessionsPage from "@/pages/root/SessionsPage";
 import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 import InboxPage from "@/pages/root/InboxPage";
+import ChatPage from "@/pages/root/ChatPage";
 
 const routes = [
   {
@@ -113,6 +114,14 @@ const routes = [
     element : (
       <DashboardLayout>
         <InboxPage />
+      </DashboardLayout>
+    )
+  },
+  {
+    path : "/chat/:id",
+    element : (
+      <DashboardLayout>
+        <ChatPage />
       </DashboardLayout>
     )
   }
