@@ -163,10 +163,7 @@ export const createMessages = /* GraphQL */ `mutation CreateMessages(
     userRole
     chatroomID
     senderId
-    recieverId
     timestamp
-    senderUsername
-    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -187,10 +184,7 @@ export const updateMessages = /* GraphQL */ `mutation UpdateMessages(
     userRole
     chatroomID
     senderId
-    recieverId
     timestamp
-    senderUsername
-    recieverUsername
     createdAt
     updatedAt
     __typename
@@ -211,10 +205,7 @@ export const deleteMessages = /* GraphQL */ `mutation DeleteMessages(
     userRole
     chatroomID
     senderId
-    recieverId
     timestamp
-    senderUsername
-    recieverUsername
     createdAt
     updatedAt
     __typename

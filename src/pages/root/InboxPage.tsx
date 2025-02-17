@@ -77,7 +77,6 @@ const InboxPage = () => {
                         <CardTitle className="text-lg font-semibold">
                           {room.name}
                         </CardTitle>
-                        <CardDescription>wiwiwiw</CardDescription>
                       </CardHeader>
                       <CardContent className="p-0 mt-2">
                         <p className="text-sm text-muted-foreground">
