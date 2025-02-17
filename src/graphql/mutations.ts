@@ -281,6 +281,7 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename
@@ -305,6 +306,7 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename
@@ -329,6 +331,7 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename

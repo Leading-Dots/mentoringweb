@@ -27,6 +27,8 @@ import { updateSession } from "@/graphql/mutations";
 import { DialogLoader } from "../common/DialogLoader";
 import { Status } from "@/API";
 import { showToast } from "@/lib/toast";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerDescription, DrawerTrigger } from "@/components/ui/drawer";
 
 interface RescheduleSessionModalProps {
   children: React.ReactNode;
@@ -43,6 +45,7 @@ const RescheduleSessionModal = ({
 }: RescheduleSessionModalProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const formSchema = z.object({
     reason: z.string().min(10, "Reason must be at least 10 characters"),
@@ -93,6 +96,73 @@ const RescheduleSessionModal = ({
       setOpen(false);
     }
   };
+
+
+
+  if(isMobile){
+    return (
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger className="flex-1">{children}</DrawerTrigger>
+        <DrawerContent>
+          {loading ? (
+            <DialogLoader />
+          ) : (
+            <div className="p-4">
+              <DrawerHeader>
+                <DrawerTitle className="text-2xl">Reschedule Session</DrawerTitle>
+                <DrawerDescription>
+                  Provide a reason and select a new date for the session.
+                </DrawerDescription>
+              </DrawerHeader>
+
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+                  <FormField
+                    control={form.control}
+                    name="reason"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Reason for Rescheduling</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} placeholder="Please provide a reason..." />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>New Session Date</FormLabel>
+                        <FormControl>
+                          <DateTimePicker date={field.value} onChange={field.onChange} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <DrawerFooter>
+                    <Button className="w-full" type="submit">
+                      Reschedule
+                    </Button>
+                  </DrawerFooter>
+                </form>
+              </Form>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
+
+
+
+
+
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

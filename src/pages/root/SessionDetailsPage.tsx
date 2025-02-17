@@ -14,12 +14,15 @@ import client from "@/lib/apiClient";
 import { getUser } from "@/lib/dbActions";
 import { getSession } from "@/graphql/queries";
 import { formatTime } from "@/lib/utils";
+import { TagInput } from "@/components/common/TagInput";
+import { AddObjectiveModal } from "@/components/modal/AddObjectiveModal";
 
 const SessionDetailsPage = () => {
   const params = useParams();
   const { user } = useAuth();
 
   const [session, setSession] = useState<Session | null>(null);
+  const [objectives, setObjectives] = useState<string[]>([]);
   const [mentor, setMentor] = useState<Mentor | null>(null);
   const [mentee, setMentee] = useState<Mentee | null>(null);
   const [loading, setLoading] = useState(false);
@@ -27,7 +30,10 @@ const SessionDetailsPage = () => {
   const authenticateUser = () => {
     if (session) {
       const participants = [session.menteeID, session.mentorID];
-      if (!participants.includes(user?.menteeID) || !participants.includes(user?.mentorID)) {
+      if (
+        !participants.includes(user?.menteeID) ||
+        !participants.includes(user?.mentorID)
+      ) {
         return <Navigate to="/sessions" />;
       }
     }
@@ -101,14 +107,21 @@ const SessionDetailsPage = () => {
             </div>
             <div className="flex gap-3 w-full md:w-auto">
               {session?.meetingLink ? (
-                <Link to={session.meetingLink} target="_blank" className="flex-1 md:flex-none">
+                <Link
+                  to={session.meetingLink}
+                  target="_blank"
+                  className="flex-1 md:flex-none"
+                >
                   <Button className="w-full" size="lg">
                     <ExternalLink className="mr-2 h-5 w-5" />
                     Join Meeting
                   </Button>
                 </Link>
               ) : (
-                <AddMeetingLinkModal sessionId={session?.id!!} onConfirm={fetchAll}>
+                <AddMeetingLinkModal
+                  sessionId={session?.id!!}
+                  onConfirm={fetchAll}
+                >
                   <Button className="w-full md:w-auto" size="lg">
                     Add Meeting Link
                   </Button>
@@ -119,7 +132,11 @@ const SessionDetailsPage = () => {
                 currentSessionDate={session?.sessionDate!!}
                 onConfirm={fetchAll}
               >
-                <Button variant="outline" size="lg" className="w-full md:w-auto">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="w-full md:w-auto"
+                >
                   Reschedule
                 </Button>
               </RescheduleSessionModal>
@@ -157,7 +174,9 @@ const SessionDetailsPage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-lg font-semibold">{session?.duration} min</p>
+                  <p className="text-lg font-semibold">
+                    {session?.duration} min
+                  </p>
                   <p className="text-sm text-gray-600">Session Length</p>
                 </CardContent>
               </Card>
@@ -185,10 +204,34 @@ const SessionDetailsPage = () => {
                 <Separator />
               </CardHeader>
               <CardContent>
-                {session && <SessionParticipantsCard mentor={mentor} mentee={mentee} />}
+                {session && (
+                  <SessionParticipantsCard mentor={mentor} mentee={mentee} />
+                )}
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-4">
+          Add Objectives
+          {session && (
+            <AddObjectiveModal session={session} onConfirm={fetchAll}>
+              <Button>Add Objectives</Button>
+            </AddObjectiveModal>
+          )}
+          {session?.objectives && session.objectives.length > 0 && (
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-semibold">Session Objectives</h2>
+              <div className="flex flex-col gap-2">
+                {session.objectives.map((objective, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <span className="text-gray-600">{index + 1}.</span>
+                    <span className="text-lg font-semibold">{objective}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

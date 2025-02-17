@@ -67,6 +67,7 @@ type Session @model @auth(rules: [{allow: public}]) {
   meetingLink: String
   sessionRequestID: String!
   sessionTitle: String
+  objectives: [String]
 }
 
 type Mentor @model @auth(rules: [{allow: public}]) {

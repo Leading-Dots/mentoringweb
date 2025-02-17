@@ -254,6 +254,7 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename
@@ -275,6 +276,7 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename
@@ -296,6 +298,7 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename

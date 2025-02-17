@@ -430,6 +430,7 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     meetingLink
     sessionRequestID
     sessionTitle
+    objectives
     createdAt
     updatedAt
     __typename
@@ -456,6 +457,7 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       meetingLink
       sessionRequestID
       sessionTitle
+      objectives
       createdAt
       updatedAt
       __typename
@@ -493,6 +495,7 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       meetingLink
       sessionRequestID
       sessionTitle
+      objectives
       createdAt
       updatedAt
       __typename
@@ -530,6 +533,7 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       meetingLink
       sessionRequestID
       sessionTitle
+      objectives
       createdAt
       updatedAt
       __typename
