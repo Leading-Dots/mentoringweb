@@ -77,35 +77,42 @@ const Navbar = () => {
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
+  const isPublished = user?.profileStatus === "PUBLISHED";
 
-  const NavContent = () => (
-    <nav className="space-y-4 my-4">
-      {navItems.map((item) => {
-        const isActive = location.pathname === item.url;
+  const NavContent = () => {
+    const displayNavItems = !isPublished 
+      ? navItems.filter(item => item.title === "Profile")
+      : navItems;
 
-        return (
-          <Link
-            onClick={() => setOpen(false)}
-            key={item.title}
-            to={item.url}
-            className={cn(
-              "flex items-center  gap-3 rounded-lg p-2 text-sm transition-colors",
-              isActive
-                ? "bg-muted text-secondary-foreground"
-                : "hover:bg-secondary/80"
-            )}
-            {...(item?.isExternal && {
-              target: "_blank",
-              rel: "noopener noreferrer",
-            })}
-          >
-            {item.icon}
-            <span>{item.title}</span>
-          </Link>
-        );
-      })}
-    </nav>
-  );
+    return (
+      <nav className="space-y-4 my-4">
+        {displayNavItems.map((item) => {
+          const isActive = location.pathname === item.url;
+
+          return (
+            <Link
+              onClick={() => setOpen(false)}
+              key={item.title}
+              to={item.url}
+              className={cn(
+                "flex items-center  gap-3 rounded-lg p-2 text-sm transition-colors",
+                isActive
+                  ? "bg-muted text-secondary-foreground"
+                  : "hover:bg-secondary/80"
+              )}
+              {...(item?.isExternal && {
+                target: "_blank",
+                rel: "noopener noreferrer",
+              })}
+            >
+              {item.icon}
+              <span>{item.title}</span>
+            </Link>
+          );
+        })}
+      </nav>
+    );
+  };
 
   return (
     <>
