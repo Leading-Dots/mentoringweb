@@ -21,6 +21,7 @@ import { PublicProfileLoader } from "./PublicProfileLoader";
 import { useAuth } from "@/hooks/useAuth";
 import { listSessions } from "@/graphql/queries";
 import client from "@/lib/apiClient";
+import { showToast } from "@/lib/toast";
 
 const MentorProfilePage = () => {
   const params = useParams();
@@ -32,7 +33,8 @@ const MentorProfilePage = () => {
   const { user } = useAuth();
 
   const isCurrentUser =
-    user?.menteeId === params.id || user?.mentorId === params.id;
+    user && (user?.menteeId === params.id || user?.mentorId === params.id);
+  const isGuest = !user;
 
   useEffect(() => {
     if (params.id) {
@@ -43,6 +45,7 @@ const MentorProfilePage = () => {
 
   const handleChat = async () => {
     try {
+      if (!user) return showToast("Login to start a chat", "error");
       const chatId = await intiateChat({
         mentorId: mentor.mentorId as string,
         menteeId:
@@ -59,6 +62,7 @@ const MentorProfilePage = () => {
 
   const checkSession = async () => {
     try {
+      if (!user) return;
       const userId = user?.role === "mentee" ? user?.menteeId : user?.mentorId;
       const { data } = await client.graphql({
         query: listSessions,
@@ -164,9 +168,12 @@ const MentorProfilePage = () => {
                   </Link>
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
-                    <Button disabled={isCurrentUser} className="gap-2">
+                    <Button
+                      disabled={isCurrentUser || isGuest}
+                      className="gap-2"
+                    >
                       <Calendar className="w-4 h-4" />
-                      Book a Session
+                      {isGuest ? "Login to Schedule" : "Schedule Session"}
                     </Button>
                   </CreateSessionRequestModal>
                 )}
@@ -232,41 +239,6 @@ const MentorProfilePage = () => {
           </div>
 
           {/* Right Column - Quick Actions */}
-          <div className="md:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Button
-                  onClick={handleChat}
-                  variant="outline"
-                  className="w-full justify-start gap-2"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Send Message
-                </Button>
-                {currentMeeting ? (
-                  <Link to={`/sessions/${currentMeeting.id}`} className="block">
-                    <Button className="w-full justify-start gap-2">
-                      <Calendar className="w-4 h-4" />
-                      View Session
-                    </Button>
-                  </Link>
-                ) : (
-                  <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
-                    <Button
-                      disabled={isCurrentUser}
-                      className="w-full justify-start gap-2"
-                    >
-                      <Calendar className="w-4 h-4" />
-                      Schedule Session
-                    </Button>
-                  </CreateSessionRequestModal>
-                )}
-              </CardContent>
-            </Card>
-          </div>
         </div>
       </div>
     </div>

@@ -48,7 +48,7 @@ const routes = [
   {
     path: "/home",
     element: (
-      <DashboardLayout>
+      <DashboardLayout isProtected={false}>
         <Home />
       </DashboardLayout>
     ),
@@ -72,7 +72,7 @@ const routes = [
   {
     path: "/mentor/:id",
     element: (
-      <DashboardLayout>
+      <DashboardLayout isProtected={false}>
         <MentorProfilePage />
       </DashboardLayout>
     ),
@@ -80,7 +80,7 @@ const routes = [
   {
     path: "/mentee/:id",
     element: (
-      <DashboardLayout>
+      <DashboardLayout isProtected={false}>
         <MenteeProfilePage />
       </DashboardLayout>
     ),

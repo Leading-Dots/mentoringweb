@@ -138,14 +138,22 @@ export default function LoginPage() {
               </form>
             </Form>
           </CardContent>
-          <CardFooter className="text-muted-foreground text-sm flex flex-col justify-center ">
-            Don't have an account?
-            <Link
-              to={"/signup"}
-              className="hover:underline underline-offset-4 text-primary"
-            >
+          <CardFooter className="text-muted-foreground text-sm flex flex-col justify-center gap-4 ">
+            <Link to={"/signup"} className="text-primary">
+              <span className="text-muted-foreground">
+                Don't have an account yet?{" "}
+              </span>
               Register
             </Link>
+
+            <div className="flex flex-col gap-6">
+              <Link
+                to={"/home"}
+                className="hover:underline underline-offset-4  text-muted-foreground"
+              >
+                Continue without signing in
+              </Link>
+            </div>
           </CardFooter>
         </Card>
       </div>

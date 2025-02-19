@@ -33,6 +33,21 @@ const Navbar = () => {
 
   const [open, setOpen] = useState(false);
 
+
+  const guestNavItems: NavItem[] = [
+    {
+      title: "Home",
+      url: "/home",
+      icon: <HomeIcon className="h-5 w-5" />,
+    },
+    {
+      title: "Login",
+      url: "/login",
+      icon: <User2 className="h-5 w-5"/>,
+    },
+  
+  ]
+
   const mentorNavItems: NavItem[] = [
     {
       title: "Home",
@@ -80,6 +95,35 @@ const Navbar = () => {
   const isPublished = user?.profileStatus === "PUBLISHED";
 
   const NavContent = () => {
+    // For guest users, show guest nav items
+    if (!user) {
+      return (
+        <nav className="space-y-4 my-4">
+          {guestNavItems.map((item) => {
+            const isActive = location.pathname === item.url;
+
+            return (
+              <Link
+                onClick={() => setOpen(false)}
+                key={item.title}
+                to={item.url}
+                className={cn(
+                  "flex items-center gap-3 rounded-lg p-2 text-sm transition-colors",
+                  isActive
+                    ? "bg-muted text-secondary-foreground"
+                    : "hover:bg-secondary/80"
+                )}
+              >
+                {item.icon}
+                <span>{item.title}</span>
+              </Link>
+            );
+          })}
+        </nav>
+      );
+    }
+
+    // For logged in users
     const displayNavItems = !isPublished 
       ? navItems.filter(item => item.title === "Profile")
       : navItems;
@@ -95,7 +139,7 @@ const Navbar = () => {
               key={item.title}
               to={item.url}
               className={cn(
-                "flex items-center  gap-3 rounded-lg p-2 text-sm transition-colors",
+                "flex items-center gap-3 rounded-lg p-2 text-sm transition-colors",
                 isActive
                   ? "bg-muted text-secondary-foreground"
                   : "hover:bg-secondary/80"
@@ -127,17 +171,19 @@ const Navbar = () => {
 
         <NavContent />
 
-        {/* add logout button at the bottom */}
-
-        <div className="flex flex-col items-start gap-2 mt-auto">
-          <Button
-            onClick={signOut}
-           variant="ghost" size="sm">
-            <LogOut className="h-4 w-4" />
-            <span>Logout</span>
-
-          </Button>
-        </div>
+        {/* Only show logout for logged in users */}
+        {user && (
+          <div className="flex flex-col items-start gap-2 mt-auto">
+            <Button
+              onClick={signOut}
+              variant="ghost" 
+              size="sm"
+            >
+              <LogOut className="h-4 w-4" />
+              <span>Logout</span>
+            </Button>
+          </div>
+        )}
       </div>
 
       {/* Mobile Navigation */}
