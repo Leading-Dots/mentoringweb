@@ -29,7 +29,9 @@ const MenteeProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
 
-  const isCurrentUser = user?.menteeId === params.id || user?.mentorId === params.id;
+  const isCurrentUser = user && user?.menteeId === params.id || user?.mentorId === params.id;
+  const isGuest = !user;
+  
 
   useEffect(() => {
     if (params.id) {
@@ -54,6 +56,7 @@ const MenteeProfilePage = () => {
 
   const checkSession = async () => {
     try {
+      if(!user) return;
       const userId = user?.role === "mentee" ? user?.menteeId : user?.mentorId;
       const { data } = await client.graphql({
         query: listSessions,
@@ -141,7 +144,7 @@ const MenteeProfilePage = () => {
                   </Link>
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
-                    <Button disabled={isCurrentUser} className="gap-2">
+                    <Button disabled={isCurrentUser || isGuest } className="gap-2">
                       <Calendar className="w-4 h-4" />
                       Book a Session
                     </Button>
@@ -224,7 +227,7 @@ const MenteeProfilePage = () => {
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
                     <Button
-                      disabled={isCurrentUser}
+                      disabled={isCurrentUser || isGuest}
                       className="w-full justify-start gap-2"
                     >
                       <Calendar className="w-4 h-4" />

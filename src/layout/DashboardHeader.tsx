@@ -28,7 +28,7 @@ const DashboardHeader = () => {
         {formatHeaderTitle(location.pathname)} 
       </h1>
       <div className="flex flex-1 justify-end items-center">
-      <RoleBadge role={user.role} />
+      <RoleBadge role={user?.role || "mentee"} />
         <ProfilePopover />
         <Link to="/inbox">
           <div className="flex items-center gap-2 cursor-pointer">
