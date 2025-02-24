@@ -5,6 +5,7 @@ import { Mentee, ProfileStatus } from "@/API";
 import { listMentees } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { MenteeCard } from "./MenteeCard";
+import { Link } from "react-router-dom";
 const menteeList = () => {
   const [mentees, setmentees] = React.useState<Mentee[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -41,7 +42,9 @@ const menteeList = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="text-2xl font-semibold">Find mentees</h3>
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold">Find mentees</h3>
+      </div>
       {mentees.map((mentee) => (
         <MenteeCard key={mentee.id} mentee={mentee} />
       ))}

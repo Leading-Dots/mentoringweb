@@ -5,6 +5,8 @@ import { type Mentor, ProfileStatus } from "@/API";
 import { listMentors } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { MentorCard } from "./MentorCard";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 const MentorList = () => {
   const [mentors, setMentors] = React.useState<Mentor[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -41,7 +43,13 @@ const MentorList = () => {
 
   return (
     <div className="flex flex-col gap-3">
-      <h3 className="text-2xl font-semibold">Find mentees</h3>
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold">Find Mentors Around You</h3>
+        <Button variant="ghost">
+          <Link to="/search-mentors">See all</Link>
+        </Button>
+      </div>
+
 
       {mentors.map((mentor) => (
         <MentorCard key={mentor.id} mentor={mentor} />

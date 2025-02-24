@@ -212,26 +212,39 @@ const SessionDetailsPage = () => {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4">
-          Add Objectives
-          {session && (
-            <AddObjectiveModal session={session} onConfirm={fetchAll}>
-              <Button>Add Objectives</Button>
-            </AddObjectiveModal>
-          )}
-          {session?.objectives && session.objectives.length > 0 && (
-            <div className="flex flex-col gap-4">
-              <h2 className="text-xl font-semibold">Session Objectives</h2>
-              <div className="flex flex-col gap-2">
-                {session.objectives.map((objective, index) => (
-                  <div key={index} className="flex items-center gap-2">
-                    <span className="text-gray-600">{index + 1}.</span>
-                    <span className="text-lg font-semibold">{objective}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* Objectives Section */}
+        <div className="mt-6 md:col-span-2">
+          <Card className="bg-white">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="text-xl">Session Objectives</CardTitle>
+              {session && (
+                <AddObjectiveModal session={session} onConfirm={fetchAll}>
+                  <Button variant="outline">Add Objectives</Button>
+                </AddObjectiveModal>
+              )}
+            </CardHeader>
+            <CardContent>
+              {session?.objectives && session.objectives.length > 0 ? (
+                <div className="flex flex-col gap-2">
+                  {session.objectives.map((objective, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    >
+                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600">
+                        ✓
+                      </div>
+                      <span className="text-gray-700">{objective}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-500 text-center py-4">
+                  No objectives set for this session yet.
+                </p>
+              )}
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

@@ -28,6 +28,10 @@ export function ProfilePopover() {
     switchUserRole();
   };
 
+  if(!user) {
+    return null;
+  }
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>

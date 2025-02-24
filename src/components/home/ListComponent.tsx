@@ -7,6 +7,9 @@ const ListComponent = () => {
     const {user} = useAuth();
 
     const role = user?.role
+    if (!role) {
+        return <div><MentorList /></div>
+    }
     
     return <div>
         {role === "mentor" ? <MenteeList /> : <MentorList />}

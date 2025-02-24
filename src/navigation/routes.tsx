@@ -88,7 +88,7 @@ const routes = [
   {
     path: "/search-mentors",
     element: (
-      <DashboardLayout>
+      <DashboardLayout isProtected={false}>
         <SearchPage />
       </DashboardLayout>
     ),

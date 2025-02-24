@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   GaugeCircle,
   HomeIcon,
+  LogIn,
   LogOut,
   Menu,
   MessagesSquare,
@@ -43,7 +44,7 @@ const Navbar = () => {
     {
       title: "Login",
       url: "/login",
-      icon: <User2 className="h-5 w-5"/>,
+      icon: <LogIn className="h-5 w-5"/>,
     },
   
   ]

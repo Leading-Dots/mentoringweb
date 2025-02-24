@@ -23,6 +23,16 @@ const SessionRequestComponent = () => {
     SessionRequest[]
   >([]);
 
+
+  if(!user) {
+    return null
+
+  }
+
+  if(sessionRequests.length === 0) {
+    return null
+  }
+
   const getSessionRequests = async (role: UserRole) => {
     try {
       if (role === "mentor") {
