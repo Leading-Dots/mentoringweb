@@ -37,7 +37,7 @@ export const handleSignUp = async ({
         autoSignIn: true,
         userAttributes: {
           email,
-          "custom:role": role,
+          // "custom:role": role,
         },
       },
     });

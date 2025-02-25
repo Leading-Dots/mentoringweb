@@ -23,18 +23,13 @@ const SessionRequestComponent = () => {
     SessionRequest[]
   >([]);
 
-
-  if(!user) {
-    return null
-
-  }
-
-  if(sessionRequests.length === 0) {
-    return null
+  if (!user) {
+    return null;
   }
 
   const getSessionRequests = async (role: UserRole) => {
     try {
+      console.log(role, "role");
       if (role === "mentor") {
         console.log(user?.mentorId, "mentor");
         const { data } = await client.graphql({
@@ -115,7 +110,7 @@ const SessionRequestComponent = () => {
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <h3 className="font-semibold">
-                        {request.initiatedBy === "mentor" ? "Mentee" : "Mentor"}
+                        {request.sessionTitle}-Request
                       </h3>
                     </div>
                   </Link>
@@ -127,18 +122,18 @@ const SessionRequestComponent = () => {
                   </div>
                 </div>
               </CardHeader>
-                <CardContent className="p-0">
+              <CardContent className="p-0">
                 <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-none">
                   {request.initiatedBy === "mentor"
-                  ? request.mentorNote
-                  : request.menteeNote}
+                    ? request.mentorNote
+                    : request.menteeNote}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   <Badge variant="secondary" className="text-xs md:text-sm">
-                  Status: {request.status}
+                    Status: {request.status}
                   </Badge>
                 </div>
-                </CardContent>
+              </CardContent>
 
               <CardFooter className="p-0 pt-4">
                 <SessionRequestDetailsModal sessionRequest={request}>

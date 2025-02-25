@@ -1,21 +1,18 @@
 {
   "staging": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-mentorplateform-staging-cb2bc-authRole",
-      "UnauthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorplateform-staging-cb2bc-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorplateform-staging-cb2bc-authRole",
+      "AuthRoleName": "amplify-mentorweb-staging-4df18-authRole",
+      "UnauthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorweb-staging-4df18-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::517223944896:role/amplify-mentorweb-staging-4df18-authRole",
       "Region": "ap-south-1",
-      "DeploymentBucketName": "amplify-mentorplateform-staging-cb2bc-deployment",
-      "UnauthRoleName": "amplify-mentorplateform-staging-cb2bc-unauthRole",
-      "StackName": "amplify-mentorplateform-staging-cb2bc",
-      "StackId": "arn:aws:cloudformation:ap-south-1:517223944896:stack/amplify-mentorplateform-staging-cb2bc/c999bb90-e2b8-11ef-ac41-02ed6e3689ad",
-      "AmplifyAppId": "d3umymy1rtgzh4"
+      "DeploymentBucketName": "amplify-mentorweb-staging-4df18-deployment",
+      "UnauthRoleName": "amplify-mentorweb-staging-4df18-unauthRole",
+      "StackName": "amplify-mentorweb-staging-4df18",
+      "StackId": "arn:aws:cloudformation:ap-south-1:517223944896:stack/amplify-mentorweb-staging-4df18/62089b50-f34c-11ef-8a07-0a509e98f19d",
+      "AmplifyAppId": "d14twpvhfyykqh"
     },
     "categories": {
       "auth": {
-        "MentorPlateform": {}
-      },
-      "api": {
         "MentorPlateform": {}
       },
       "storage": {

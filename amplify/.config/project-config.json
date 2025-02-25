@@ -2,7 +2,7 @@
   "providers": [
     "awscloudformation"
   ],
-  "projectName": "MentorPlateform",
+  "projectName": "MentorWeb",
   "version": "3.1",
   "frontend": "javascript",
   "javascript": {
