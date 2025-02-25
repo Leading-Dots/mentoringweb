@@ -2,25 +2,31 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateChatRoomInput = {
+export type CreateReviewInput = {
   id?: string | null,
-  mentorID: string,
-  menteeID: string,
-  name?: string | null,
+  rating?: string | null,
+  comment?: string | null,
+  reviewerRole?: string | null,
+  reviewerID?: string | null,
+  reviewedID?: string | null,
+  sessionID: string,
 };
 
-export type ModelChatRoomConditionInput = {
-  mentorID?: ModelIDInput | null,
-  menteeID?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  and?: Array< ModelChatRoomConditionInput | null > | null,
-  or?: Array< ModelChatRoomConditionInput | null > | null,
-  not?: ModelChatRoomConditionInput | null,
+export type ModelReviewConditionInput = {
+  rating?: ModelStringInput | null,
+  comment?: ModelStringInput | null,
+  reviewerRole?: ModelStringInput | null,
+  reviewerID?: ModelStringInput | null,
+  reviewedID?: ModelStringInput | null,
+  sessionID?: ModelIDInput | null,
+  and?: Array< ModelReviewConditionInput | null > | null,
+  or?: Array< ModelReviewConditionInput | null > | null,
+  not?: ModelReviewConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -60,7 +66,7 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelStringInput = {
+export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -74,6 +80,51 @@ export type ModelStringInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type Review = {
+  __typename: "Review",
+  id: string,
+  rating?: string | null,
+  comment?: string | null,
+  reviewerRole?: string | null,
+  reviewerID?: string | null,
+  reviewedID?: string | null,
+  sessionID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateReviewInput = {
+  id: string,
+  rating?: string | null,
+  comment?: string | null,
+  reviewerRole?: string | null,
+  reviewerID?: string | null,
+  reviewedID?: string | null,
+  sessionID?: string | null,
+};
+
+export type DeleteReviewInput = {
+  id: string,
+};
+
+export type CreateChatRoomInput = {
+  id?: string | null,
+  mentorID: string,
+  menteeID: string,
+  name?: string | null,
+};
+
+export type ModelChatRoomConditionInput = {
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelChatRoomConditionInput | null > | null,
+  or?: Array< ModelChatRoomConditionInput | null > | null,
+  not?: ModelChatRoomConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ChatRoom = {
@@ -343,8 +394,15 @@ export type Session = {
   sessionRequestID: string,
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
+  Reviews?: ModelReviewConnection | null,
   createdAt: string,
   updatedAt: string,
+};
+
+export type ModelReviewConnection = {
+  __typename: "ModelReviewConnection",
+  items:  Array<Review | null >,
+  nextToken?: string | null,
 };
 
 export type UpdateSessionInput = {
@@ -559,6 +617,27 @@ export type DeleteMenteeInput = {
   id: string,
 };
 
+export type ModelReviewFilterInput = {
+  id?: ModelIDInput | null,
+  rating?: ModelStringInput | null,
+  comment?: ModelStringInput | null,
+  reviewerRole?: ModelStringInput | null,
+  reviewerID?: ModelStringInput | null,
+  reviewedID?: ModelStringInput | null,
+  sessionID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelReviewFilterInput | null > | null,
+  or?: Array< ModelReviewFilterInput | null > | null,
+  not?: ModelReviewFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelChatRoomFilterInput = {
   id?: ModelIDInput | null,
   mentorID?: ModelIDInput | null,
@@ -570,12 +649,6 @@ export type ModelChatRoomFilterInput = {
   or?: Array< ModelChatRoomFilterInput | null > | null,
   not?: ModelChatRoomFilterInput | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type ModelSessionRequestFilterInput = {
   id?: ModelIDInput | null,
@@ -693,15 +766,18 @@ export type ModelMenteeConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionChatRoomFilterInput = {
+export type ModelSubscriptionReviewFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  mentorID?: ModelSubscriptionIDInput | null,
-  menteeID?: ModelSubscriptionIDInput | null,
-  name?: ModelSubscriptionStringInput | null,
+  rating?: ModelSubscriptionStringInput | null,
+  comment?: ModelSubscriptionStringInput | null,
+  reviewerRole?: ModelSubscriptionStringInput | null,
+  reviewerID?: ModelSubscriptionStringInput | null,
+  reviewedID?: ModelSubscriptionStringInput | null,
+  sessionID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
-  or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
+  and?: Array< ModelSubscriptionReviewFilterInput | null > | null,
+  or?: Array< ModelSubscriptionReviewFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -732,6 +808,17 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionChatRoomFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
+  name?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
+  or?: Array< ModelSubscriptionChatRoomFilterInput | null > | null,
 };
 
 export type ModelSubscriptionSessionRequestFilterInput = {
@@ -854,6 +941,66 @@ export type ModelSubscriptionMenteeFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
   or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+};
+
+export type CreateReviewMutationVariables = {
+  input: CreateReviewInput,
+  condition?: ModelReviewConditionInput | null,
+};
+
+export type CreateReviewMutation = {
+  createReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateReviewMutationVariables = {
+  input: UpdateReviewInput,
+  condition?: ModelReviewConditionInput | null,
+};
+
+export type UpdateReviewMutation = {
+  updateReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteReviewMutationVariables = {
+  input: DeleteReviewInput,
+  condition?: ModelReviewConditionInput | null,
+};
+
+export type DeleteReviewMutation = {
+  deleteReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateChatRoomMutationVariables = {
@@ -1121,6 +1268,10 @@ export type CreateSessionMutation = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1145,6 +1296,10 @@ export type UpdateSessionMutation = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1169,6 +1324,10 @@ export type DeleteSessionMutation = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1414,6 +1573,77 @@ export type DeleteMenteeMutation = {
     } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetReviewQueryVariables = {
+  id: string,
+};
+
+export type GetReviewQuery = {
+  getReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListReviewsQueryVariables = {
+  filter?: ModelReviewFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListReviewsQuery = {
+  listReviews?:  {
+    __typename: "ModelReviewConnection",
+    items:  Array< {
+      __typename: "Review",
+      id: string,
+      rating?: string | null,
+      comment?: string | null,
+      reviewerRole?: string | null,
+      reviewerID?: string | null,
+      reviewedID?: string | null,
+      sessionID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type ReviewsBySessionIDQueryVariables = {
+  sessionID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelReviewFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ReviewsBySessionIDQuery = {
+  reviewsBySessionID?:  {
+    __typename: "ModelReviewConnection",
+    items:  Array< {
+      __typename: "Review",
+      id: string,
+      rating?: string | null,
+      comment?: string | null,
+      reviewerRole?: string | null,
+      reviewerID?: string | null,
+      reviewedID?: string | null,
+      sessionID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -1796,6 +2026,10 @@ export type GetSessionQuery = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2027,6 +2261,63 @@ export type ListMenteesQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateReviewSubscriptionVariables = {
+  filter?: ModelSubscriptionReviewFilterInput | null,
+};
+
+export type OnCreateReviewSubscription = {
+  onCreateReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateReviewSubscriptionVariables = {
+  filter?: ModelSubscriptionReviewFilterInput | null,
+};
+
+export type OnUpdateReviewSubscription = {
+  onUpdateReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteReviewSubscriptionVariables = {
+  filter?: ModelSubscriptionReviewFilterInput | null,
+};
+
+export type OnDeleteReviewSubscription = {
+  onDeleteReview?:  {
+    __typename: "Review",
+    id: string,
+    rating?: string | null,
+    comment?: string | null,
+    reviewerRole?: string | null,
+    reviewerID?: string | null,
+    reviewedID?: string | null,
+    sessionID: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -2282,6 +2573,10 @@ export type OnCreateSessionSubscription = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2305,6 +2600,10 @@ export type OnUpdateSessionSubscription = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2328,6 +2627,10 @@ export type OnDeleteSessionSubscription = {
     sessionRequestID: string,
     sessionTitle?: string | null,
     objectives?: Array< string | null > | null,
+    Reviews?:  {
+      __typename: "ModelReviewConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,

@@ -1,3 +1,13 @@
+type Review @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  rating: String
+  comment: String
+  reviewerRole: String
+  reviewerID: String
+  reviewedID: String
+  sessionID: ID! @index(name: "bySession")
+}
+
 type ChatRoom @model @auth(rules: [{allow: public}]) {
   id: ID!
   mentorID: ID! @index(name: "byMentor")
@@ -68,6 +78,7 @@ type Session @model @auth(rules: [{allow: public}]) {
   sessionRequestID: String!
   sessionTitle: String
   objectives: [String]
+  Reviews: [Review] @hasMany(indexName: "bySession", fields: ["id"])
 }
 
 type Mentor @model @auth(rules: [{allow: public}]) {

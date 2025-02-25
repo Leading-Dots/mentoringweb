@@ -8,6 +8,81 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getReview = /* GraphQL */ `query GetReview($id: ID!) {
+  getReview(id: $id) {
+    id
+    rating
+    comment
+    reviewerRole
+    reviewerID
+    reviewedID
+    sessionID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<APITypes.GetReviewQueryVariables, APITypes.GetReviewQuery>;
+export const listReviews = /* GraphQL */ `query ListReviews(
+  $filter: ModelReviewFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listReviews(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      rating
+      comment
+      reviewerRole
+      reviewerID
+      reviewedID
+      sessionID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListReviewsQueryVariables,
+  APITypes.ListReviewsQuery
+>;
+export const reviewsBySessionID = /* GraphQL */ `query ReviewsBySessionID(
+  $sessionID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelReviewFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  reviewsBySessionID(
+    sessionID: $sessionID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      rating
+      comment
+      reviewerRole
+      reviewerID
+      reviewedID
+      sessionID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ReviewsBySessionIDQueryVariables,
+  APITypes.ReviewsBySessionIDQuery
+>;
 export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
   getChatRoom(id: $id) {
     id
@@ -431,6 +506,10 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
     sessionRequestID
     sessionTitle
     objectives
+    Reviews {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename

@@ -1,6 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { Calendar, Clock, DollarSign, ExternalLink, Users } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  Clock,
+  DollarSign,
+  ExternalLink,
+  MoreHorizontal,
+  Star,
+  Users,
+} from "lucide-react";
 import { Mentee, Mentor, Session } from "@/API";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -16,6 +25,13 @@ import { getSession } from "@/graphql/queries";
 import { formatTime } from "@/lib/utils";
 import { TagInput } from "@/components/common/TagInput";
 import { AddObjectiveModal } from "@/components/modal/AddObjectiveModal";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import AddReviewModal from "@/components/modal/AddReviewModal";
 
 const SessionDetailsPage = () => {
   const params = useParams();
@@ -26,6 +42,7 @@ const SessionDetailsPage = () => {
   const [mentor, setMentor] = useState<Mentor | null>(null);
   const [mentee, setMentee] = useState<Mentee | null>(null);
   const [loading, setLoading] = useState(false);
+  const [reviewModal, setReviewModal] = useState(false);
 
   const authenticateUser = () => {
     if (session) {
@@ -43,6 +60,9 @@ const SessionDetailsPage = () => {
     return <Navigate to="/sessions" />;
   }
 
+  const handleCompleteFlow = async () => {};
+
+  const handleAddReview = async () => {};
   const fetchParticipants = async () => {
     try {
       const [mentorData, menteeData] = await Promise.all([
@@ -89,31 +109,27 @@ const SessionDetailsPage = () => {
   }
 
   return (
-    <div className="min-h-screen  py-8">
-      <div className="container max-w-6xl mx-auto px-4">
-        {/* Header Section */}
-        <div className=" rounded-xl p-6 mb-6">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight text-gray-900 mb-2">
-                {session?.sessionTitle}
-              </h1>
-              <div className="flex items-center gap-2 text-gray-600">
-                <Users className="h-4 w-4" />
-                <span>
-                  {mentor?.firstName} & {mentee?.firstName}
-                </span>
-              </div>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div className="bg-gradient-to-b from-gray-50 to-white border-b">
+        <div className="container max-w-6xl mx-auto px-4 py-8">
+          <div className="flex flex-col gap-4">
+            <h1 className="text-2xl font-bold tracking-tight">
+              {session?.sessionTitle}
+            </h1>
+            <div className="flex items-center gap-2 text-muted-foreground">
+              <Users className="h-4 w-4" />
+              <span>
+                {mentor?.firstName} & {mentee?.firstName}
+              </span>
             </div>
-            <div className="flex gap-3 w-full md:w-auto">
+
+            {/* Primary CTAs */}
+            <div className="flex  gap-2 max-w-xs">
               {session?.meetingLink ? (
-                <Link
-                  to={session.meetingLink}
-                  target="_blank"
-                  className="flex-1 md:flex-none"
-                >
-                  <Button className="w-full" size="lg">
-                    <ExternalLink className="mr-2 h-5 w-5" />
+                <Link to={session.meetingLink} target="_blank">
+                  <Button size="lg">
+                    <ExternalLink className="h-5 w-5 mr-2" />
                     Join Meeting
                   </Button>
                 </Link>
@@ -122,101 +138,73 @@ const SessionDetailsPage = () => {
                   sessionId={session?.id!!}
                   onConfirm={fetchAll}
                 >
-                  <Button className="w-full md:w-auto" size="lg">
-                    Add Meeting Link
-                  </Button>
+                  <span className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5" />
+                    <span>Add Meeting Link</span>
+                  </span>
                 </AddMeetingLinkModal>
               )}
+
               <RescheduleSessionModal
                 sessionId={session?.id!!}
                 currentSessionDate={session?.sessionDate!!}
                 onConfirm={fetchAll}
               >
-                <Button
-                  variant="outline"
-                  size="lg"
-                  className="w-full md:w-auto"
-                >
+                <Button variant="outline" size="lg">
                   Reschedule
                 </Button>
               </RescheduleSessionModal>
+
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="lg">
+                      <MoreHorizontal className="h-5 w-5" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleCompleteFlow}>
+                      <Check className="mr-2 h-4 w-4" />
+                      Mark as Completed
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setReviewModal(true)}>
+                      <Star className="mr-2 h-4 w-4" />
+                      Add Review
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <AddReviewModal open={reviewModal} setOpen={setReviewModal} session={session} onConfirm={fetchAll} />
+              </>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Main Content */}
-        <div className="grid md:grid-cols-3 gap-6">
+      {/* Content Section */}
+      <div className="container max-w-6xl mx-auto px-4 py-8">
+        <div className="grid gap-6">
           {/* Session Details */}
-          <div className="md:col-span-2 space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <Card className="bg-white">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
-                    <Calendar className="mr-2 h-4 w-4 text-blue-500" />
-                    Date & Time
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-lg font-semibold">
-                    {new Date(session?.sessionDate || "").toLocaleDateString()}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    {formatTime(new Date(session?.sessionDate || ""))}
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
-                    <Clock className="mr-2 h-4 w-4 text-green-500" />
-                    Duration
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-lg font-semibold">
-                    {session?.duration} min
-                  </p>
-                  <p className="text-sm text-gray-600">Session Length</p>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-white">
-                <CardHeader className="pb-3">
-                  <CardTitle className="flex items-center text-sm font-medium text-gray-600">
-                    <DollarSign className="mr-2 h-4 w-4 text-purple-500" />
-                    Session Cost
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-lg font-semibold">${session?.cost}</p>
-                  <p className="text-sm text-gray-600">Total Amount</p>
-                </CardContent>
-              </Card>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {/* ... (keep your existing Card components) ... */}
           </div>
 
-          {/* Participants Sidebar */}
-          <div className="md:col-span-1">
-            <Card className="bg-white">
-              <CardHeader>
-                <CardTitle className="text-xl">Participants</CardTitle>
-                <Separator />
-              </CardHeader>
-              <CardContent>
-                {session && (
-                  <SessionParticipantsCard mentor={mentor} mentee={mentee} />
-                )}
-              </CardContent>
-            </Card>
-          </div>
-        </div>
+          {/* Participants Card */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Participants</CardTitle>
+              <Separator />
+            </CardHeader>
+            <CardContent>
+              {session && (
+                <SessionParticipantsCard mentor={mentor} mentee={mentee} />
+              )}
+            </CardContent>
+          </Card>
 
-        {/* Objectives Section */}
-        <div className="mt-6 md:col-span-2">
-          <Card className="bg-white">
+          {/* Objectives Card */}
+          <Card>
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-xl">Session Objectives</CardTitle>
+              <CardTitle>Session Objectives</CardTitle>
               {session && (
                 <AddObjectiveModal session={session} onConfirm={fetchAll}>
                   <Button variant="outline">Add Objectives</Button>
@@ -229,17 +217,17 @@ const SessionDetailsPage = () => {
                   {session.objectives.map((objective, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                      className="flex items-center gap-2 p-3 bg-secondary rounded-lg"
                     >
                       <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600">
                         ✓
                       </div>
-                      <span className="text-gray-700">{objective}</span>
+                      <span>{objective}</span>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="text-gray-500 text-center py-4">
+                <p className="text-muted-foreground text-center py-4">
                   No objectives set for this session yet.
                 </p>
               )}
