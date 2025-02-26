@@ -27,7 +27,7 @@ const DashboardHeader = () => {
       <h1 className="text-2xl font-semibold">
         {formatHeaderTitle(location.pathname)}
       </h1>
-      <div className="flex flex-1 justify-end items-center gap-1">
+      <div className="flex flex-1 justify-end items-center gap-3">
         <RoleBadge role={user ? user?.role : "guest"} />
         <ProfilePopover />
         {user && (

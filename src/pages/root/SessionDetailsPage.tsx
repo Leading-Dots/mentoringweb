@@ -7,6 +7,7 @@ import {
   DollarSign,
   ExternalLink,
   MoreHorizontal,
+  Plus,
   Star,
   Users,
 } from "lucide-react";
@@ -63,6 +64,7 @@ const SessionDetailsPage = () => {
   const handleCompleteFlow = async () => {};
 
   const handleAddReview = async () => {};
+
   const fetchParticipants = async () => {
     try {
       const [mentorData, menteeData] = await Promise.all([
@@ -173,7 +175,12 @@ const SessionDetailsPage = () => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-                <AddReviewModal open={reviewModal} setOpen={setReviewModal} session={session} onConfirm={fetchAll} />
+                <AddReviewModal
+                  open={reviewModal}
+                  setOpen={setReviewModal}
+                  session={session}
+                  onConfirm={fetchAll}
+                />
               </>
             </div>
           </div>
@@ -202,26 +209,31 @@ const SessionDetailsPage = () => {
           </Card>
 
           {/* Objectives Card */}
-          <Card>
+            <Card>
             <CardHeader className="flex flex-row items-center justify-between">
               <CardTitle>Session Objectives</CardTitle>
               {session && (
-                <AddObjectiveModal session={session} onConfirm={fetchAll}>
-                  <Button variant="outline">Add Objectives</Button>
-                </AddObjectiveModal>
+              <AddObjectiveModal session={session} onConfirm={fetchAll}>
+                <Button variant="outline" size="sm">
+                <Plus className="h-4 w-4 " />
+                Add Objective
+                </Button>
+              </AddObjectiveModal>
               )}
             </CardHeader>
             <CardContent>
               {session?.objectives && session.objectives.length > 0 ? (
-                <div className="flex flex-col gap-2">
-                  {session.objectives.map((objective, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center gap-2 p-3 bg-secondary rounded-lg"
-                    >
-                      <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-600">
-                        ✓
-                      </div>
+              <div className="space-y-3">
+                {session.objectives.map((objective, index) => (
+                <div
+                  key={index}
+                  className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-muted transition-all hover:bg-muted"
+                >
+                  <div className="flex-shrink-0 mt-0.5">
+                  <div className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600">
+                    <Check className="h-3 w-3" />
+                  </div>
+                  </div>
                       <span>{objective}</span>
                     </div>
                   ))}

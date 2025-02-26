@@ -15,6 +15,7 @@ import SessionsPage from "@/pages/root/SessionsPage";
 import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 import InboxPage from "@/pages/root/InboxPage";
 import ChatPage from "@/pages/root/ChatPage";
+import SettingsPage from "@/pages/root/SettingsPage";
 
 const routes = [
   {
@@ -122,6 +123,14 @@ const routes = [
     element : (
       <DashboardLayout>
         <ChatPage />
+      </DashboardLayout>
+    )
+  },
+  {
+    path : "settings",
+    element : (
+      <DashboardLayout>
+        <SettingsPage />
       </DashboardLayout>
     )
   }

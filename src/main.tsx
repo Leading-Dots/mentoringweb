@@ -5,6 +5,7 @@ import { Amplify } from "aws-amplify";
 import './index.css'
 import App from './App.tsx'
 import { Toaster } from './components/ui/sonner.tsx';
+import { ThemeProvider } from './components/theme/theme-provider.tsx';
 
 
 Amplify.configure(amplifyConfig);
@@ -15,6 +16,8 @@ createRoot(document.getElementById('root')!).render(
       richColors
       position="top-center"
     />
+    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
     <App />
+    </ThemeProvider>
   </StrictMode>,
 )

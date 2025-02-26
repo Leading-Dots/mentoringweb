@@ -7,6 +7,7 @@ import {
   handleSignUp,
   handleForgotPassword,
   getCurrentAuthUser,
+  handleUpdatePassowrd,
 } from "@/lib/auth";
 
 import { useLocalStorage } from "./useLocalStorage";
@@ -16,13 +17,12 @@ import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Loader } from "@/components/common/Loader";
 import { showToast } from "@/lib/toast";
-import { fetchUserAttributes } from "aws-amplify/auth";
 
 type AuthContextType = {
   user: any | null;
   loading: boolean;
   signIn: (email: string, password: string, role: UserRole) => Promise<any>;
-  signUp: (email: string, password: string, role : UserRole) => Promise<any>;
+  signUp: (email: string, password: string, role: UserRole) => Promise<any>;
   confirmSignUp: (
     email: string,
     code: string,
@@ -32,7 +32,8 @@ type AuthContextType = {
   signOut: () => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   refreshUser: () => Promise<void>;
-  switchUserRole : () => Promise<void>;
+  switchUserRole: () => Promise<void>;
+  changePassword: (oldPassword: string, newPassword: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -41,7 +42,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useLocalStorage<any | null>("user", null);
   const [loading, setLoading] = useState(false);
 
-  console.log("user", user); 
+  console.log("user", user);
 
   const signIn = async (email: string, password: string, role: UserRole) => {
     try {
@@ -58,7 +59,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const existingUser = await getUser(userId, role);
 
       if (!existingUser) {
-        
         const newUser = await createUser(role, email, userId);
         if (!newUser) {
           await signOut();
@@ -71,21 +71,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser({ ...existingUser, role });
       return true;
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : "Sign in failed";
+      const errorMessage =
+        error instanceof Error ? error.message : "Sign in failed";
       throw new Error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
-  const signUp = async (email: string, password: string, role : UserRole) => {
+  const signUp = async (email: string, password: string, role: UserRole) => {
     try {
       setLoading(true);
       const { isSignUpComplete, userId, nextStep } = await handleSignUp({
         username: email,
         password,
         email,
-        role
+        role,
       });
       return { isSignUpComplete, userId, nextStep };
     } catch (error) {
@@ -143,6 +144,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const changePassword = async (oldPassword: string, newPassword: string) => {
+    try {
+      await handleUpdatePassowrd(user.email, oldPassword, newPassword);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   const refreshUser = async () => {
     try {
       setLoading(true);
@@ -194,6 +203,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       forgotPassword,
       refreshUser,
       switchUserRole,
+      changePassword,
     }),
     [user]
   );

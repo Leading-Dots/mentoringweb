@@ -6,6 +6,7 @@ import {
   signOut,
   getCurrentUser,
   autoSignIn,
+  updatePassword,
 } from "aws-amplify/auth";
 import { UserRole } from "types";
 
@@ -97,6 +98,15 @@ export const handleSignOut = async () => {
     throw error;
   }
 };
+
+
+export const handleUpdatePassowrd = async (username: string, oldPassword: string, newPassword: string) => {
+  try {
+    await updatePassword({oldPassword, newPassword});
+  } catch (error) {
+    throw error;
+  }
+}
 
 // Get current authenticated user
 export const getCurrentAuthUser = async () => {

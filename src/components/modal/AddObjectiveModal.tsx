@@ -2,6 +2,7 @@ import * as React from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -12,6 +13,7 @@ import { TagInput } from "../common/TagInput";
 import { updateSession } from "@/graphql/mutations";
 import client from "@/lib/apiClient";
 import { Session } from "@/API";
+import { Plus } from "lucide-react";
 
 interface AddObjectiveModalProps {
   children?: React.ReactNode;
@@ -60,14 +62,18 @@ export function AddObjectiveModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>
+          {children}
+      </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl">Add New Objectives</DialogTitle>
+          <DialogTitle className="text-2xl">Objectives</DialogTitle>
+          <DialogDescription>
+            Add objectives for this session
+          </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="objectives">Objectives</Label>
             <TagInput
               value={objectives.map((text, index) => ({
                 id: index.toString(),
@@ -81,14 +87,11 @@ export function AddObjectiveModal({
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsOpen(false)}
-            >
-              Cancel
+            
+            
+            <Button type="submit" className="w-full">
+              Save
             </Button>
-            <Button type="submit">Add Objectives</Button>
           </div>
         </form>
       </DialogContent>
