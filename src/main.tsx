@@ -16,7 +16,7 @@ createRoot(document.getElementById('root')!).render(
       richColors
       position="top-center"
     />
-    <ThemeProvider defaultTheme='dark' storageKey='vite-ui-theme'>
+    <ThemeProvider defaultTheme='light' storageKey='vite-ui-theme'>
     <App />
     </ThemeProvider>
   </StrictMode>,
