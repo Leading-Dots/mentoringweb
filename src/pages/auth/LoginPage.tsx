@@ -31,6 +31,7 @@ import { UserRole } from "types";
 import { Link } from "react-router-dom";
 import { RoleSelect } from "@/components/common/RoleSelect";
 import { showToast } from "@/lib/toast";
+import { ChevronRightCircle } from "lucide-react";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -148,17 +149,16 @@ export default function LoginPage() {
               </span>
               Register
             </Link>
-
-            <div className="flex flex-col gap-6">
-              <Link
-                to={"/home"}
-                className="hover:underline underline-offset-4  text-muted-foreground"
-              >
-                Continue without signing in
-              </Link>
-            </div>
           </CardFooter>
         </Card>
+      </div>
+      <div className="flex flex-col gap-6 items-center">
+        <Link
+          to={"/home"}
+          className="hover:underline underline-offset-4  text-muted-foreground flex items-center gap-2"
+        >
+          Continue without signing in
+        </Link>
       </div>
     </div>
   );
