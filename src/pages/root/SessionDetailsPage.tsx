@@ -43,7 +43,6 @@ const SessionDetailsPage = () => {
     mentee: Mentee | null;
   }>({ mentor: null, mentee: null });
   const [loading, setLoading] = useState(true);
-  const [reviewModal, setReviewModal] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   // Moved authentication logic to a memoized value
@@ -92,6 +91,8 @@ const SessionDetailsPage = () => {
   const handleCompleteFlow = () => {};
 
   const handleAddReview = () => {};
+
+  
   useEffect(() => {
     let mounted = true;
 
@@ -217,31 +218,7 @@ const SessionDetailsPage = () => {
                   </Button>
                 </RescheduleSessionModal>
 
-                <>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="lg">
-                        <MoreHorizontal className="h-5 w-5" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={handleCompleteFlow}>
-                        <Check className="mr-2 h-4 w-4" />
-                        Mark as Completed
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setReviewModal(true)}>
-                        <Star className="mr-2 h-4 w-4" />
-                        Add Review
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                  <AddReviewModal
-                    open={reviewModal}
-                    setOpen={setReviewModal}
-                    session={session}
-                    onConfirm={fetchAll}
-                  />
-                </>
+             
               </div>
             </div>
           </div>
@@ -254,7 +231,7 @@ const SessionDetailsPage = () => {
           </CardHeader>
           <CardContent>
             {session && (
-              <SessionParticipantsCard mentor={mentor} mentee={mentee} />
+              <SessionParticipantsCard mentor={mentor} mentee={mentee} session={session} onConfirm={fetchAll}/>
             )}
           </CardContent>
         </Card>

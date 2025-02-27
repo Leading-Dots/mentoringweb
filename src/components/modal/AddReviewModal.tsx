@@ -37,12 +37,13 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import client from "@/lib/apiClient";
-import { Session } from "@/API";
+import { Review, Session } from "@/API";
 import { useAuth } from "@/hooks/useAuth";
 import { createReview } from "@/graphql/mutations";
 
 interface AddReviewModalProps {
   open: boolean;
+  existingReview?: Review;
   setOpen: (open: boolean) => void;
   session: Session;
   onConfirm: () => Promise<void>;
@@ -58,6 +59,7 @@ const AddReviewModal = ({
   session,
   open,
   setOpen,
+  existingReview = null,
 }: AddReviewModalProps) => {
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -66,8 +68,8 @@ const AddReviewModal = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      content: "",
-      rating: 0,
+      content: existingReview?.comment || "",
+      rating: parseInt(existingReview?.rating) || 1,
     },
   });
 
@@ -104,7 +106,13 @@ const AddReviewModal = ({
     }
   };
 
-  const StarRating = ({ field }: { field: any }) => {
+  const StarRating = ({
+    field,
+    disabled,
+  }: {
+    field: any;
+    disabled: boolean;
+  }) => {
     return (
       <div className="flex gap-2 items-center">
         {[1, 2, 3, 4, 5].map((star) => (
@@ -116,7 +124,7 @@ const AddReviewModal = ({
                 ? "fill-yellow-400 text-yellow-400"
                 : "text-gray-300"
             )}
-            onClick={() => field.onChange(star)}
+            onClick={() => !disabled && field.onChange(star)}
           />
         ))}
       </div>
@@ -131,9 +139,13 @@ const AddReviewModal = ({
           ) : (
             <div className="p-4">
               <DrawerHeader>
-                <DrawerTitle className="text-2xl">Add Review</DrawerTitle>
+                <DrawerTitle className="text-2xl">
+                  {existingReview ? "Review" : "Add Review"}
+                </DrawerTitle>
                 <DrawerDescription>
-                  Share your experience and rate the session
+                  {existingReview
+                    ? "Your review for this session"
+                    : "Share your experience and rate the session"}
                 </DrawerDescription>
               </DrawerHeader>
 
@@ -149,7 +161,10 @@ const AddReviewModal = ({
                       <FormItem>
                         <FormLabel>Rating</FormLabel>
                         <FormControl>
-                          <StarRating field={field} />
+                          <StarRating
+                            field={field}
+                            disabled={existingReview ? true : false}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -164,6 +179,7 @@ const AddReviewModal = ({
                         <FormLabel>Review Content</FormLabel>
                         <FormControl>
                           <Textarea
+                            disabled={existingReview ? true : false}
                             {...field}
                             placeholder="Share your thoughts about the session..."
                           />
@@ -173,11 +189,13 @@ const AddReviewModal = ({
                     )}
                   />
 
-                  <DrawerFooter>
-                    <Button className="w-full" type="submit">
-                      Submit Review
-                    </Button>
-                  </DrawerFooter>
+                  {!existingReview && (
+                    <DrawerFooter>
+                      <Button className="w-full" type="submit">
+                        Submit Review
+                      </Button>
+                    </DrawerFooter>
+                  )}
                 </form>
               </Form>
             </div>
@@ -195,9 +213,13 @@ const AddReviewModal = ({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl">Add Review</DialogTitle>
+              <DialogTitle className="text-2xl">
+                {existingReview ? "Review" : "Add Review"}
+              </DialogTitle>
               <DialogDescription>
-                Share your experience and rate the session
+                {existingReview
+                  ? "Your review for this session"
+                  : "Share your experience and rate the session"}
               </DialogDescription>
             </DialogHeader>
 
@@ -213,7 +235,10 @@ const AddReviewModal = ({
                     <FormItem>
                       <FormLabel>Rating</FormLabel>
                       <FormControl>
-                        <StarRating field={field} />
+                        <StarRating
+                          field={field}
+                          disabled={existingReview ? true : false}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -229,6 +254,7 @@ const AddReviewModal = ({
                       <FormControl>
                         <Textarea
                           {...field}
+                          disabled={existingReview ? true : false}
                           placeholder="Share your thoughts about the session..."
                         />
                       </FormControl>
@@ -237,11 +263,13 @@ const AddReviewModal = ({
                   )}
                 />
 
-                <DialogFooter>
-                  <Button className="w-full" type="submit">
-                    Submit Review
-                  </Button>
-                </DialogFooter>
+                {!existingReview && (
+                  <DialogFooter>
+                    <Button className="w-full" type="submit">
+                      Submit Review
+                    </Button>
+                  </DialogFooter>
+                )}
               </form>
             </Form>
           </>

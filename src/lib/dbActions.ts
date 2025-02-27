@@ -1,4 +1,9 @@
-import { listChatRooms, listMentees, listMentors } from "@/graphql/queries";
+import {
+  listChatRooms,
+  listMentees,
+  listMentors,
+  listReviews,
+} from "@/graphql/queries";
 import client from "./apiClient";
 import {
   createChatRoom,
@@ -6,6 +11,7 @@ import {
   createMentor,
 } from "@/graphql/mutations";
 import { ProfileStatus } from "@/API";
+import { UserRole } from "types";
 type ROLE = "mentor" | "mentee";
 
 interface IntiateChatRoom {
@@ -174,5 +180,33 @@ export const intiateChat = async ({
     return chatRoomData.createChatRoom.id;
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const getSessionReview = async (
+  sessionID: string,
+  userRole: UserRole
+) => {
+  try {
+    const { data } = await client.graphql({
+      query: listReviews,
+      variables: {
+        limit: 1,
+        filter: {
+          sessionID: {
+            eq: sessionID,
+          },
+          reviewerRole: {
+            eq: userRole,
+          },
+        },
+      },
+    });
+    if (data.listReviews.items.length > 0) {
+      return data.listReviews.items[0];
+    }
+    return null
+  } catch (error) {
+    console.error("Error fetching reviews", error);
   }
 };

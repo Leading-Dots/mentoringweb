@@ -93,7 +93,7 @@ export const handleForgotPassword = async (username: string) => {
 export const handleSignOut = async () => {
   try {
     await signOut();
-    localStorage.clear();
+    // localStorage.clear();
   } catch (error) {
     throw error;
   }
