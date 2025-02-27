@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
 import { UserRole } from "types";
+import { showToast } from "@/lib/toast";
 
 export default function ConfirmSignUpPage() {
   const location = useLocation();
@@ -39,8 +40,11 @@ export default function ConfirmSignUpPage() {
 
       console.log("Signed in successfully", isSignUpComplete);
 
+      showToast("Successfully signed up!", "success");
+
       return isSignUpComplete;
-    } catch (error) {
+    } catch (error : any) {
+      showToast(error.message, "error");
       console.error(error);
     }
   }

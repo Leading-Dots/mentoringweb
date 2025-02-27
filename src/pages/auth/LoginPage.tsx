@@ -30,6 +30,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { UserRole } from "types";
 import { Link } from "react-router-dom";
 import { RoleSelect } from "@/components/common/RoleSelect";
+import { showToast } from "@/lib/toast";
 
 const formSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -55,8 +56,10 @@ export default function LoginPage() {
     try {
       const response = await signIn(data.email, data.password, data.role);
       console.log(response);
+      showToast("Successfully logged in!", "success");
       return response;
-    } catch (error) {
+    } catch (error: any) {
+      showToast(error.message, "error");
       console.error(error);
     }
   }
@@ -64,8 +67,7 @@ export default function LoginPage() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
       <div className="flex flex-col gap-6">
-        <Card 
-        className="flex flex-col">
+        <Card className="flex flex-col">
           <CardHeader>
             <CardTitle>Login</CardTitle>
             <CardDescription>
