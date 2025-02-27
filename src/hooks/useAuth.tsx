@@ -82,12 +82,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUp = async (email: string, password: string, role: UserRole) => {
     try {
       setLoading(true);
-      const { isSignUpComplete, userId, nextStep } = await handleSignUp({
+      const { isSignUpComplete, userId, nextStep, existingUnconfirmedUser } = await handleSignUp({
         username: email,
         password,
         email,
         role,
       });
+
+      if(existingUnconfirmedUser) {
+        return { isSignUpComplete, userId, nextStep, existingUnconfirmedUser };
+      }
+
+      console.log("isSignUpComplete", isSignUpComplete, userId, nextStep);
       return { isSignUpComplete, userId, nextStep };
     } catch (error) {
       throw error;

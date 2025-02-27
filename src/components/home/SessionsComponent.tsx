@@ -75,39 +75,43 @@ const SessionsComponent = () => {
 
       <div className="flex flex-col md:flex-row gap-4">
         {sessions.map((session) => (
-          <Card variant="gradient" key={session.id} className="w-full md:w-80 space-y-2 ">
-            <CardHeader className="pb-2">
-              <div className="flex items-center justify-between">
-                <Calendar className="size-8 text-primary" />
-                <Badge variant="outline" className="capitalize">
-                  {session.status}
-                </Badge>
-              </div>
-              <CardTitle className="text-lg">{session.sessionTitle}</CardTitle>
-            </CardHeader>
-            <CardContent className="pb-2">
-              <div className="flex flex-col gap-2 text-sm">
-                <div className="flex items-center gap-1.5">
-                  <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                  {new Date(session.sessionDate!!).toLocaleDateString()}
+          <Link to={`/sessions/${session.id}`} key={session.id}>
+            <Card variant="gradient" className="w-full md:w-80 space-y-2 ">
+              <CardHeader className="pb-2">
+                <div className="flex items-center justify-between">
+                  <Calendar className="size-8 text-primary" />
+                  <Badge variant="outline" className="capitalize border-secondary-foreground">
+                    {session.status}
+                  </Badge>
                 </div>
-                <div className="flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                  {formatTime(new Date(session.sessionDate!!))}
+                <CardTitle className="text-lg">
+                  {session.sessionTitle}
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="pb-2">
+                <div className="flex flex-col gap-2 text-sm">
+                  <div className="flex items-center gap-1.5">
+                    <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                    {new Date(session.sessionDate!!).toLocaleDateString()}
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+                    {formatTime(new Date(session.sessionDate!!))}
+                  </div>
+                  <Badge variant="default" className="w-fit">
+                    ${session.cost}
+                  </Badge>
                 </div>
-                <Badge variant="default" className="w-fit">
-                  ${session.cost}
-                </Badge>
-              </div>
-            </CardContent>
-            <CardFooter className="pt-0">
-              <Link to={`/sessions/${session.id}`} className="w-full">
-                <Button variant="outline" size="sm" className="w-full">
-                  View Details
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+              </CardContent>
+              <CardFooter className="pt-0">
+                <Link to={`/sessions/${session.id}`} className="w-full">
+                  <Button variant="outline" size="sm" className="w-full">
+                    View Details
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>

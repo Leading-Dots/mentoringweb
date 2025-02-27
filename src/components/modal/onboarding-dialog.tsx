@@ -109,14 +109,16 @@ export default function OnboardingDialog({}: OnboardingDialogProps) {
               ))}
             </div>
             <DialogFooter className="flex justify-between gap-2">
-              <DialogClose asChild>
 
-                {step < totalSteps && (
-                  <Button type="button" variant="ghost">
-                  Skip
+                {step > 1 && step < totalSteps && (
+                  <Button 
+                  type="button" 
+                  variant="ghost" 
+                  onClick={() => setStep(Math.max(1, step - 1))}
+                  >
+                  Previous
                   </Button>
                 )}
-              </DialogClose>
               {step < totalSteps ? (
                 <Button
                 

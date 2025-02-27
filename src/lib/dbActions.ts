@@ -205,7 +205,29 @@ export const getSessionReview = async (
     if (data.listReviews.items.length > 0) {
       return data.listReviews.items[0];
     }
-    return null
+    return null;
+  } catch (error) {
+    console.error("Error fetching reviews", error);
+  }
+};
+
+//get reviews done on user
+export const getUserReviews = async (userId: string) => {
+  try {
+    const { data } = await client.graphql({
+      query: listReviews,
+      variables: {
+        filter: {
+          reviewedID: {
+            eq: userId,
+          }
+        },
+      },
+    });
+    if (data.listReviews.items.length > 0) {
+      return data.listReviews.items;
+    }
+    return [];
   } catch (error) {
     console.error("Error fetching reviews", error);
   }

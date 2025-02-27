@@ -229,7 +229,7 @@ const SessionDetailsPage = () => {
             <CardTitle className="text-xl">Participants</CardTitle>
             <Separator />
           </CardHeader>
-          <CardContent>
+          <CardContent> 
             {session && (
               <SessionParticipantsCard mentor={mentor} mentee={mentee} session={session} onConfirm={fetchAll}/>
             )}

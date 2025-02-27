@@ -42,11 +42,27 @@ export const handleSignUp = async ({
         },
       },
     });
+    console.log("isSignUpComplete", isSignUpComplete, userId, nextStep);
     return { isSignUpComplete, userId, nextStep };
-  } catch (error) {
+  } catch (error: any) {
+    // Check if error is due to existing unconfirmed user
+    if (error.name === 'UsernameExistsException') {
+      // Return a special response indicating user needs confirmation
+      return {
+        isSignUpComplete: false,
+        nextStep: {
+          signUpStep: 'CONFIRM_SIGN_UP',
+          codeDeliveryDetails: {
+            deliveryMedium: 'EMAIL',
+            destination: email
+          }
+        },
+        existingUnconfirmedUser: true
+      };
+    }
     throw error;
   }
-};
+  }
 
 // Confirm sign up with code
 export const handleConfirmSignUp = async (username: string, code: string) => {
