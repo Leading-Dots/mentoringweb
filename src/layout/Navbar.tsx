@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
+import { ProfileStatus } from "@/API";
 
 type NavItem = {
   title: string;
@@ -151,6 +152,18 @@ const Navbar = () => {
             </Link>
           );
         })}
+        {!isPublished && (
+          <Link
+            to="/profile"
+            className={cn(
+              "flex items-center gap-3 rounded-lg p-2 text-sm transition-colors text-yellow-600",
+              "hover:bg-secondary/80"
+            )}
+          >
+            <User2 className="h-5 w-5" />
+            <span>Complete your profile</span>
+          </Link>
+        )}
       </nav>
     );
   };

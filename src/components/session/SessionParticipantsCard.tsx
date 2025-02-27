@@ -13,6 +13,8 @@ const SessionParticipantsCard = ({
   mentee,
 }: SessionParticipantsCardProps) => {
   return (
+    console.log("mentor", mentor),
+    console.log("mentee", mentee),
     <div className="flex flex-col gap-2">
       {mentor && (
         <Link to={`/mentor/${mentor.mentorId}`}>

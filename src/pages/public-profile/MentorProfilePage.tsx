@@ -124,10 +124,10 @@ const MentorProfilePage = () => {
     <div className="min-h-screen">
       <div className="container max-w-4xl">
         {/* Profile Header */}
-        <div className="bg-white rounded-xl shadow-sm p-8 mb-6">
+        <div className="rounded-xl shadow-sm p-8 mb-6">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-shrink-0">
-              <Avatar className="h-32 w-32 ring-4 ring-gray-50">
+              <Avatar className="h-32 w-32  ">
                 <AvatarImage src={mentor.profilePictureUrl || ""} />
                 <AvatarFallback className="text-2xl">
                   {getInitials(mentor.firstName, mentor.lastName)}
@@ -137,16 +137,16 @@ const MentorProfilePage = () => {
 
             <div className="flex-grow space-y-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl font-bold ">
                   {mentor.firstName} {mentor.lastName}
                 </h1>
-                <div className="flex items-center gap-3 mt-2 text-gray-600">
+                <div className="flex items-center gap-3 mt-2 ">
                   <Mail className="w-4 h-4" />
                   <span>{mentor.email}</span>
                 </div>
               </div>
 
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className=" text-lg leading-relaxed">
                 {mentor.bio}
               </p>
 
@@ -217,21 +217,21 @@ const MentorProfilePage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Briefcase className="w-5 h-5 text-gray-400" />
+                  <Briefcase className="w-5 h-5 " />
                   <div>
-                    <h3 className="font-medium text-gray-900">
+                    <h3 className="font-medium ">
                       Years of Experience
                     </h3>
-                    <p className="text-gray-600">
+                    <p className="">
                       {mentor.yearsOfExperience} years
                     </p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <DollarSign className="w-5 h-5 text-gray-400" />
+                  <DollarSign className="w-5 h-5 " />
                   <div>
-                    <h3 className="font-medium text-gray-900">Hourly Rate</h3>
-                    <p className="text-gray-600">₹{mentor.hourlyRate}/hour</p>
+                    <h3 className="font-medium ">Hourly Rate</h3>
+                    <p className="">₹{mentor.hourlyRate}/hour</p>
                   </div>
                 </div>
               </CardContent>

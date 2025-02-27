@@ -102,10 +102,10 @@ const MenteeProfilePage = () => {
     <div className="min-h-screen">
       <div className="container max-w-4xl">
         {/* Profile Header */}
-        <div className="bg-white rounded-xl shadow-sm p-8 mb-6">
+        <div className=" rounded-xl shadow-sm p-8 mb-6">
           <div className="flex flex-col md:flex-row gap-8">
             <div className="flex-shrink-0">
-              <Avatar className="h-32 w-32 ring-4 ring-gray-50">
+              <Avatar className="h-32 w-32">
                 <AvatarImage src={mentee.profilePictureUrl || ""} />
                 <AvatarFallback className="text-2xl">
                   {getInitials(mentee.firstName, mentee.lastName)}
@@ -115,16 +115,16 @@ const MenteeProfilePage = () => {
             
             <div className="flex-grow space-y-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900">
+                <h1 className="text-3xl font-bold ">
                   {mentee.firstName} {mentee.lastName}
                 </h1>
-                <div className="flex items-center gap-3 mt-2 text-gray-600">
+                <div className="flex items-center gap-3 mt-2 ">
                   <Mail className="w-4 h-4" />
                   <span>{mentee.email}</span>
                 </div>
               </div>
               
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className=" text-lg leading-relaxed">
                 {mentee.bio}
               </p>
 
@@ -190,12 +190,12 @@ const MenteeProfilePage = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <Briefcase className="w-5 h-5 text-gray-400" />
+                  <Briefcase className="w-5 h-5 " />
                   <div>
-                    <h3 className="font-medium text-gray-900">
+                    <h3 className="font-medium ">
                       Preferred Mentor Experience
                     </h3>
-                    <p className="text-gray-600">
+                    <p className="">
                       {mentee.preferredMentorExperience} years
                     </p>
                   </div>
@@ -205,39 +205,7 @@ const MenteeProfilePage = () => {
           </div>
 
           {/* Right Column - Additional Info */}
-          <div className="md:col-span-1">
-            <Card>
-              <CardHeader>
-                <CardTitle>Quick Actions</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <Link to={`/chat/${mentee.menteeId}`} className="block">
-                  <Button variant="outline" className="w-full justify-start gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                    Send Message
-                  </Button>
-                </Link>
-                {currentMeeting ? (
-                  <Link to={`/sessions/${currentMeeting.id}`} className="block">
-                    <Button className="w-full justify-start gap-2">
-                      <Calendar className="w-4 h-4" />
-                      View Session
-                    </Button>
-                  </Link>
-                ) : (
-                  <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
-                    <Button
-                      disabled={isCurrentUser || isGuest}
-                      className="w-full justify-start gap-2"
-                    >
-                      <Calendar className="w-4 h-4" />
-                      Schedule Session
-                    </Button>
-                  </CreateSessionRequestModal>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+          
         </div>
       </div>
     </div>

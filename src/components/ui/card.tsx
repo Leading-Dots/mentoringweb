@@ -13,6 +13,8 @@ const cardVariants = cva(
         default: "hover:border-primary/10",
         gradient:
           "bg-gradient-to-b from-primary/10 to-primary/5 hover:from-primary/30 hover:to-primary/10",
+          partialGradient: 
+          "bg-gradient-to-r from-primary/10 to-transparent hover:from-primary/30 hover:to-primary/10",
        
       },
     },

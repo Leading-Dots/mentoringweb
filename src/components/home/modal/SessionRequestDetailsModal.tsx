@@ -160,7 +160,7 @@ const SessionRequestDetailsModal = ({
                     role={sessionRequest.initiatedBy as UserRole}
                   />
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+                    <div className="flex items-center gap-3  p-3 rounded-lg">
                       <Calendar1Icon className="h-5 w-5 text-primary" />
                       <div>
                         <span className="text-sm text-gray-500">
@@ -176,7 +176,7 @@ const SessionRequestDetailsModal = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+                    <div className="flex items-center gap-3  p-3 rounded-lg">
                       <Clock className="h-5 w-5 text-primary" />
                       <div>
                         <span className="text-sm text-gray-500">Duration</span>
@@ -186,7 +186,7 @@ const SessionRequestDetailsModal = ({
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-lg">
+                    <div className="flex items-center gap-3  p-3 rounded-lg">
                       <DollarSign className="h-5 w-5 text-primary" />
                       <div>
                         <span className="text-sm text-gray-500">Cost</span>
@@ -197,7 +197,7 @@ const SessionRequestDetailsModal = ({
                     </div>
 
                     {sessionRequest.mentorNote && (
-                      <div className="flex gap-3 bg-gray-50 p-3 rounded-lg">
+                      <div className="flex gap-3  p-3 rounded-lg">
                         <MessageSquare className="h-5 w-5 text-primary shrink-0" />
                         <div>
                           <span className="text-sm text-gray-500">
@@ -211,7 +211,7 @@ const SessionRequestDetailsModal = ({
                     )}
 
                     {sessionRequest.menteeNote && (
-                      <div className="flex gap-3 bg-gray-50 p-3 rounded-lg">
+                      <div className="flex gap-3  p-3 rounded-lg">
                         <MessageSquare className="h-5 w-5 text-primary shrink-0" />
                         <div>
                           <span className="text-sm text-gray-500">
