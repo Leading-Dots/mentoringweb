@@ -17,6 +17,16 @@ import { showToast } from "@/lib/toast";
 import { DialogLoader } from "../common/DialogLoader";
 import client from "@/lib/apiClient";
 import { createSessionRequest } from "@/graphql/mutations";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+  DrawerTrigger,
+  DrawerDescription,
+} from "@/components/ui/drawer";
 
 export function CreateSessionRequestModal({
   children,
@@ -30,6 +40,7 @@ export function CreateSessionRequestModal({
   const [otherUser, setOtherUser] = useState<Mentor | Mentee | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const isMobile = useMediaQuery("(max-width: 640px)");
   const userRole = user?.role;
   const otherRole = userRole === "mentor" ? "mentee" : "mentor";
 
@@ -121,6 +132,47 @@ export function CreateSessionRequestModal({
       getOtherSessionUser(otherUserId);
     }
   }, [open]);
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent className="h-[90vh]">
+          {loading ? (
+            <DialogLoader />
+          ) : (
+            <div className="h-full overflow-auto p-6">
+              <DrawerHeader>
+                <DrawerTitle className="text-2xl">
+                  Request a Session
+                </DrawerTitle>
+                <DrawerDescription>
+                  Fill in the details to request a new mentoring session.
+                </DrawerDescription>
+              </DrawerHeader>
+              {otherUser && (
+                <UserCard otherUserData={otherUser} role={otherRole} />
+              )}
+              <div className="grid gap-4 py-4">
+                <SessionRequestForm
+                  onSubmit={handleSubmit}
+                  isMentor={userRole === "mentor"}
+                />
+              </div>
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" onClick={() => setOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" form="session-request-form">
+                  Create Request
+                </Button>
+              </div>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>

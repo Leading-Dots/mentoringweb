@@ -209,12 +209,14 @@ const Navbar = () => {
             </Link>
           </div>
           <NavContent />
-          <div>
-            <Button variant="ghost" size="sm">
+          {user && (
+          <div className="flex flex-col items-start gap-2 mt-auto">
+            <Button onClick={signOut} variant="ghost" size="sm">
               <LogOut className="h-4 w-4" />
               <span>Logout</span>
             </Button>
           </div>
+        )}
         </SheetContent>
       </Sheet>
     </>

@@ -8,6 +8,7 @@ import {
   DialogTrigger,
   DialogDescription,
 } from "@/components/ui/dialog";
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar1Icon, Clock, DollarSign, MessageSquare } from "lucide-react";
@@ -20,6 +21,16 @@ import { UserRole } from "types";
 import { getUser } from "@/lib/dbActions";
 import { DialogLoader } from "@/components/common/DialogLoader";
 import { useNavigate } from "react-router-dom";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 
 interface SessionRequestDetailsModalProps {
   sessionRequest: SessionRequest;
@@ -30,12 +41,14 @@ interface SessionRequestDetailsModalProps {
 const SessionRequestDetailsModal = ({
   sessionRequest,
   children,
-  onConfirm
+  onConfirm,
 }: SessionRequestDetailsModalProps) => {
   const router = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [initiatorData, setInitiatorData] = React.useState<any>();
   const [loading, setLoading] = React.useState(false);
+
+  const isMobile = useMediaQuery("(max-width: 640px)");
 
   const onClose = () => {
     console.log("close");
@@ -84,7 +97,6 @@ const SessionRequestDetailsModal = ({
             "success",
             `Your session has been scheduled successfully for ${sessionRequest.proposedSessionTime}`
           );
-
         }
       }
     } catch (error) {
@@ -145,6 +157,118 @@ const SessionRequestDetailsModal = ({
       getInitiatorData();
     }
   }, [open]);
+
+  if (isMobile) {
+    return (
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>{children}</DrawerTrigger>
+        <DrawerContent>
+          {loading ? (
+            <DialogLoader />
+          ) : (
+            <div className="px-4 pb-4">
+              <DrawerHeader className="pt-4">
+                <DrawerTitle className="text-2xl">
+                  Session Request Details
+                </DrawerTitle>
+                <DrawerDescription>
+                  Review the session request details and take action
+                </DrawerDescription>
+              </DrawerHeader>
+              <Card>
+                <CardContent className="space-y-2 w-full">
+                  <UserCard
+                    otherUserData={initiatorData}
+                    role={sessionRequest.initiatedBy as UserRole}
+                  />
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg">
+                      <Calendar1Icon className="h-5 w-5 text-primary" />
+                      <div>
+                        <span className="text-sm text-gray-500">
+                          Proposed Time
+                        </span>
+                        <p className="font-medium">
+                          {sessionRequest.proposedSessionTime
+                            ? new Date(
+                                sessionRequest.proposedSessionTime
+                              ).toLocaleString()
+                            : "Not set"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg">
+                      <Clock className="h-5 w-5 text-primary" />
+                      <div>
+                        <span className="text-sm text-gray-500">Duration</span>
+                        <p className="font-medium">
+                          {sessionRequest.duration} minutes
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 p-3 rounded-lg">
+                      <DollarSign className="h-5 w-5 text-primary" />
+                      <div>
+                        <span className="text-sm text-gray-500">Cost</span>
+                        <p className="font-medium">
+                          ${sessionRequest.proposedCost}
+                        </p>
+                      </div>
+                    </div>
+
+                    {sessionRequest.mentorNote && (
+                      <div className="flex gap-3 p-3 rounded-lg">
+                        <MessageSquare className="h-5 w-5 text-primary shrink-0" />
+                        <div>
+                          <span className="text-sm text-gray-500">
+                            Mentor Note
+                          </span>
+                          <p className="text-sm mt-1">
+                            {sessionRequest.mentorNote}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {sessionRequest.menteeNote && (
+                      <div className="flex gap-3 p-3 rounded-lg">
+                        <MessageSquare className="h-5 w-5 text-primary shrink-0" />
+                        <div>
+                          <span className="text-sm text-gray-500">
+                            Mentee Note
+                          </span>
+                          <p className="text-sm mt-1">
+                            {sessionRequest.menteeNote}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+              <DrawerFooter className="gap-2 w-full mt-4">
+                <Button
+                  className="w-full"
+                  onClick={() => onAccept(sessionRequest)}
+                >
+                  Accept
+                </Button>
+                <Button
+                  className="w-full text-destructive"
+                  variant="outline"
+                  onClick={() => onReject(sessionRequest)}
+                >
+                  Reject
+                </Button>
+              </DrawerFooter>
+            </div>
+          )}
+        </DrawerContent>
+      </Drawer>
+    );
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
@@ -161,79 +285,79 @@ const SessionRequestDetailsModal = ({
                 Review the session request details and take action
               </DialogDescription>
             </DialogHeader>
-              <Card>
-                <CardContent className="space-y-2 w-full">
-                  <UserCard
-                    otherUserData={initiatorData}
-                    role={sessionRequest.initiatedBy as UserRole}
-                  />
-                  <div className="space-y-4">
-                    <div className="flex items-center gap-3  p-3 rounded-lg">
-                      <Calendar1Icon className="h-5 w-5 text-primary" />
+            <Card>
+              <CardContent className="space-y-2 w-full">
+                <UserCard
+                  otherUserData={initiatorData}
+                  role={sessionRequest.initiatedBy as UserRole}
+                />
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3  p-3 rounded-lg">
+                    <Calendar1Icon className="h-5 w-5 text-primary" />
+                    <div>
+                      <span className="text-sm text-gray-500">
+                        Proposed Time
+                      </span>
+                      <p className="font-medium">
+                        {sessionRequest.proposedSessionTime
+                          ? new Date(
+                              sessionRequest.proposedSessionTime
+                            ).toLocaleString()
+                          : "Not set"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3  p-3 rounded-lg">
+                    <Clock className="h-5 w-5 text-primary" />
+                    <div>
+                      <span className="text-sm text-gray-500">Duration</span>
+                      <p className="font-medium">
+                        {sessionRequest.duration} minutes
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3  p-3 rounded-lg">
+                    <DollarSign className="h-5 w-5 text-primary" />
+                    <div>
+                      <span className="text-sm text-gray-500">Cost</span>
+                      <p className="font-medium">
+                        ${sessionRequest.proposedCost}
+                      </p>
+                    </div>
+                  </div>
+
+                  {sessionRequest.mentorNote && (
+                    <div className="flex gap-3  p-3 rounded-lg">
+                      <MessageSquare className="h-5 w-5 text-primary shrink-0" />
                       <div>
                         <span className="text-sm text-gray-500">
-                          Proposed Time
+                          Mentor Note
                         </span>
-                        <p className="font-medium">
-                          {sessionRequest.proposedSessionTime
-                            ? new Date(
-                                sessionRequest.proposedSessionTime
-                              ).toLocaleString()
-                            : "Not set"}
+                        <p className="text-sm mt-1">
+                          {sessionRequest.mentorNote}
                         </p>
                       </div>
                     </div>
+                  )}
 
-                    <div className="flex items-center gap-3  p-3 rounded-lg">
-                      <Clock className="h-5 w-5 text-primary" />
+                  {sessionRequest.menteeNote && (
+                    <div className="flex gap-3  p-3 rounded-lg">
+                      <MessageSquare className="h-5 w-5 text-primary shrink-0" />
                       <div>
-                        <span className="text-sm text-gray-500">Duration</span>
-                        <p className="font-medium">
-                          {sessionRequest.duration} minutes
+                        <span className="text-sm text-gray-500">
+                          Mentee Note
+                        </span>
+                        <p className="text-sm mt-1">
+                          {sessionRequest.menteeNote}
                         </p>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-3  p-3 rounded-lg">
-                      <DollarSign className="h-5 w-5 text-primary" />
-                      <div>
-                        <span className="text-sm text-gray-500">Cost</span>
-                        <p className="font-medium">
-                          ${sessionRequest.proposedCost}
-                        </p>
-                      </div>
-                    </div>
-
-                    {sessionRequest.mentorNote && (
-                      <div className="flex gap-3  p-3 rounded-lg">
-                        <MessageSquare className="h-5 w-5 text-primary shrink-0" />
-                        <div>
-                          <span className="text-sm text-gray-500">
-                            Mentor Note
-                          </span>
-                          <p className="text-sm mt-1">
-                            {sessionRequest.mentorNote}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    {sessionRequest.menteeNote && (
-                      <div className="flex gap-3  p-3 rounded-lg">
-                        <MessageSquare className="h-5 w-5 text-primary shrink-0" />
-                        <div>
-                          <span className="text-sm text-gray-500">
-                            Mentee Note
-                          </span>
-                          <p className="text-sm mt-1">
-                            {sessionRequest.menteeNote}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
             <DialogFooter className="gap-2 w-full">
               <Button
                 className="w-full"
@@ -245,7 +369,6 @@ const SessionRequestDetailsModal = ({
               <Button
                 className="w-full text-destructive"
                 variant="outline"
-
                 onClick={() => onReject(sessionRequest)}
               >
                 Reject
