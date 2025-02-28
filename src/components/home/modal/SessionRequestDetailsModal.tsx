@@ -19,16 +19,20 @@ import { UserCard } from "@/components/common/UserCard";
 import { UserRole } from "types";
 import { getUser } from "@/lib/dbActions";
 import { DialogLoader } from "@/components/common/DialogLoader";
+import { useNavigate } from "react-router-dom";
 
 interface SessionRequestDetailsModalProps {
   sessionRequest: SessionRequest;
   children: React.ReactNode;
+  onConfirm?: () => void;
 }
 
 const SessionRequestDetailsModal = ({
   sessionRequest,
   children,
+  onConfirm
 }: SessionRequestDetailsModalProps) => {
+  const router = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [initiatorData, setInitiatorData] = React.useState<any>();
   const [loading, setLoading] = React.useState(false);
@@ -72,11 +76,15 @@ const SessionRequestDetailsModal = ({
 
         if (data) {
           console.log(errors);
+
+          router("/sessions");
+
           showToast(
             "Session created successfully",
             "success",
             `Your session has been scheduled successfully for ${sessionRequest.proposedSessionTime}`
           );
+
         }
       }
     } catch (error) {

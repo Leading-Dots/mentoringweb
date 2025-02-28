@@ -14,6 +14,7 @@ import {
   Calendar,
   GraduationCap,
   Target,
+  CalendarPlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
@@ -169,12 +170,24 @@ const MentorProfilePage = () => {
                   Message
                 </Button>
                 {currentMeeting ? (
+                  <>
                   <Link to={`/sessions/${currentMeeting.id}`}>
                     <Button className="gap-2">
                       <Calendar className="w-4 h-4" />
                       View Current Session
                     </Button>
                   </Link>
+                  <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
+                    <Button
+                      variant="outline"
+                      disabled={isCurrentUser || isGuest}
+                      className="gap-2"
+                    >
+                      <CalendarPlus className="w-4 h-4" />
+                      {isGuest ? "Login to Schedule" : "Schedule Session"}
+                    </Button>
+                  </CreateSessionRequestModal>
+                  </>
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
                     <Button

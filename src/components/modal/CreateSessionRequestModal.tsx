@@ -43,7 +43,7 @@ export function CreateSessionRequestModal({
         // Send session request to mentee
 
         const requestData = {
-          sessionTitle : data.title,
+          sessionTitle: data.title,
           mentorID: user?.mentorId,
           menteeID: otherUserId,
           status: SessionRequestStatus.SENT,
@@ -53,7 +53,7 @@ export function CreateSessionRequestModal({
           proposedSessionTime: data.proposedSessionTime,
           proposedCost: data.proposedCost,
           sessionID: "nosession",
-          initiatedBy: "mentor", //TODO: Check if this is correct
+          initiatedBy: userRole,
         };
 
         console.log("requestData", requestData);
@@ -82,7 +82,7 @@ export function CreateSessionRequestModal({
               proposedSessionTime: data.proposedSessionTime,
               proposedCost: data.proposedCost,
               sessionID: "nosession",
-              initiatedBy: "mentee", //TODO: Check if this is correct
+              initiatedBy: userRole,
             },
           },
         });

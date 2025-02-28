@@ -13,6 +13,7 @@ import {
   Target,
   Mail,
   Calendar,
+  CalendarPlus,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
@@ -148,12 +149,25 @@ const MenteeProfilePage = () => {
                   </Button>
                 </Link>
                 {currentMeeting ? (
+                  <>
                   <Link to={`/sessions/${currentMeeting.id}`}>
                     <Button className="gap-2">
                       <Calendar className="w-4 h-4" />
                       View Current Session
                     </Button>
+
                   </Link>
+                  <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
+                  <Button
+                    disabled={isCurrentUser || isGuest}
+                    className="gap-2"
+                    variant="outline"
+                  >
+                    <CalendarPlus className="w-4 h-4" />
+                    Create Another Session
+                  </Button>
+                </CreateSessionRequestModal>
+                  </>
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
                     <Button
