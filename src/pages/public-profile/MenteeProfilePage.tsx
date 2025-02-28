@@ -1,7 +1,7 @@
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
 import { Mentee, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
-import { getUser, getUserReviews } from "@/lib/dbActions";
+import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
 import { listSessions } from "@/graphql/queries";
 import { UserRole } from "types";
+import { showToast } from "@/lib/toast";
 
 const MenteeProfilePage = () => {
   const params = useParams();
@@ -31,6 +32,7 @@ const MenteeProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const router = useNavigate();
 
   const isCurrentUser =
     (user && user?.menteeId === params.id) || user?.mentorId === params.id;
@@ -52,6 +54,22 @@ const MenteeProfilePage = () => {
       fetchReviews(params.id);
     }
   }, [params.id]);
+
+  const handleChat = async () => {
+    try {
+      if (!user) return showToast("Login to start a chat", "error");
+      const chatId = await intiateChat({
+        menteeId: mentee.menteeId!,
+        mentorId: user?.role === "mentor" ? user?.mentorId : user?.menteeId,
+        menteeName: `${mentee.firstName} ${mentee.lastName}`,
+        mentorName: `${user?.firstName} ${user?.lastName}`,
+      });
+
+      router(`/chat/${chatId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const fetchMenteeProfile = async () => {
     try {
@@ -142,31 +160,32 @@ const MenteeProfilePage = () => {
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
 
               <div className="flex gap-4 pt-2">
-                <Link to={`/chat/${mentee.menteeId}`}>
-                  <Button variant="outline" className="gap-2">
-                    <MessageCircle className="w-4 h-4" />
-                    Message
-                  </Button>
-                </Link>
+                <Button
+                  variant="outline"
+                  className="gap-2"
+                  onClick={handleChat}
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  Message
+                </Button>
                 {currentMeeting ? (
                   <>
-                  <Link to={`/sessions/${currentMeeting.id}`}>
-                    <Button className="gap-2">
-                      <Calendar className="w-4 h-4" />
-                      View Current Session
-                    </Button>
-
-                  </Link>
-                  <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
-                  <Button
-                    disabled={isCurrentUser || isGuest}
-                    className="gap-2"
-                    variant="outline"
-                  >
-                    <CalendarPlus className="w-4 h-4" />
-                    Create Another Session
-                  </Button>
-                </CreateSessionRequestModal>
+                    <Link to={`/sessions/${currentMeeting.id}`}>
+                      <Button className="gap-2">
+                        <Calendar className="w-4 h-4" />
+                        View Current Session
+                      </Button>
+                    </Link>
+                    <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
+                      <Button
+                        disabled={isCurrentUser || isGuest}
+                        className="gap-2"
+                        variant="outline"
+                      >
+                        <CalendarPlus className="w-4 h-4" />
+                        Create Another Session
+                      </Button>
+                    </CreateSessionRequestModal>
                   </>
                 ) : (
                   <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>

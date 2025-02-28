@@ -12,6 +12,7 @@ import { ChatRoom, Messages } from "@/API";
 import { useAuth } from "@/hooks/useAuth";
 import { createMessages } from "@/graphql/mutations";
 import { getInitials } from "@/lib/utils";
+import { onCreateMessages } from "@/graphql/subscriptions";
 
 const ChatPage = () => {
   const params = useParams();
@@ -61,9 +62,7 @@ const ChatPage = () => {
       },
     });
 
-    if (data) {
-      setMessages([...messages, data.createMessages]);
-    }
+  
 
     setNewMessage("");
   };
@@ -87,9 +86,40 @@ const ChatPage = () => {
   };
 
   useEffect(() => {
-    fetchChatData();
     fetchMessages();
-  }, []);
+  }, [params.id]);
+
+  useEffect(() => {
+    fetchChatData();
+
+    // Set up subscription for new messages
+    const subscription = client
+      .graphql({
+        query: onCreateMessages,
+      })
+      .subscribe({
+        next: ({ data }) => {
+          if (data?.onCreateMessages) {
+            setMessages((prevMessages) => [
+              ...prevMessages,
+              data.onCreateMessages,
+            ]);
+          }
+        },
+        error: (error) => console.error("Subscription error:", error),
+      });
+
+    // Cleanup subscription on component unmount
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [params.id]);
+
+
+  const sortedMessages = [...messages].sort(
+    (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+  );
+
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl p-4">
@@ -110,7 +140,7 @@ const ChatPage = () => {
       {/* Messages Area */}
       <ScrollArea className="flex-1 p-4 mb-4 rounded-lg border">
         <div className="space-y-4">
-          {messages.map((message) => (
+          {sortedMessages.map((message) => (
             <div
               key={message.id}
               className={`flex ${
