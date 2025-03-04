@@ -177,7 +177,7 @@ export function CreateSessionRequestModal({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[600px] w-full">
+      <DialogContent className="sm:max-w-[600px] w-full max-h-[90vh] overflow-y-auto">
         {loading ? (
           <DialogLoader />
         ) : (

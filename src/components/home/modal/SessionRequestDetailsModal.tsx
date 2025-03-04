@@ -272,7 +272,7 @@ const SessionRequestDetailsModal = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent>
+      <DialogContent className="overflow-y-auto">
         {loading ? (
           <DialogLoader />
         ) : (
@@ -322,8 +322,8 @@ const SessionRequestDetailsModal = ({
                     <DollarSign className="h-5 w-5 text-primary" />
                     <div>
                       <span className="text-sm text-gray-500">Cost</span>
-                      <p className="font-medium">
-                        ${sessionRequest.proposedCost}
+                      <p className="font-medium text-green-500">
+                       {Number(sessionRequest.proposedCost) === 0 ? "Free" : `$${sessionRequest.proposedCost}`}
                       </p>
                     </div>
                   </div>

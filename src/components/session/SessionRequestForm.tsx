@@ -15,18 +15,22 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 import { DateTimePicker } from "../common/DatePicker";
+import { useEffect, useState } from "react";
+import { Switch } from "../ui/switch";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
     title: z.string().min(1, "Title is required"),
+
     proposedCost: z.string().min(1, "Proposed cost is required"),
     note: z
       .string()
       .min(10, "Please provide a note with at least 10 characters"),
     duration: z
       .number()
-      .min(30, "Duration must be at least 30 minutes")
-      .max(180, "Duration cannot exceed 180 minutes"),
+      .int("Duration must be a whole number")
+      .min(1, "Duration must be at least 1 month"),
+
     proposedSessionTime: z.date({
       required_error: "Please select a date and time",
     }),
@@ -41,13 +45,14 @@ export function SessionRequestForm({
   onSubmit: (data: FormSchema) => void;
   isMentor: boolean;
 }) {
+  const [isFree, setIsFree] = useState(false);
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema(isMentor)),
     defaultValues: {
       title: "",
       proposedCost: "",
       note: "",
-      duration: 60,
+      duration: 1,
       proposedSessionTime: new Date(),
     },
   });
@@ -60,6 +65,12 @@ export function SessionRequestForm({
     };
     onSubmit(transformedData);
   };
+  useEffect(() => {
+    if (isFree) {
+      form.setValue("proposedCost", "0");
+    }
+  }, [isFree, form]);
+
 
   return (
     <Form {...form}>
@@ -82,26 +93,37 @@ export function SessionRequestForm({
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="proposedCost"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Proposed Cost ($)</FormLabel>
-              <FormControl>
-                <Input type="number" placeholder="Enter amount" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="flex items-center gap-2">
+          <Switch
+            className="data-[state=checked]:bg-green-500"
+            checked={isFree}
+            onCheckedChange={setIsFree}
+          />
+          <span className="text-sm font-medium">Free Session</span>
+        </div>
+
+        {!isFree && (
+          <FormField
+            control={form.control}
+            name="proposedCost"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Proposed Cost ($)</FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="Enter amount" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
           name="duration"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Duration (minutes)</FormLabel>
+              <FormLabel>Duration (Months)</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -110,9 +132,7 @@ export function SessionRequestForm({
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>
-              <FormDescription>
-                Session duration between 30 and 180 minutes
-              </FormDescription>
+
               <FormMessage />
             </FormItem>
           )}
