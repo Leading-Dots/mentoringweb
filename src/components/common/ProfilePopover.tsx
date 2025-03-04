@@ -28,7 +28,7 @@ export function ProfilePopover() {
   return (
 
       <Avatar onClick={handleProfileClick} className="size-9 cursor-pointer">
-      <AvatarImage src="/placeholder-avatar.jpg" />
+      <AvatarImage src={user.profilePictureUrl} />
       <AvatarFallback>
         {getInitials(user?.firstName, user?.lastName) || "U"}  
       </AvatarFallback>

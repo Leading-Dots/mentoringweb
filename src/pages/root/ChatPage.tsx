@@ -122,7 +122,7 @@ const ChatPage = () => {
 
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl p-4">
+    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl p-2 mx-auto">
       {/* Chat Header */}
       <Card className="p-2 mb-2 flex items-center space-x-4">
         <div className="flex items-center space-x-4">

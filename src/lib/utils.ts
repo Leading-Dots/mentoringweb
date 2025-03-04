@@ -18,6 +18,7 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
     lastName: data.lastName || "",
     email: data.email || "",
     bio: data.bio || "",
+    profilePictureUrl: data.profilePictureUrl || "",
   };
 
   if (role === "mentor") {

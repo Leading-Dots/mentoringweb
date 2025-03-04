@@ -137,7 +137,11 @@ const SessionRequestComponent = () => {
 
               <CardFooter className="p-0 pt-4">
                 <SessionRequestDetailsModal sessionRequest={request}>
-                 {userRole !== request.initiatedBy && <Button variant="outline">View Details</Button> }
+                  {userRole !== request.initiatedBy && (
+                    <span className="text-primary underline cursor-pointer">
+                      View
+                    </span>
+                  )}
                 </SessionRequestDetailsModal>
               </CardFooter>
             </Card>

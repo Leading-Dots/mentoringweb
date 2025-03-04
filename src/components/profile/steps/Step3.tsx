@@ -10,6 +10,9 @@ import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
+import { uploadProfileImage, uploadResume } from "@/lib/storage";
+import { showToast } from "@/lib/toast";
 
 interface StepThreeProps {
   role: "mentor" | "mentee";
@@ -17,7 +20,28 @@ interface StepThreeProps {
 
 const StepThree = ({ role }: StepThreeProps) => {
   const form = useFormContext();
-  const {user} = useAuth();
+  const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files?.[0]) return;
+
+    setLoading(true);
+    try {
+      const file = e.target.files[0];
+      const url = await uploadResume(file, user.id);
+      if (!url) {
+        showToast("Error uploading file", "error");
+        return;
+      }
+      console.log("Resume URL in StepThree Component", url);
+      form.setValue("resumeUrl", url);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -88,23 +112,23 @@ const StepThree = ({ role }: StepThreeProps) => {
               <FormLabel>Resume</FormLabel>
               <FormDescription>Upload your resume (PDF format)</FormDescription>
               <FormControl>
-                <Input
-                  {...field}
-                  type="file"
-                  accept=".pdf"
-                  onChange={ async (e) => {
-                    const file = e.target.files?.[0];
-
-
-                    if (!file) return;
-
-
-                    const url =  URL.createObjectURL(file);
-                    
-                    onChange(url);
-
-                  }}
-                />
+                <div className="relative">
+                  <Input
+                    {...field}
+                    type="file"
+                    accept=".pdf"
+                    disabled={loading}
+                    onChange={(e) => {
+                      handleFileUpload(e);
+                      onChange(e);
+                    }}
+                  />
+                  {loading && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+                    </div>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

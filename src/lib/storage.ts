@@ -4,9 +4,16 @@ export type FolderType = "profile" | "post" | "comment";
 
 const BASE_URL = import.meta.env.VITE_REACT_APP_STORAGE_URL;
 
-const uploadFileToS3 = async (file: File, type: FolderType, userId: string) => {
+const uploadFileToS3 = async (
+  file: File,
+  type: FolderType,
+  userId: string,
+  name?: string
+) => {
   try {
-    const fileName = `${type}/${userId}${file.name}`;
+    const timestamp = new Date().toISOString();
+    const file_name = name ? name : file.name;
+    const fileName = `${type}/${userId}/${file_name}-${timestamp}`;
 
     const result = await uploadData({
       path: `public/${fileName}`,
@@ -16,13 +23,11 @@ const uploadFileToS3 = async (file: File, type: FolderType, userId: string) => {
     console.log("Uploaded file to S3:", result);
     const path = result.path;
 
-    const { url } = await getUrl({
-      path,
-    });
+    const downloadUrl = `${BASE_URL}${path}`;
 
-    console.log("Got file from S3:", url);
+    console.log("Got file from S3:", downloadUrl);
 
-    return url.toString().split("?")[0];
+    return downloadUrl;
   } catch (error) {
     console.error("Error uploading file to S3:", error);
     throw error;
@@ -45,9 +50,14 @@ const getFileFromS3 = async (fileCode: string) => {
 };
 
 export const uploadProfileImage = async (file: File, userId: string) => {
-  return uploadFileToS3(file, "profile", userId);
+  return uploadFileToS3(file, "profile", userId, "profile.png");
 };
 
 export const getProfileImageUrl = async (fileCode: string) => {
   return getFileFromS3(fileCode);
 };
+
+
+export const uploadResume = async (file: File, userId: string) => {
+  return uploadFileToS3(file, "profile", userId, "resume.pdf");
+}
