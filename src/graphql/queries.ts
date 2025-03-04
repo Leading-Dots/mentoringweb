@@ -328,6 +328,7 @@ export const getMessages = /* GraphQL */ `query GetMessages($id: ID!) {
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename
@@ -351,6 +352,7 @@ export const listMessages = /* GraphQL */ `query ListMessages(
       chatroomID
       senderId
       timestamp
+      imageUrl
       createdAt
       updatedAt
       __typename
@@ -385,6 +387,7 @@ export const messagesByChatroomID = /* GraphQL */ `query MessagesByChatroomID(
       chatroomID
       senderId
       timestamp
+      imageUrl
       createdAt
       updatedAt
       __typename

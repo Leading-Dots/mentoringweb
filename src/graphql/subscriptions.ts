@@ -203,6 +203,7 @@ export const onCreateMessages = /* GraphQL */ `subscription OnCreateMessages($fi
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename
@@ -221,6 +222,7 @@ export const onUpdateMessages = /* GraphQL */ `subscription OnUpdateMessages($fi
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename
@@ -239,6 +241,7 @@ export const onDeleteMessages = /* GraphQL */ `subscription OnDeleteMessages($fi
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename

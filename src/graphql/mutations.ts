@@ -227,6 +227,7 @@ export const createMessages = /* GraphQL */ `mutation CreateMessages(
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename
@@ -248,6 +249,7 @@ export const updateMessages = /* GraphQL */ `mutation UpdateMessages(
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename
@@ -269,6 +271,7 @@ export const deleteMessages = /* GraphQL */ `mutation DeleteMessages(
     chatroomID
     senderId
     timestamp
+    imageUrl
     createdAt
     updatedAt
     __typename

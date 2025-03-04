@@ -61,3 +61,8 @@ export const getProfileImageUrl = async (fileCode: string) => {
 export const uploadResume = async (file: File, userId: string) => {
   return uploadFileToS3(file, "profile", userId, "resume.pdf");
 }
+
+
+export const uploadCommentImage = async (file: File, commentId: string) => {
+  return uploadFileToS3(file, "comment", commentId);
+}

@@ -58,6 +58,7 @@ type Messages @model @auth(rules: [{allow: public}]) {
   chatroomID: ID! @index(name: "byChatRoom")
   senderId: String!
   timestamp: AWSDateTime
+  imageUrl: AWSURL
 }
 
 type Notification @model @auth(rules: [{allow: public}]) {
