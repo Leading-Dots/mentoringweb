@@ -1,16 +1,15 @@
 import * as React from 'react'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { LucideUniversity,  School2,} from 'lucide-react'
-
-
+import { UserRole } from 'types'
 interface RoleSelectProps {
-    onRoleChange?: (role: 'mentor' | 'mentee') => void
+    onRoleChange?: (role: UserRole) => void
 }
 
 export function RoleSelect({ onRoleChange }: RoleSelectProps) {
-    const [role, setRole] = React.useState<'mentor' | 'mentee'>('mentee')
+    const [role, setRole] = React.useState<UserRole>('mentee')
 
-    const handleValueChange = (value: string) => {
+    const handleValueChange = (value: UserRole) => {
         if (value === 'mentor' || value === 'mentee') {
             setRole(value)
             onRoleChange?.(value)

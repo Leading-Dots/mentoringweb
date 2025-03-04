@@ -655,6 +655,9 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    summary
+    linkedInUrl
+    websiteUrl
     createdAt
     updatedAt
     __typename
@@ -680,6 +683,9 @@ export const listMentors = /* GraphQL */ `query ListMentors(
       hourlyRate
       profileStatus
       mentorId
+      summary
+      linkedInUrl
+      websiteUrl
       createdAt
       updatedAt
       __typename
@@ -721,6 +727,11 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
       nextToken
       __typename
     }
+    summary
+    topics
+    linkedInUrl
+    websiteUrl
+    resumeUrl
     createdAt
     updatedAt
     __typename
@@ -745,6 +756,11 @@ export const listMentees = /* GraphQL */ `query ListMentees(
       preferredMentorExperience
       profileStatus
       menteeId
+      summary
+      topics
+      linkedInUrl
+      websiteUrl
+      resumeUrl
       createdAt
       updatedAt
       __typename

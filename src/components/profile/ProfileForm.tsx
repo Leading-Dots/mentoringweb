@@ -18,6 +18,7 @@ import { updateMentee, updateMentor } from "@/graphql/mutations";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 import { ProfileStatus } from "@/API";
+import StepThree from "./steps/Step3";
 
 interface ProfileFormProps {
   role: UserRole;
@@ -45,12 +46,11 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
     try {
       console.log("data", data);
 
-
       //uploadImage
 
-      
       if (role === "mentor") {
         const mentorData = data as MentorProfileFormValues;
+        console.log("mentorData", mentorData);
         const response = await client.graphql({
           query: updateMentor,
           variables: {
@@ -65,6 +65,9 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
               hourlyRate: mentorData.hourlyRate,
               profilePictureUrl: mentorData.profilePictureUrl || null,
               profileStatus: ProfileStatus.PUBLISHED,
+              summary: mentorData.summary,
+              websiteUrl: mentorData.websiteUrl || null,
+              linkedInUrl: mentorData.linkedinUrl || null,
             },
           },
         });
@@ -73,7 +76,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
         showToast("Mentor Profile updated successfully", "success");
 
         refreshUser();
-        router("/home")
+        router("/home");
         return response;
       } else {
         const menteeData = data as MenteeProfileFormValues;
@@ -92,6 +95,12 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
               profilePictureUrl: menteeData.profilePictureUrl || null,
               preferredMentorExperience: menteeData.preferredMentorExperience,
               profileStatus: ProfileStatus.PUBLISHED,
+              summary: menteeData.summary,
+              resumeUrl: menteeData.resumeUrl || null,
+              websiteUrl: menteeData.websiteUrl || null,
+              linkedInUrl: menteeData.linkedinUrl || null,
+              topics: menteeData.topics || [],
+            
             },
           },
         });
@@ -99,7 +108,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
         console.log("response", response);
         showToast("Mentee Profile updated successfully", "success");
         refreshUser();
-        router("/home")
+        router("/home");
         return response;
       }
     } catch (error) {
@@ -109,20 +118,29 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
   }
 
   const handleNext = async (e: React.MouseEvent) => {
-    // Validate step 1 fields
-
     e.preventDefault();
+  
+    const commonFields = ["firstName", "lastName", "email", "bio"] as const;
+    const mentorFields = ["expertise", "yearsOfExperience", "hourlyRate"] as const;
+    const menteeFields = ["goals", "topics", "preferredMentorExperience"] as const;
+    const summaryFields = ["summary"] as const;
 
-    const step1Fields = ["firstName", "lastName", "email", "bio"] as const;
-
-    const isValid = await form.trigger(step1Fields);
-
+    const stepValidationFields = {
+      0: commonFields,
+      1: role === "mentor" ? mentorFields : menteeFields,
+      2: summaryFields
+    };
+  
+    const currentStepFields = stepValidationFields[step as keyof typeof stepValidationFields];
+    
+    const isValid = await form.trigger(currentStepFields as any);
+  
     if (!isValid) {
       showToast("Please fill in all required fields", "error");
       return;
     }
-
-    setStep(1);
+  
+    setStep(step + 1);
   };
   return (
     <Form {...form}>
@@ -130,6 +148,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {step === 0 && <StepOne />}
         {step === 1 && <StepTwo role={role} />}
+        {step === 2 && <StepThree role={role} />}
 
         <div className="flex justify-between w-full gap-2">
           {step > 0 && (
@@ -143,13 +162,13 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
             </Button>
           )}
 
-          {step === 0 ? (
-            <Button type="button" onClick={handleNext} className="w-full">
-              Next
-            </Button>
-          ) : (
+          {step === 2 ? (
             <Button className="w-full" type="submit">
               Save
+            </Button>
+          ) : (
+            <Button type="button" onClick={handleNext} className="w-full">
+              Next
             </Button>
           )}
         </div>

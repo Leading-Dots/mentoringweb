@@ -4,6 +4,7 @@ import {
   FormLabel,
   FormControl,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
@@ -15,6 +16,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { MultiSelect } from "@/components/common/MultiSelect";
+import { Textarea } from "@/components/ui/textarea";
 
 interface StepTwoProps {
   role: "mentor" | "mentee";
@@ -36,8 +38,30 @@ export function StepTwo({ role }: StepTwoProps) {
     { label: "Improve my coding skills", value: "Improve my coding skills" },
     { label: "Prepare for interviews", value: "Prepare for interviews" },
     { label: "Build a portfolio", value: "Build a portfolio" },
+  ];
 
-  ]
+  const topicOptions = [
+    {
+      label: "Frontend Development",
+      value: "Frontend Development",
+    },
+    {
+      label: "Backend Development",
+      value: "Backend Development",
+    },
+    {
+      label: "Full Stack Development",
+      value: "Full Stack Development",
+    },
+    {
+      label: "DevOps",
+      value: "DevOps",
+    },
+    {
+      label: "UI/UX Design",
+      value: "UI/UX Design  ",
+    },
+  ];
 
   if (role === "mentor") {
     return (
@@ -99,6 +123,8 @@ export function StepTwo({ role }: StepTwoProps) {
 
   return (
     <div className="space-y-4">
+     
+
       <FormField
         control={form.control}
         name="goals"
@@ -107,6 +133,21 @@ export function StepTwo({ role }: StepTwoProps) {
             <FormLabel>Learning Goals</FormLabel>
             <MultiSelect
               options={goalOptions}
+              onValueChange={(value) => field.onChange(value)}
+              defaultValue={field.value || []}
+            />
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        control={form.control}
+        name="topics"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>What do you want to become good in</FormLabel>
+            <MultiSelect
+              options={topicOptions}
               onValueChange={(value) => field.onChange(value)}
               defaultValue={field.value || []}
             />

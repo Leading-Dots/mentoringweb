@@ -449,6 +449,9 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       nextToken
       __typename
     }
+    summary
+    linkedInUrl
+    websiteUrl
     createdAt
     updatedAt
     __typename
@@ -491,6 +494,9 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    summary
+    linkedInUrl
+    websiteUrl
     createdAt
     updatedAt
     __typename
@@ -533,6 +539,9 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       nextToken
       __typename
     }
+    summary
+    linkedInUrl
+    websiteUrl
     createdAt
     updatedAt
     __typename
@@ -574,6 +583,11 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
       nextToken
       __typename
     }
+    summary
+    topics
+    linkedInUrl
+    websiteUrl
+    resumeUrl
     createdAt
     updatedAt
     __typename
@@ -615,6 +629,11 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    summary
+    topics
+    linkedInUrl
+    websiteUrl
+    resumeUrl
     createdAt
     updatedAt
     __typename
@@ -656,6 +675,11 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
       nextToken
       __typename
     }
+    summary
+    topics
+    linkedInUrl
+    websiteUrl
+    resumeUrl
     createdAt
     updatedAt
     __typename

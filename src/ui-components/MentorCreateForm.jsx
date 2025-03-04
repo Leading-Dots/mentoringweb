@@ -201,6 +201,9 @@ export default function MentorCreateForm(props) {
     hourlyRate: "",
     profileStatus: "",
     mentorId: "",
+    summary: "",
+    linkedInUrl: "",
+    websiteUrl: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -221,6 +224,11 @@ export default function MentorCreateForm(props) {
     initialValues.profileStatus
   );
   const [mentorId, setMentorId] = React.useState(initialValues.mentorId);
+  const [summary, setSummary] = React.useState(initialValues.summary);
+  const [linkedInUrl, setLinkedInUrl] = React.useState(
+    initialValues.linkedInUrl
+  );
+  const [websiteUrl, setWebsiteUrl] = React.useState(initialValues.websiteUrl);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirstName(initialValues.firstName);
@@ -235,6 +243,9 @@ export default function MentorCreateForm(props) {
     setHourlyRate(initialValues.hourlyRate);
     setProfileStatus(initialValues.profileStatus);
     setMentorId(initialValues.mentorId);
+    setSummary(initialValues.summary);
+    setLinkedInUrl(initialValues.linkedInUrl);
+    setWebsiteUrl(initialValues.websiteUrl);
     setErrors({});
   };
   const [currentExpertiseValue, setCurrentExpertiseValue] = React.useState("");
@@ -251,6 +262,9 @@ export default function MentorCreateForm(props) {
     hourlyRate: [],
     profileStatus: [],
     mentorId: [],
+    summary: [],
+    linkedInUrl: [],
+    websiteUrl: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -289,6 +303,9 @@ export default function MentorCreateForm(props) {
           hourlyRate,
           profileStatus,
           mentorId,
+          summary,
+          linkedInUrl,
+          websiteUrl,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -362,6 +379,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -396,6 +416,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -430,6 +453,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -464,6 +490,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -498,6 +527,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -534,6 +566,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -564,6 +599,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             values = result?.expertise ?? values;
@@ -627,6 +665,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.yearsOfExperience ?? value;
@@ -667,6 +708,9 @@ export default function MentorCreateForm(props) {
               hourlyRate: value,
               profileStatus,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.hourlyRate ?? value;
@@ -701,6 +745,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus: value,
               mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.profileStatus ?? value;
@@ -751,6 +798,9 @@ export default function MentorCreateForm(props) {
               hourlyRate,
               profileStatus,
               mentorId: value,
+              summary,
+              linkedInUrl,
+              websiteUrl,
             };
             const result = onChange(modelFields);
             value = result?.mentorId ?? value;
@@ -764,6 +814,117 @@ export default function MentorCreateForm(props) {
         errorMessage={errors.mentorId?.errorMessage}
         hasError={errors.mentorId?.hasError}
         {...getOverrideProps(overrides, "mentorId")}
+      ></TextField>
+      <TextField
+        label="Summary"
+        isRequired={false}
+        isReadOnly={false}
+        value={summary}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus,
+              mentorId,
+              summary: value,
+              linkedInUrl,
+              websiteUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.summary ?? value;
+          }
+          if (errors.summary?.hasError) {
+            runValidationTasks("summary", value);
+          }
+          setSummary(value);
+        }}
+        onBlur={() => runValidationTasks("summary", summary)}
+        errorMessage={errors.summary?.errorMessage}
+        hasError={errors.summary?.hasError}
+        {...getOverrideProps(overrides, "summary")}
+      ></TextField>
+      <TextField
+        label="Linked in url"
+        isRequired={false}
+        isReadOnly={false}
+        value={linkedInUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus,
+              mentorId,
+              summary,
+              linkedInUrl: value,
+              websiteUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.linkedInUrl ?? value;
+          }
+          if (errors.linkedInUrl?.hasError) {
+            runValidationTasks("linkedInUrl", value);
+          }
+          setLinkedInUrl(value);
+        }}
+        onBlur={() => runValidationTasks("linkedInUrl", linkedInUrl)}
+        errorMessage={errors.linkedInUrl?.errorMessage}
+        hasError={errors.linkedInUrl?.hasError}
+        {...getOverrideProps(overrides, "linkedInUrl")}
+      ></TextField>
+      <TextField
+        label="Website url"
+        isRequired={false}
+        isReadOnly={false}
+        value={websiteUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus,
+              mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.websiteUrl ?? value;
+          }
+          if (errors.websiteUrl?.hasError) {
+            runValidationTasks("websiteUrl", value);
+          }
+          setWebsiteUrl(value);
+        }}
+        onBlur={() => runValidationTasks("websiteUrl", websiteUrl)}
+        errorMessage={errors.websiteUrl?.errorMessage}
+        hasError={errors.websiteUrl?.hasError}
+        {...getOverrideProps(overrides, "websiteUrl")}
       ></TextField>
       <Flex
         justifyContent="space-between"

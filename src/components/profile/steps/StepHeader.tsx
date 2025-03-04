@@ -23,13 +23,30 @@ const StepHeader = ({ step = 0 }: { step: number }) => {
                 </li>
                 <li
                     className={`flex items-center ${
-                        step === 1 ? "text-primary" : "text-muted-foreground"
+                        step >= 1 ? "text-primary" : "text-muted-foreground"
                     }`}
                 >
                     <span className="w-8 h-8 flex items-center justify-center rounded-full border border-current">
-                        2
+                        {step > 1 ? (
+                            <Check className="h-5 w-5 text-green-600" />
+                        ) : (
+                            "2"
+                        )}
                     </span>
                     <span className="ml-2">Additional Info</span>
+                </li>
+                <li className="flex items-center">
+                    <div className="w-12 h-px bg-muted-foreground mx-2" />
+                </li>
+                <li
+                    className={`flex items-center ${
+                        step === 2 ? "text-primary" : "text-muted-foreground"
+                    }`}
+                >
+                    <span className="w-8 h-8 flex items-center justify-center rounded-full border border-current">
+                        3
+                    </span>
+                    <span className="ml-2">Professional Details</span>
                 </li>
             </ol>
         </nav>

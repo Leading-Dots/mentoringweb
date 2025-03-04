@@ -32,6 +32,11 @@ export declare type MenteeCreateFormInputValues = {
     preferredMentorExperience?: number;
     profileStatus?: string;
     menteeId?: string;
+    summary?: string;
+    topics?: string[];
+    linkedInUrl?: string;
+    websiteUrl?: string;
+    resumeUrl?: string;
 };
 export declare type MenteeCreateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -44,6 +49,11 @@ export declare type MenteeCreateFormValidationValues = {
     preferredMentorExperience?: ValidationFunction<number>;
     profileStatus?: ValidationFunction<string>;
     menteeId?: ValidationFunction<string>;
+    summary?: ValidationFunction<string>;
+    topics?: ValidationFunction<string>;
+    linkedInUrl?: ValidationFunction<string>;
+    websiteUrl?: ValidationFunction<string>;
+    resumeUrl?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MenteeCreateFormOverridesProps = {
@@ -58,6 +68,11 @@ export declare type MenteeCreateFormOverridesProps = {
     preferredMentorExperience?: PrimitiveOverrideProps<TextFieldProps>;
     profileStatus?: PrimitiveOverrideProps<SelectFieldProps>;
     menteeId?: PrimitiveOverrideProps<TextFieldProps>;
+    summary?: PrimitiveOverrideProps<TextFieldProps>;
+    topics?: PrimitiveOverrideProps<TextFieldProps>;
+    linkedInUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    websiteUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    resumeUrl?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MenteeCreateFormProps = React.PropsWithChildren<{
     overrides?: MenteeCreateFormOverridesProps | undefined | null;

@@ -200,6 +200,11 @@ export default function MenteeCreateForm(props) {
     preferredMentorExperience: "",
     profileStatus: "",
     menteeId: "",
+    summary: "",
+    topics: [],
+    linkedInUrl: "",
+    websiteUrl: "",
+    resumeUrl: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -218,6 +223,13 @@ export default function MenteeCreateForm(props) {
     initialValues.profileStatus
   );
   const [menteeId, setMenteeId] = React.useState(initialValues.menteeId);
+  const [summary, setSummary] = React.useState(initialValues.summary);
+  const [topics, setTopics] = React.useState(initialValues.topics);
+  const [linkedInUrl, setLinkedInUrl] = React.useState(
+    initialValues.linkedInUrl
+  );
+  const [websiteUrl, setWebsiteUrl] = React.useState(initialValues.websiteUrl);
+  const [resumeUrl, setResumeUrl] = React.useState(initialValues.resumeUrl);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirstName(initialValues.firstName);
@@ -231,10 +243,18 @@ export default function MenteeCreateForm(props) {
     setPreferredMentorExperience(initialValues.preferredMentorExperience);
     setProfileStatus(initialValues.profileStatus);
     setMenteeId(initialValues.menteeId);
+    setSummary(initialValues.summary);
+    setTopics(initialValues.topics);
+    setCurrentTopicsValue("");
+    setLinkedInUrl(initialValues.linkedInUrl);
+    setWebsiteUrl(initialValues.websiteUrl);
+    setResumeUrl(initialValues.resumeUrl);
     setErrors({});
   };
   const [currentGoalsValue, setCurrentGoalsValue] = React.useState("");
   const goalsRef = React.createRef();
+  const [currentTopicsValue, setCurrentTopicsValue] = React.useState("");
+  const topicsRef = React.createRef();
   const validations = {
     firstName: [],
     lastName: [],
@@ -246,6 +266,11 @@ export default function MenteeCreateForm(props) {
     preferredMentorExperience: [],
     profileStatus: [],
     menteeId: [],
+    summary: [],
+    topics: [],
+    linkedInUrl: [{ type: "URL" }],
+    websiteUrl: [{ type: "URL" }],
+    resumeUrl: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -283,6 +308,11 @@ export default function MenteeCreateForm(props) {
           preferredMentorExperience,
           profileStatus,
           menteeId,
+          summary,
+          topics,
+          linkedInUrl,
+          websiteUrl,
+          resumeUrl,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -355,6 +385,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -388,6 +423,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -421,6 +461,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -454,6 +499,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -487,6 +537,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -522,6 +577,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -551,6 +611,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             values = result?.goals ?? values;
@@ -613,6 +678,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience: value,
               profileStatus,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.preferredMentorExperience ?? value;
@@ -651,6 +721,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus: value,
               menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.profileStatus ?? value;
@@ -700,6 +775,11 @@ export default function MenteeCreateForm(props) {
               preferredMentorExperience,
               profileStatus,
               menteeId: value,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
             };
             const result = onChange(modelFields);
             value = result?.menteeId ?? value;
@@ -713,6 +793,217 @@ export default function MenteeCreateForm(props) {
         errorMessage={errors.menteeId?.errorMessage}
         hasError={errors.menteeId?.hasError}
         {...getOverrideProps(overrides, "menteeId")}
+      ></TextField>
+      <TextField
+        label="Summary"
+        isRequired={false}
+        isReadOnly={false}
+        value={summary}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary: value,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.summary ?? value;
+          }
+          if (errors.summary?.hasError) {
+            runValidationTasks("summary", value);
+          }
+          setSummary(value);
+        }}
+        onBlur={() => runValidationTasks("summary", summary)}
+        errorMessage={errors.summary?.errorMessage}
+        hasError={errors.summary?.hasError}
+        {...getOverrideProps(overrides, "summary")}
+      ></TextField>
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary,
+              topics: values,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
+            };
+            const result = onChange(modelFields);
+            values = result?.topics ?? values;
+          }
+          setTopics(values);
+          setCurrentTopicsValue("");
+        }}
+        currentFieldValue={currentTopicsValue}
+        label={"Topics"}
+        items={topics}
+        hasError={errors?.topics?.hasError}
+        runValidationTasks={async () =>
+          await runValidationTasks("topics", currentTopicsValue)
+        }
+        errorMessage={errors?.topics?.errorMessage}
+        setFieldValue={setCurrentTopicsValue}
+        inputFieldRef={topicsRef}
+        defaultFieldValue={""}
+      >
+        <TextField
+          label="Topics"
+          isRequired={false}
+          isReadOnly={false}
+          value={currentTopicsValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.topics?.hasError) {
+              runValidationTasks("topics", value);
+            }
+            setCurrentTopicsValue(value);
+          }}
+          onBlur={() => runValidationTasks("topics", currentTopicsValue)}
+          errorMessage={errors.topics?.errorMessage}
+          hasError={errors.topics?.hasError}
+          ref={topicsRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "topics")}
+        ></TextField>
+      </ArrayField>
+      <TextField
+        label="Linked in url"
+        isRequired={false}
+        isReadOnly={false}
+        value={linkedInUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary,
+              topics,
+              linkedInUrl: value,
+              websiteUrl,
+              resumeUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.linkedInUrl ?? value;
+          }
+          if (errors.linkedInUrl?.hasError) {
+            runValidationTasks("linkedInUrl", value);
+          }
+          setLinkedInUrl(value);
+        }}
+        onBlur={() => runValidationTasks("linkedInUrl", linkedInUrl)}
+        errorMessage={errors.linkedInUrl?.errorMessage}
+        hasError={errors.linkedInUrl?.hasError}
+        {...getOverrideProps(overrides, "linkedInUrl")}
+      ></TextField>
+      <TextField
+        label="Website url"
+        isRequired={false}
+        isReadOnly={false}
+        value={websiteUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl: value,
+              resumeUrl,
+            };
+            const result = onChange(modelFields);
+            value = result?.websiteUrl ?? value;
+          }
+          if (errors.websiteUrl?.hasError) {
+            runValidationTasks("websiteUrl", value);
+          }
+          setWebsiteUrl(value);
+        }}
+        onBlur={() => runValidationTasks("websiteUrl", websiteUrl)}
+        errorMessage={errors.websiteUrl?.errorMessage}
+        hasError={errors.websiteUrl?.hasError}
+        {...getOverrideProps(overrides, "websiteUrl")}
+      ></TextField>
+      <TextField
+        label="Resume url"
+        isRequired={false}
+        isReadOnly={false}
+        value={resumeUrl}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary,
+              topics,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.resumeUrl ?? value;
+          }
+          if (errors.resumeUrl?.hasError) {
+            runValidationTasks("resumeUrl", value);
+          }
+          setResumeUrl(value);
+        }}
+        onBlur={() => runValidationTasks("resumeUrl", resumeUrl)}
+        errorMessage={errors.resumeUrl?.errorMessage}
+        hasError={errors.resumeUrl?.hasError}
+        {...getOverrideProps(overrides, "resumeUrl")}
       ></TextField>
       <Flex
         justifyContent="space-between"
