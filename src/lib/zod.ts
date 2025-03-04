@@ -37,7 +37,7 @@ export const MenteeProfileFormSchema = z.object({
     .min(0, "Preferred mentor experience must be at least 0"),
 
   //Step 3
-  resumeUrl: z.string().url("Please upload valid resume").optional(),
+  resumeUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   websiteUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   summary: z.string().min(10, "Summary must be at least 10 characters"),
   linkedinUrl: z.union([z.string().url("Invalid linkedin url"), z.string().length(0)]).optional(),

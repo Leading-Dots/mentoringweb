@@ -9,6 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/hooks/useAuth";
 
 interface StepThreeProps {
   role: "mentor" | "mentee";
@@ -16,6 +17,7 @@ interface StepThreeProps {
 
 const StepThree = ({ role }: StepThreeProps) => {
   const form = useFormContext();
+  const {user} = useAuth();
 
   return (
     <div className="space-y-4">
@@ -90,10 +92,16 @@ const StepThree = ({ role }: StepThreeProps) => {
                   {...field}
                   type="file"
                   accept=".pdf"
-                  onChange={(e) => {
+                  onChange={ async (e) => {
                     const file = e.target.files?.[0];
-                    const fileUrl = URL.createObjectURL(file);
-                    onChange(fileUrl);
+
+
+                    if (!file) return;
+
+
+                    const url =  URL.createObjectURL(file);
+                    
+                    onChange(url);
 
                   }}
                 />

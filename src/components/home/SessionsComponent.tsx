@@ -104,11 +104,9 @@ const SessionsComponent = () => {
                 </div>
               </CardContent>
               <CardFooter className="pt-0">
-                <Link to={`/sessions/${session.id}`} className="w-full">
                   <Button variant="outline" size="sm" className="w-full">
                     View Details
                   </Button>
-                </Link>
               </CardFooter>
             </Card>
           </Link>
