@@ -26,6 +26,10 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
       expertise: data.expertise || [],
       yearsOfExperience: data.yearsOfExperience || 0,
       hourlyRate: data.hourlyRate || 0,
+      websiteUrl: data.websiteUrl || "",
+      linkedinUrl: data.linkedinUrl || "",
+      summary: data.summary || "",
+
     } as MentorProfileFormValues;
   }
 
@@ -33,6 +37,12 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
     ...baseTransform,
     goals: data.goals || [],
     preferredMentorExperience: data.preferredMentorExperience || 0,
+    topics: data.topics || [],
+    resumeUrl: data.resumeUrl || "",
+    linkedinUrl: data.linkedinUrl || "",
+    websiteUrl: data.websiteUrl || "",
+    summary: data.summary || "",
+
   } as MenteeProfileFormValues;
 };
 

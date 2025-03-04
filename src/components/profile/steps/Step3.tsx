@@ -26,8 +26,9 @@ const StepThree = ({ role }: StepThreeProps) => {
           <FormItem>
             <FormLabel>Professional Summary</FormLabel>
             <FormDescription>
-              Write a detailed summary about your professional background and
-              what you can offer
+              {role === "mentor"
+                ? "Tell us about your professional experience"
+                : "Tell us about yourself"}
             </FormDescription>
             <FormControl>
               <Textarea
@@ -65,10 +66,10 @@ const StepThree = ({ role }: StepThreeProps) => {
           <FormItem>
             <FormLabel>Personal Website</FormLabel>
             <FormControl>
-              <Input 
-                {...field} 
+              <Input
+                {...field}
                 type="url"
-                placeholder="https://yourwebsite.com" 
+                placeholder="https://yourwebsite.com"
               />
             </FormControl>
             <FormMessage />
@@ -83,9 +84,7 @@ const StepThree = ({ role }: StepThreeProps) => {
           render={({ field: { value, onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Resume</FormLabel>
-              <FormDescription>
-                Upload your resume (PDF format)
-              </FormDescription>
+              <FormDescription>Upload your resume (PDF format)</FormDescription>
               <FormControl>
                 <Input
                   {...field}
@@ -93,7 +92,9 @@ const StepThree = ({ role }: StepThreeProps) => {
                   accept=".pdf"
                   onChange={(e) => {
                     const file = e.target.files?.[0];
-                    onChange(file);
+                    const fileUrl = URL.createObjectURL(file);
+                    onChange(fileUrl);
+
                   }}
                 />
               </FormControl>

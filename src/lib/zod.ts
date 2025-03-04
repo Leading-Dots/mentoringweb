@@ -15,9 +15,9 @@ export const MentorProfileFormSchema = z.object({
 
 
   // Step 3
-  websiteUrl: z.string().url("Invalid website url").optional(),
+  websiteUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   summary: z.string().min(10, "Summary must be at least 10 characters"),
-  linkedinUrl: z.string().url("Invalid linkedin url").optional(),
+  linkedinUrl: z.union([z.string().url("Invalid linkedin url"), z.string().length(0)]).optional(),
 });
 
 export const MenteeProfileFormSchema = z.object({
@@ -37,10 +37,10 @@ export const MenteeProfileFormSchema = z.object({
     .min(0, "Preferred mentor experience must be at least 0"),
 
   //Step 3
-  resumeUrl: z.string().url("Unable to upload resume").optional(),
-  linkedinUrl: z.string().url("Invalid linkedin url").optional(),
-  websiteUrl: z.string().url("Invalid website url").optional(),
+  resumeUrl: z.string().url("Please upload valid resume").optional(),
+  websiteUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   summary: z.string().min(10, "Summary must be at least 10 characters"),
+  linkedinUrl: z.union([z.string().url("Invalid linkedin url"), z.string().length(0)]).optional(),
 });
 
 const getZodSchema = (role: "mentor" | "mentee") => {
@@ -61,7 +61,10 @@ const getInitialValues = (role: "mentor" | "mentee") => {
       expertise: [],
       yearsOfExperience: 0,
       hourlyRate: 0,
-      
+      websiteUrl: "",
+      summary: "",
+      linkedinUrl: "",
+
     };
   } else {
     return {
@@ -72,6 +75,11 @@ const getInitialValues = (role: "mentor" | "mentee") => {
       profilePictureUrl: "",
       goals: [],
       preferredMentorExperience: 0,
+      topics: [],
+      resumeUrl: "",
+      linkedinUrl: "",
+      websiteUrl: "",
+      summary: "",
     };
   }
 };
