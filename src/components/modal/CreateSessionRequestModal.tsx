@@ -27,6 +27,8 @@ import {
   DrawerTrigger,
   DrawerDescription,
 } from "@/components/ui/drawer";
+import { sendNotification } from "@/lib/firebase/messaging";
+import { UserRole } from "types";
 
 export function CreateSessionRequestModal({
   children,
@@ -74,7 +76,12 @@ export function CreateSessionRequestModal({
             input: requestData,
           },
         });
-
+        sendNotification({
+          title: "New Session Request",
+          body: `You have a new session request from ${user?.firstName}`,
+          recipientId: otherUserId,
+          recipientRole: otherRole as UserRole,
+        });
         showToast("Session request sent successfully", "success");
         return response;
       } else {
@@ -97,7 +104,12 @@ export function CreateSessionRequestModal({
             },
           },
         });
-
+        sendNotification({
+          title: "New Session Request",
+          body: `You have a new session request from ${user?.firstName}`,
+          recipientId: otherUserId,
+          recipientRole: otherRole as UserRole,
+        });
         showToast("Session request sent successfully", "success");
         return response;
       }

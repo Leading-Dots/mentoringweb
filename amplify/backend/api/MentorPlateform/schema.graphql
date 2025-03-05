@@ -65,6 +65,11 @@ type Notification @model @auth(rules: [{allow: public}]) {
   id: ID!
   mentorID: ID @index(name: "byMentor")
   menteeID: ID @index(name: "byMentee")
+  title: String
+  body: String
+  type: String
+  fcmToken: String
+  isSent: Boolean
 }
 
 type Session @model @auth(rules: [{allow: public}]) {

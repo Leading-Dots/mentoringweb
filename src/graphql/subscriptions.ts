@@ -258,6 +258,11 @@ export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotifica
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename
@@ -274,6 +279,11 @@ export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotifica
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename
@@ -290,6 +300,11 @@ export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotifica
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename

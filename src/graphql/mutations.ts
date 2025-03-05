@@ -289,6 +289,11 @@ export const createNotification = /* GraphQL */ `mutation CreateNotification(
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename
@@ -306,6 +311,11 @@ export const updateNotification = /* GraphQL */ `mutation UpdateNotification(
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename
@@ -323,6 +333,11 @@ export const deleteNotification = /* GraphQL */ `mutation DeleteNotification(
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename

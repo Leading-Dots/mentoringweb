@@ -405,6 +405,11 @@ export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
     id
     mentorID
     menteeID
+    title
+    body
+    type
+    fcmToken
+    isSent
     createdAt
     updatedAt
     __typename
@@ -424,6 +429,11 @@ export const listNotifications = /* GraphQL */ `query ListNotifications(
       id
       mentorID
       menteeID
+      title
+      body
+      type
+      fcmToken
+      isSent
       createdAt
       updatedAt
       __typename
@@ -454,6 +464,11 @@ export const notificationsByMentorID = /* GraphQL */ `query NotificationsByMento
       id
       mentorID
       menteeID
+      title
+      body
+      type
+      fcmToken
+      isSent
       createdAt
       updatedAt
       __typename
@@ -484,6 +499,11 @@ export const notificationsByMenteeID = /* GraphQL */ `query NotificationsByMente
       id
       mentorID
       menteeID
+      title
+      body
+      type
+      fcmToken
+      isSent
       createdAt
       updatedAt
       __typename

@@ -63,6 +63,11 @@ const Navbar = () => {
       url: "/settings",
       icon: <Settings className="h-5 w-5" />,
     },
+    {
+      title: "Inbox",
+      url: "/inbox",
+      icon: <MessagesSquare className="h-5 w-5" />,
+    }
   ];
 
   const menteeNavItems: NavItem[] = [
@@ -87,6 +92,11 @@ const Navbar = () => {
       url: "/settings",
       icon: <Settings className="h-5 w-5" />,
     },
+    {
+      title: "Inbox",
+      url: "/inbox",
+      icon: <MessagesSquare className="h-5 w-5" />,
+    }
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;

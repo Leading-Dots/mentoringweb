@@ -9,6 +9,8 @@ import {
   createChatRoom,
   createMentee,
   createMentor,
+  updateMentee,
+  updateMentor,
 } from "@/graphql/mutations";
 import { ProfileStatus } from "@/API";
 import { UserRole } from "types";
@@ -21,31 +23,51 @@ interface IntiateChatRoom {
   menteeName: string;
 }
 
-export const createUser = async (role: ROLE, email: string, userId: string) => {
+export const createUser = async (
+  role: ROLE,
+  email: string,
+  userId: string,
+  fcmToken?: string
+) => {
   if (role === "mentor") {
-    return await addMentor(email, userId);
+    return await addMentor(email, userId, fcmToken);
   } else {
-    return await addMentee(email, userId);
+    return await addMentee(email, userId, fcmToken);
   }
 };
 
-export const getUser = async (userId: string, role: ROLE) => {
+export const getUser = async (
+  userId: string,
+  role: ROLE,
+  fcmToken?: string
+) => {
   if (role === "mentor") {
-    return await findMentor(userId);
+    return await findMentor(userId, fcmToken);
   } else {
-    return await findMentee(userId);
+    return await findMentee(userId, fcmToken);
   }
 };
 
-const addMentor = async (email: string, userId: string) => {
+const addMentor = async (email: string, userId: string, fcmToken?: string) => {
   try {
+    const mentorInput = fcmToken
+      ? {
+          email: email,
+          mentorId: userId,
+          profileStatus: ProfileStatus.PENDING,
+          firebaseToken: fcmToken,
+        }
+      : {
+          email: email,
+          mentorId: userId,
+          profileStatus: ProfileStatus.PENDING,
+        };
+
     const { data, errors } = await client.graphql({
       query: createMentor,
       variables: {
         input: {
-          email: email,
-          mentorId: userId,
-          profileStatus: ProfileStatus.PENDING,
+          ...mentorInput,
         },
       },
     });
@@ -59,15 +81,26 @@ const addMentor = async (email: string, userId: string) => {
   }
 };
 
-const addMentee = async (email: string, userId: string) => {
+const addMentee = async (email: string, userId: string, fcmToken?: string) => {
   try {
+    const menteeInput = fcmToken
+      ? {
+          email: email,
+          menteeId: userId,
+          profileStatus: ProfileStatus.PENDING,
+          firebaseToken: fcmToken,
+        }
+      : {
+          email: email,
+          menteeId: userId,
+          profileStatus: ProfileStatus.PENDING,
+        };
+
     const { data, errors } = await client.graphql({
       query: createMentee,
       variables: {
         input: {
-          menteeId: userId,
-          email: email,
-          profileStatus: ProfileStatus.PENDING,
+          ...menteeInput,
         },
       },
     });
@@ -81,7 +114,7 @@ const addMentee = async (email: string, userId: string) => {
   }
 };
 
-const findMentor = async (userId: string) => {
+const findMentor = async (userId: string, fcmToken?: string) => {
   try {
     const { data, errors } = await client.graphql({
       query: listMentors,
@@ -98,13 +131,32 @@ const findMentor = async (userId: string) => {
       console.error(errors);
     }
     console.log(data);
+
+    //if fcmToken is present we update the token
+    if (fcmToken) {
+      console.log("updating mentor token");
+      const { data: updateData, errors: updateErrors } = await client.graphql({
+        query: updateMentor,
+        variables: {
+          input: {
+            id: data.listMentors.items[0].id,
+            firebaseToken: fcmToken,
+          },
+        },
+      });
+
+      if (updateErrors) {
+        console.error(updateErrors);
+      }
+    }
+
     return data.listMentors.items[0];
   } catch (error) {
     console.error(error);
   }
 };
 
-const findMentee = async (userId: string) => {
+const findMentee = async (userId: string, fcmToken?: string) => {
   try {
     const { data, errors } = await client.graphql({
       query: listMentees,
@@ -121,6 +173,24 @@ const findMentee = async (userId: string) => {
       console.error(errors);
     }
     console.log(data);
+
+    //if fcmToken is present we update the token
+    if (fcmToken) {
+      console.log("updating mentee token");
+      const { data: updateData, errors: updateErrors } = await client.graphql({
+        query: updateMentee,
+        variables: {
+          input: {
+            id: data.listMentees.items[0].id,
+            firebaseToken: fcmToken,
+          },
+        },
+      });
+
+      if (updateErrors) {
+        console.error(updateErrors);
+      }
+    }
     return data.listMentees.items[0];
   } catch (error) {
     console.error(error);
@@ -220,7 +290,7 @@ export const getUserReviews = async (userId: string) => {
         filter: {
           reviewedID: {
             eq: userId,
-          }
+          },
         },
       },
     });

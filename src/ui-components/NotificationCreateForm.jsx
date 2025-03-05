@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createNotification } from "../graphql/mutations";
@@ -22,12 +28,34 @@ export default function NotificationCreateForm(props) {
     overrides,
     ...rest
   } = props;
-  const initialValues = {};
+  const initialValues = {
+    title: "",
+    body: "",
+    type: "",
+    fcmToken: "",
+    isSent: false,
+  };
+  const [title, setTitle] = React.useState(initialValues.title);
+  const [body, setBody] = React.useState(initialValues.body);
+  const [type, setType] = React.useState(initialValues.type);
+  const [fcmToken, setFcmToken] = React.useState(initialValues.fcmToken);
+  const [isSent, setIsSent] = React.useState(initialValues.isSent);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setTitle(initialValues.title);
+    setBody(initialValues.body);
+    setType(initialValues.type);
+    setFcmToken(initialValues.fcmToken);
+    setIsSent(initialValues.isSent);
     setErrors({});
   };
-  const validations = {};
+  const validations = {
+    title: [],
+    body: [],
+    type: [],
+    fcmToken: [],
+    isSent: [],
+  };
   const runValidationTasks = async (
     fieldName,
     currentValue,
@@ -53,7 +81,13 @@ export default function NotificationCreateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {};
+        let modelFields = {
+          title,
+          body,
+          type,
+          fcmToken,
+          isSent,
+        };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -106,6 +140,146 @@ export default function NotificationCreateForm(props) {
       {...getOverrideProps(overrides, "NotificationCreateForm")}
       {...rest}
     >
+      <TextField
+        label="Title"
+        isRequired={false}
+        isReadOnly={false}
+        value={title}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title: value,
+              body,
+              type,
+              fcmToken,
+              isSent,
+            };
+            const result = onChange(modelFields);
+            value = result?.title ?? value;
+          }
+          if (errors.title?.hasError) {
+            runValidationTasks("title", value);
+          }
+          setTitle(value);
+        }}
+        onBlur={() => runValidationTasks("title", title)}
+        errorMessage={errors.title?.errorMessage}
+        hasError={errors.title?.hasError}
+        {...getOverrideProps(overrides, "title")}
+      ></TextField>
+      <TextField
+        label="Body"
+        isRequired={false}
+        isReadOnly={false}
+        value={body}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title,
+              body: value,
+              type,
+              fcmToken,
+              isSent,
+            };
+            const result = onChange(modelFields);
+            value = result?.body ?? value;
+          }
+          if (errors.body?.hasError) {
+            runValidationTasks("body", value);
+          }
+          setBody(value);
+        }}
+        onBlur={() => runValidationTasks("body", body)}
+        errorMessage={errors.body?.errorMessage}
+        hasError={errors.body?.hasError}
+        {...getOverrideProps(overrides, "body")}
+      ></TextField>
+      <TextField
+        label="Type"
+        isRequired={false}
+        isReadOnly={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title,
+              body,
+              type: value,
+              fcmToken,
+              isSent,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      ></TextField>
+      <TextField
+        label="Fcm token"
+        isRequired={false}
+        isReadOnly={false}
+        value={fcmToken}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              title,
+              body,
+              type,
+              fcmToken: value,
+              isSent,
+            };
+            const result = onChange(modelFields);
+            value = result?.fcmToken ?? value;
+          }
+          if (errors.fcmToken?.hasError) {
+            runValidationTasks("fcmToken", value);
+          }
+          setFcmToken(value);
+        }}
+        onBlur={() => runValidationTasks("fcmToken", fcmToken)}
+        errorMessage={errors.fcmToken?.errorMessage}
+        hasError={errors.fcmToken?.hasError}
+        {...getOverrideProps(overrides, "fcmToken")}
+      ></TextField>
+      <SwitchField
+        label="Is sent"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isSent}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              title,
+              body,
+              type,
+              fcmToken,
+              isSent: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isSent ?? value;
+          }
+          if (errors.isSent?.hasError) {
+            runValidationTasks("isSent", value);
+          }
+          setIsSent(value);
+        }}
+        onBlur={() => runValidationTasks("isSent", isSent)}
+        errorMessage={errors.isSent?.errorMessage}
+        hasError={errors.isSent?.hasError}
+        {...getOverrideProps(overrides, "isSent")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

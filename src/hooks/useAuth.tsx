@@ -56,10 +56,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const userId = currentUser.userId;
-      const existingUser = await getUser(userId, role);
+
+      const fcm_token = localStorage.getItem("fcm_token") || null;
+
+
+      console.log("userId", userId, role, fcm_token);
+      const existingUser = await getUser(userId, role, fcm_token);
 
       if (!existingUser) {
-        const newUser = await createUser(role, email, userId);
+        const newUser = await createUser(role, email, userId, fcm_token);
         if (!newUser) {
           await signOut();
           throw new Error("Failed to create new user");
@@ -111,9 +116,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       const { isSignUpComplete } = await handleConfirmSignUp(email, code);
+      const fcm_token = localStorage.getItem("fcm_token") || null;
+      
 
       if (isSignUpComplete) {
-        const newUser = await createUser(role, email, userId);
+        const newUser = await createUser(role, email, userId, fcm_token);
         if (!newUser) {
           await signOut();
           throw new Error("User not created");

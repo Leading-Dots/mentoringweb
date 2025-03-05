@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { Notification } from "../API.ts";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -22,11 +22,28 @@ export declare type ValidationResponse = {
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type NotificationUpdateFormInputValues = {};
-export declare type NotificationUpdateFormValidationValues = {};
+export declare type NotificationUpdateFormInputValues = {
+    title?: string;
+    body?: string;
+    type?: string;
+    fcmToken?: string;
+    isSent?: boolean;
+};
+export declare type NotificationUpdateFormValidationValues = {
+    title?: ValidationFunction<string>;
+    body?: ValidationFunction<string>;
+    type?: ValidationFunction<string>;
+    fcmToken?: ValidationFunction<string>;
+    isSent?: ValidationFunction<boolean>;
+};
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NotificationUpdateFormOverridesProps = {
     NotificationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+    title?: PrimitiveOverrideProps<TextFieldProps>;
+    body?: PrimitiveOverrideProps<TextFieldProps>;
+    type?: PrimitiveOverrideProps<TextFieldProps>;
+    fcmToken?: PrimitiveOverrideProps<TextFieldProps>;
+    isSent?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type NotificationUpdateFormProps = React.PropsWithChildren<{
     overrides?: NotificationUpdateFormOverridesProps | undefined | null;

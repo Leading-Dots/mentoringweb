@@ -2,7 +2,7 @@ import { ProfilePopover } from "@/components/common/ProfilePopover";
 import { RoleBadge } from "@/components/common/RoleBadge";
 import { useAuth } from "@/hooks/useAuth";
 import useDocumentTitle from "@/hooks/useDocumentTitle";
-import { Inbox } from "lucide-react";
+import { Bell, Inbox } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const DashboardHeader = () => {
@@ -31,9 +31,9 @@ const DashboardHeader = () => {
         <RoleBadge role={user ? user?.role : "guest"} />
         <ProfilePopover />
         {user && (
-          <Link to="/inbox">
+          <Link to="/notifications">
             <div className="flex items-center  cursor-pointer">
-              <Inbox size={24} />
+              <Bell size={24} />
             </div>
           </Link>
         )}

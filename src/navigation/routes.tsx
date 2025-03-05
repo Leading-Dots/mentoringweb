@@ -16,6 +16,7 @@ import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 import InboxPage from "@/pages/root/InboxPage";
 import ChatPage from "@/pages/root/ChatPage";
 import SettingsPage from "@/pages/root/SettingsPage";
+import NotificationsPage from "@/pages/root/NotificationsPage";
 
 const routes = [
   {
@@ -131,6 +132,14 @@ const routes = [
     element : (
       <DashboardLayout>
         <SettingsPage />
+      </DashboardLayout>
+    )
+  },
+  {
+    path : "Notifications",
+    element : (
+      <DashboardLayout>
+        <NotificationsPage />
       </DashboardLayout>
     )
   }
