@@ -148,6 +148,9 @@ const findMentor = async (userId: string, fcmToken?: string) => {
       if (updateErrors) {
         console.error(updateErrors);
       }
+
+      console.log("updateData", updateData);
+      return updateData.updateMentor;
     }
 
     return data.listMentors.items[0];
@@ -187,9 +190,14 @@ const findMentee = async (userId: string, fcmToken?: string) => {
         },
       });
 
+      
+
       if (updateErrors) {
         console.error(updateErrors);
       }
+
+      console.log("updateData", updateData);
+      return updateData.updateMentee;
     }
     return data.listMentees.items[0];
   } catch (error) {

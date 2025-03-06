@@ -26,6 +26,8 @@ import client from "@/lib/apiClient";
 import { updateSession } from "@/graphql/mutations";
 import { DialogLoader } from "../common/DialogLoader";
 import { showToast } from "@/lib/toast";
+import { useAuth } from "@/hooks/useAuth";
+import { sendNotification } from "@/lib/firebase/messaging";
 
 interface AddMeetingLinkModalProps {
   children: React.ReactNode;
@@ -40,6 +42,9 @@ const AddMeetingLinkModal = ({
 }: AddMeetingLinkModalProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const {user} = useAuth();
+
+  const otherRole = user?.role === "mentor" ? "mentee" : "mentor";
 
   const formSchema = z.object({
     meetingLink: z.string().url("Please enter a valid URL"),
@@ -66,6 +71,13 @@ const AddMeetingLinkModal = ({
       });
 
       if (data) {
+        console.log(data);
+        sendNotification({
+          title: "Meeting Link Added",
+          body: `A meeting link has been added to the session.`,
+          recipientId: user?.role === "mentor" ? data.updateSession.menteeID : data.updateSession.mentorID,
+          recipientRole: otherRole,
+        })
         showToast("Meeting link added successfully", "success");
         onConfirm();
       }

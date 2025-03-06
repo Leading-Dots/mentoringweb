@@ -31,6 +31,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { sendNotification } from "@/lib/firebase/messaging";
 
 interface SessionRequestDetailsModalProps {
   sessionRequest: SessionRequest;
@@ -85,10 +86,22 @@ const SessionRequestDetailsModal = ({
               status: Status.SCHEDULED,
             },
           },
+
+          // send notification to the other user
+
+          
         });
 
         if (data) {
           console.log(errors);
+
+
+          sendNotification({
+            title: "Session Request Accepted",
+            body: `Your session request has been accepted by ${sessionRequest.initiatedBy}`,
+            recipientId: sessionRequest.initiatedBy === "mentor" ? sessionRequest.mentorID : sessionRequest.menteeID,
+            recipientRole: sessionRequest.initiatedBy === "mentor" ? "mentor" : "mentee",
+          });
 
           router("/sessions");
 

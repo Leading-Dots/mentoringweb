@@ -13,7 +13,6 @@ interface MenteeCardProps {
 export const MenteeCard = ({ mentee }: MenteeCardProps) => {
   const router = useNavigate();
 
-  console.log(mentee);
   const handleProfileClick = () => {
     console.log(mentee.menteeId);
     router(`/mentee/${mentee.menteeId}`);

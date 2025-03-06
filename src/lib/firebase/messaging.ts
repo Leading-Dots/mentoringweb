@@ -13,6 +13,7 @@ interface NotificationPayload {
 
 export const getFCMToken = async (userId: string, role: UserRole) => {
   const userData = await getUser(userId, role);
+  console.log("getting fcm toke here" , userData);
   return userData?.firebaseToken;
 };
 
@@ -23,6 +24,10 @@ export const sendNotification = async ({
   recipientRole,
 }: NotificationPayload) => {
   const apiUrl = import.meta.env.VITE_REACT_APP_SEND_NOTIFICATION_API;
+  console.log("title", title);
+  console.log("body", body);
+  console.log("recipientId", recipientId);
+  console.log("recipientRole", recipientRole);
 
   try {
     const fcmToken = await getFCMToken(recipientId, recipientRole);
@@ -56,10 +61,8 @@ export const sendNotification = async ({
           title,
           body,
           fcmToken,
-          ...(recipientRole === "mentor"
-            ? { mentorID: recipientId }
-            : { mentorID: recipientId }),
-
+          menteeID: recipientRole === "mentee" ? recipientId : null,
+          mentorID: recipientRole === "mentor" ? recipientId : null,
           isSent: true,
         },
       },

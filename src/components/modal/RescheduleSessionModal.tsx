@@ -28,7 +28,17 @@ import { DialogLoader } from "../common/DialogLoader";
 import { Status } from "@/API";
 import { showToast } from "@/lib/toast";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Drawer, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerDescription, DrawerTrigger } from "@/components/ui/drawer";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { sendNotification } from "@/lib/firebase/messaging";
+import { useAuth } from "@/hooks/useAuth";
 
 interface RescheduleSessionModalProps {
   children: React.ReactNode;
@@ -45,7 +55,10 @@ const RescheduleSessionModal = ({
 }: RescheduleSessionModalProps) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
   const isMobile = useMediaQuery("(max-width: 640px)");
+
+  const otherRole = user.role === "mentor" ? "mentee" : "mentor";
 
   const formSchema = z.object({
     reason: z.string().min(10, "Reason must be at least 10 characters"),
@@ -79,13 +92,19 @@ const RescheduleSessionModal = ({
           input: {
             id: sessionId,
             sessionDate: values.date.toISOString(),
-            status : Status.RESCHEDULED,
+            status: Status.RESCHEDULED,
           },
         },
       });
 
       if (data) {
         console.log(data);
+        sendNotification({
+          title: "Session Rescheduled",
+          body: "Your session has been rescheduled. Please check the new date.",
+          recipientId: user?.role === "mentor" ? data.updateSession?.menteeID : data.updateSession?.mentorID,
+          recipientRole: otherRole,
+        });
         showToast("Session rescheduled successfully", "success");
         onConfirm();
       }
@@ -97,9 +116,7 @@ const RescheduleSessionModal = ({
     }
   };
 
-
-
-  if(isMobile){
+  if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger className="flex-1">{children}</DrawerTrigger>
@@ -109,14 +126,19 @@ const RescheduleSessionModal = ({
           ) : (
             <div className="p-4">
               <DrawerHeader>
-                <DrawerTitle className="text-2xl">Reschedule Session</DrawerTitle>
+                <DrawerTitle className="text-2xl">
+                  Reschedule Session
+                </DrawerTitle>
                 <DrawerDescription>
                   Provide a reason and select a new date for the session.
                 </DrawerDescription>
               </DrawerHeader>
 
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-7">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-7"
+                >
                   <FormField
                     control={form.control}
                     name="reason"
@@ -124,7 +146,10 @@ const RescheduleSessionModal = ({
                       <FormItem>
                         <FormLabel>Reason for Rescheduling</FormLabel>
                         <FormControl>
-                          <Textarea {...field} placeholder="Please provide a reason..." />
+                          <Textarea
+                            {...field}
+                            placeholder="Please provide a reason..."
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -138,7 +163,10 @@ const RescheduleSessionModal = ({
                       <FormItem>
                         <FormLabel>New Session Date</FormLabel>
                         <FormControl>
-                          <DateTimePicker date={field.value} onChange={field.onChange} />
+                          <DateTimePicker
+                            date={field.value}
+                            onChange={field.onChange}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -158,11 +186,6 @@ const RescheduleSessionModal = ({
       </Drawer>
     );
   }
-
-
-
-
-
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
