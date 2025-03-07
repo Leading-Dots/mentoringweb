@@ -102,12 +102,15 @@ const NotificationsPage = () => {
   }
 
   return (
-    <div className="container py-8">
+    <div className="container py-8 max-w-3xl">
      
         <div className="space-y-4">
 
-
-            <div className="flex justify-end items-center mb-4">
+           
+            <div className="flex justify-between items-center mb-4">
+            <div className="text-xl font-medium mb-4">
+              You have {notifications.length} notification{notifications.length !== 1 ? 's' : ''}
+            </div>
             <Button
               variant="destructive"
               disabled={loading || notifications.length === 0}

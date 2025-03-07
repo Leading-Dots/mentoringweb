@@ -101,7 +101,7 @@ const RescheduleSessionModal = ({
         console.log(data);
         sendNotification({
           title: "Session Rescheduled",
-          body: "Your session has been rescheduled. Please check the new date.",
+          body: `Your session has been rescheduled for ${values.date.toLocaleString()}`,
           recipientId: user?.role === "mentor" ? data.updateSession?.menteeID : data.updateSession?.mentorID,
           recipientRole: otherRole,
         });

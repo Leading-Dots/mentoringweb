@@ -267,7 +267,7 @@ const SessionDetailsPage = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-semibold">
-                    {session?.duration} min
+                    {session?.duration} {session?.duration === 1 ? "month" : "months"}
                   </p>
                   <p className="text-sm ">Session Length</p>
                 </CardContent>

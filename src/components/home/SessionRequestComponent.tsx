@@ -79,11 +79,15 @@ const SessionRequestComponent = () => {
     }
   }, []);
 
+
+
+  if(sessionRequests.length === 0) {
+    return null;
+  }
   return (
     <div className="w-full p-4">
       <div className="flex items-center gap-2 mb-4">
-        <ClipboardList className="w-5 h-5" />
-        <h2 className="text-lg font-semibold">Session Requests</h2>
+        <h2 className="text-xl font-semibold">Session Requests</h2>
       </div>
       <div className="space-y-4">
         {sessionRequests.length === 0 ? (
