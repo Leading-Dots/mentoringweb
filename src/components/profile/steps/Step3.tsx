@@ -13,6 +13,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useState } from "react";
 import { uploadProfileImage, uploadResume } from "@/lib/storage";
 import { showToast } from "@/lib/toast";
+import { Link } from "react-router-dom";
 
 interface StepThreeProps {
   role: "mentor" | "mentee";
@@ -131,6 +132,15 @@ const StepThree = ({ role }: StepThreeProps) => {
                 </div>
               </FormControl>
               <FormMessage />
+              {form.getValues("resumeUrl") && (
+                <Link
+                  target="_blank"
+                  to={form.getValues("resumeUrl")}
+                  className="text-primary underline mt-3"
+                >
+                  View uploaded resume
+                </Link>
+              )}
             </FormItem>
           )}
         />

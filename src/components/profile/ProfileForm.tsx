@@ -155,7 +155,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
   return (
     <Form {...form}>
       <StepHeader step={step} />
-      {
+      {/* {
         form.formState.errors && (
           <div className="bg-red-100 text-red-700 p-4 rounded-md">
             <ul className="list-disc list-inside">
@@ -165,7 +165,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
             </ul>
           </div>
         )
-      }
+      } */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {step === 0 && <StepOne />}
         {step === 1 && <StepTwo role={role} />}

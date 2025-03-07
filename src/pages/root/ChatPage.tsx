@@ -130,6 +130,11 @@ const ChatPage = () => {
     const subscription = client
       .graphql({
         query: onCreateMessages,
+        variables: {
+          filter: {
+            chatroomID: { eq: params.id },
+          }
+        }
       })
       .subscribe({
         next: ({ data }) => {

@@ -17,66 +17,29 @@ import { formatDistanceToNow } from "date-fns";
 import { deleteNotification } from "@/graphql/mutations";
 import { Button } from "@/components/ui/button";
 import NotificationLoaderSkeleton from "@/components/notification/NotificationLoaderSkeleton";
+import { useNotifications } from "@/context/notificationStore";
 
 const NotificationsPage = () => {
-  const [notifications, setNotifications] = React.useState<Notification[]>([]);
+  const {notifications, setNotifications, fetchNotifications, setNotificationCount} = useNotifications();
   const [loading, setLoading] = React.useState(false);
   const { user } = useAuth();
 
   const userRole = user?.role;
-  const fetchNotifications = async () => {
-    setLoading(true);
-    try {
-      if (userRole === "mentor") {
-        const { data } = await client.graphql({
-          query: notificationsByMentorID,
-          variables: {
-            mentorID: user.mentorId,
-          },
-        });
-        //sort in latest first
-        data.notificationsByMentorID.items.sort(
-          (a: Notification, b: Notification) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          }
-        );
-        setNotifications(data.notificationsByMentorID.items);
-      } else {
-        const { data } = await client.graphql({
-          query: notificationsByMenteeID,
-          variables: {
-            menteeID: user.menteeId,
-          },
-        });
-        //sort in latest first
-        data.notificationsByMenteeID.items.sort(
-          (a: Notification, b: Notification) => {
-            return (
-              new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-            );
-          }
-        );
+  
 
-        setNotifications(data.notificationsByMenteeID.items);
-      }
-    } catch (error) {
-      throw error;
-    } finally {
-      setLoading(false);
-    }
-  };
+
+  
+
 
   useEffect(() => {
     fetchNotifications();
   }, []);
 
 
+
   if(loading) {
     return <NotificationLoaderSkeleton />
   }
-
 
   const clearAllNotifications = async () => {
     setLoading(true);
@@ -94,6 +57,7 @@ const NotificationsPage = () => {
 
       await Promise.all(deletePromises);
       setNotifications([]);
+      setNotificationCount(0);
     } catch (error) {
       throw error;
     } finally {
