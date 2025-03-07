@@ -31,6 +31,10 @@ const NotificationsPage = () => {
             mentorID: user.mentorId,
           },
         });
+        //sort in latest first
+        data.notificationsByMentorID.items.sort((a: Notification, b: Notification) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
         setNotifications(data.notificationsByMentorID.items);
       } else {
         const { data } = await client.graphql({
@@ -39,6 +43,12 @@ const NotificationsPage = () => {
             menteeID: user.menteeId,
           },
         });
+        //sort in latest first
+        data.notificationsByMenteeID.items.sort((a: Notification, b: Notification) => {
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+
         setNotifications(data.notificationsByMenteeID.items);
       }
     } catch (error) {

@@ -21,7 +21,7 @@ export const sendNotification = async ({
   title,
   body,
   recipientId,
-  recipientRole,
+  recipientRole
 }: NotificationPayload) => {
   const apiUrl = import.meta.env.VITE_REACT_APP_SEND_NOTIFICATION_API;
   console.log("title", title);

@@ -94,12 +94,12 @@ const SessionRequestDetailsModal = ({
 
         if (data) {
           console.log(errors);
-
+          
 
           sendNotification({
             title: "Session Request Accepted",
-            body: `Your session request has been accepted by ${sessionRequest.initiatedBy}`,
-            recipientId: sessionRequest.initiatedBy === "mentor" ? sessionRequest.mentorID : sessionRequest.menteeID,
+            body: `Your session request has been accepted!`,
+            recipientId: sessionRequest.initiatedBy === "mentor" ? data.createSession.mentorID : sessionRequest.menteeID,
             recipientRole: sessionRequest.initiatedBy === "mentor" ? "mentor" : "mentee",
           });
 
