@@ -220,6 +220,7 @@ export const intiateChat = async ({
     if(mentorId === menteeId){
       console.log("You can't chat with yourself");
       showToast("You can't chat with yourself", "error");
+      return null;
     }
 
     const { data, errors } = await client.graphql({

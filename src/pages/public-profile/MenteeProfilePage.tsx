@@ -65,6 +65,8 @@ const MenteeProfilePage = () => {
         mentorName: `${user?.firstName} ${user?.lastName}`,
       });
 
+      if(!chatId) return;
+      console.log(chatId);
       router(`/chat/${chatId}`);
     } catch (error) {
       console.log(error);

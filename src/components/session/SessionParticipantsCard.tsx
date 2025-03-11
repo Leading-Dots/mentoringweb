@@ -48,6 +48,8 @@ const SessionParticipantsCard = ({
         mentorName: `${user?.firstName} ${user?.lastName}`,
       });
 
+      if(!chatId) return;
+
       router(`/chat/${chatId}`);
     } catch (error) {
       console.log(error);
