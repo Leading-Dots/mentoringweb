@@ -6,7 +6,7 @@ import {
   BookOpen,
   MessageSquare,
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,8 +19,24 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LandingPage() {
+
+
+
+
+
+  const {user} = useAuth();
+
+  if(user){
+    return <Navigate to="/home" />
+  }
+
+
+
+
+
   const getStartedStepsMentee = [
     {
       title: "Create Your Mentee Profile",
@@ -129,7 +145,7 @@ export default function LandingPage() {
               Log in
             </Link>
             <Button asChild>
-              <Link to="/signup">Get Started</Link>
+              <Link to="/home">Get Started</Link>
             </Button>
           </div>
         </div>
@@ -151,7 +167,7 @@ export default function LandingPage() {
                 </div>
                 <div className="flex flex-col gap-2 min-[400px]:flex-row">
                   <Button size="lg" asChild>
-                    <Link to="/signup">Find a Mentor</Link>
+                    <Link to="/home">Find a Mentor</Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>
                     <Link to="/signup">Become a Mentor</Link>

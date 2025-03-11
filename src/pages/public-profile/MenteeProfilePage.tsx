@@ -136,9 +136,9 @@ const MenteeProfilePage = () => {
       <div className="container max-w-4xl">
         {/* Profile Header */}
         <div className=" rounded-xl shadow-sm p-8 mb-6">
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col items-center md:flex-row gap-8">
             <div className="flex-shrink-0">
-              <Avatar className="h-32 w-32">
+              <Avatar className="h-20 w-20">
                 <AvatarImage src={mentee.profilePictureUrl || ""} />
                 <AvatarFallback className="text-2xl">
                   {getInitials(mentee.firstName, mentee.lastName)}
@@ -158,11 +158,10 @@ const MenteeProfilePage = () => {
               </div>
 
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
-
-              <div className="flex gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row gap-4 pt-2">
                 <Button
                   variant="outline"
-                  className="gap-2"
+                  className="gap-2 w-full sm:w-auto"
                   onClick={handleChat}
                 >
                   <MessageCircle className="w-4 h-4" />
@@ -170,8 +169,11 @@ const MenteeProfilePage = () => {
                 </Button>
                 {currentMeeting ? (
                   <>
-                    <Link to={`/sessions/${currentMeeting.id}`}>
-                      <Button className="gap-2">
+                    <Link
+                      to={`/sessions/${currentMeeting.id}`}
+                      className="w-full sm:w-auto"
+                    >
+                      <Button className="gap-2 w-full">
                         <Calendar className="w-4 h-4" />
                         View Current Session
                       </Button>
@@ -179,7 +181,7 @@ const MenteeProfilePage = () => {
                     <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
                       <Button
                         disabled={isCurrentUser || isGuest}
-                        className="gap-2"
+                        className="gap-2 w-full sm:w-auto"
                         variant="outline"
                       >
                         <CalendarPlus className="w-4 h-4" />
@@ -191,7 +193,7 @@ const MenteeProfilePage = () => {
                   <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
                     <Button
                       disabled={isCurrentUser || isGuest}
-                      className="gap-2"
+                      className="gap-2 w-full sm:w-auto"
                     >
                       <Calendar className="w-4 h-4" />
                       Book a Session
