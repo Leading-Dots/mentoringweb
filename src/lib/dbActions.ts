@@ -14,6 +14,7 @@ import {
 } from "@/graphql/mutations";
 import { ProfileStatus } from "@/API";
 import { UserRole } from "types";
+import { showToast } from "./toast";
 type ROLE = "mentor" | "mentee";
 
 interface IntiateChatRoom {
@@ -214,6 +215,12 @@ export const intiateChat = async ({
   try {
     //bascially we run action when user clicks on chat button if there no chatrrrom between mentor and mentee we create one otherwise we just redirect to chatroom
     //we return chatroom id
+
+
+    if(mentorId === menteeId){
+      console.log("You can't chat with yourself");
+      showToast("You can't chat with yourself", "error");
+    }
 
     const { data, errors } = await client.graphql({
       query: listChatRooms,

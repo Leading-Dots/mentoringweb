@@ -32,6 +32,7 @@ const SessionsPage = () => {
           query: sessionsByMentorID,
           variables: {
             mentorID: user.mentorId,
+           
           },
         });
 

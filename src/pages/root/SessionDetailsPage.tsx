@@ -6,12 +6,10 @@ import {
   Clock,
   DollarSign,
   ExternalLink,
-  MoreHorizontal,
   Plus,
-  Star,
   Users,
 } from "lucide-react";
-import { Mentee, Mentor, Session } from "@/API";
+import { Mentee, Mentor, Session, Status } from "@/API";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
@@ -32,11 +30,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import AddReviewModal from "@/components/modal/AddReviewModal";
 import { formatTime } from "@/lib/utils";
+import { updateSession } from "@/graphql/mutations";
+import { sendNotification } from "@/lib/firebase/messaging";
 
 const SessionDetailsPage = () => {
   const params = useParams();
   const { user } = useAuth();
 
+  const [reviewOpen, setReviewOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [participants, setParticipants] = useState<{
     mentor: Mentor | null;
@@ -53,6 +54,8 @@ const SessionDetailsPage = () => {
       userIds.includes(id)
     );
   }, [session, user]);
+
+  const isSessionCompleted = session?.status === Status.COMPLETED;
 
   const fetchAll = async () => {
     if (!params.id) return;
@@ -88,11 +91,31 @@ const SessionDetailsPage = () => {
     }
   };
 
-  const handleCompleteFlow = () => {};
+  const handleCompleteFlow = async () => {
+    try {
+      if (!session) return;
+      // Update session status to completed
+      await client.graphql({
+        query: updateSession,
+        variables: {
+          input: {
+            id: session.id,
+            status: Status.COMPLETED,
+          },
+        },
+      });
+
+      // Refetch data
+      fetchAll();
+
+      setReviewOpen(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const handleAddReview = () => {};
 
-  
   useEffect(() => {
     let mounted = true;
 
@@ -188,38 +211,38 @@ const SessionDetailsPage = () => {
               </div>
 
               {/* Primary CTAs */}
-              <div className="flex  gap-3 max-w-sm w-full">
-                {session?.meetingLink ? (
-                  <Link to={session.meetingLink} target="_blank">
-                    <Button size="lg">
-                      <ExternalLink className="h-5 w-5 mr-2" />
-                      Join Meeting
-                    </Button>
-                  </Link>
-                ) : (
-                  <AddMeetingLinkModal
+              {!isSessionCompleted && (
+                <div className="flex  gap-3 max-w-sm w-full">
+                  {session?.meetingLink ? (
+                    <Link to={session.meetingLink} target="_blank">
+                      <Button size="lg">
+                        <ExternalLink className="h-5 w-5 mr-2" />
+                        Join Meeting
+                      </Button>
+                    </Link>
+                  ) : (
+                    <AddMeetingLinkModal
+                      sessionId={session?.id!!}
+                      onConfirm={fetchAll}
+                    >
+                      <span className="flex items-center gap-4">
+                        <Calendar className="h-5 w-5" />
+                        <span>Add Meeting</span>
+                      </span>
+                    </AddMeetingLinkModal>
+                  )}
+
+                  <RescheduleSessionModal
                     sessionId={session?.id!!}
+                    currentSessionDate={session?.sessionDate!!}
                     onConfirm={fetchAll}
                   >
-                    <span className="flex items-center gap-4">
-                      <Calendar className="h-5 w-5" />
-                      <span>Add Meeting</span>
-                    </span>
-                  </AddMeetingLinkModal>
-                )}
-
-                <RescheduleSessionModal
-                  sessionId={session?.id!!}
-                  currentSessionDate={session?.sessionDate!!}
-                  onConfirm={fetchAll}
-                >
-                  <Button variant="outline" size="lg">
-                    Reschedule
-                  </Button>
-                </RescheduleSessionModal>
-
-             
-              </div>
+                    <Button variant="outline" size="lg">
+                      Reschedule
+                    </Button>
+                  </RescheduleSessionModal>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -229,9 +252,14 @@ const SessionDetailsPage = () => {
             <CardTitle className="text-xl">Participants</CardTitle>
             <Separator />
           </CardHeader>
-          <CardContent> 
+          <CardContent>
             {session && (
-              <SessionParticipantsCard mentor={mentor} mentee={mentee} session={session} onConfirm={fetchAll}/>
+              <SessionParticipantsCard
+                mentor={mentor}
+                mentee={mentee}
+                session={session}
+                onConfirm={fetchAll}
+              />
             )}
           </CardContent>
         </Card>
@@ -267,7 +295,8 @@ const SessionDetailsPage = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-lg font-semibold">
-                    {session?.duration} {session?.duration === 1 ? "month" : "months"}
+                    {session?.duration}{" "}
+                    {session?.duration === 1 ? "month" : "months"}
                   </p>
                   <p className="text-sm ">Session Length</p>
                 </CardContent>
@@ -286,43 +315,63 @@ const SessionDetailsPage = () => {
               </Card>
             </div>
             {/* Objectives Card */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="text-xl">Session Objectives</CardTitle>
-                {session && (
-                  <AddObjectiveModal session={session} onConfirm={fetchAll}>
-                    <Button variant="outline" size="sm">
-                      <Plus className="h-4 w-4 " />
-                      Add Objective
-                    </Button>
-                  </AddObjectiveModal>
-                )}
-              </CardHeader>
-              <CardContent>
-                {session?.objectives && session.objectives.length > 0 ? (
-                  <div className="space-y-3">
-                    {session.objectives.map((objective, index) => (
-                      <div
-                        key={index}
-                        className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-muted transition-all hover:bg-muted"
-                      >
-                        <div className="flex-shrink-0 mt-0.5">
-                          <div className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600">
-                            <Check className="h-3 w-3" />
+            {!isSessionCompleted && (
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="text-xl">Session Objectives</CardTitle>
+                  {session && (
+                    <AddObjectiveModal session={session} onConfirm={fetchAll}>
+                      <Button variant="outline" size="sm">
+                        <Plus className="h-4 w-4 " />
+                        Add Objective
+                      </Button>
+                    </AddObjectiveModal>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  {session?.objectives && session.objectives.length > 0 ? (
+                    <div className="space-y-3">
+                      {session.objectives.map((objective, index) => (
+                        <div
+                          key={index}
+                          className="flex items-start gap-3 p-3 bg-muted/50 rounded-lg border border-muted transition-all hover:bg-muted"
+                        >
+                          <div className="flex-shrink-0 mt-0.5">
+                            <div className="flex items-center justify-center w-5 h-5 rounded-full bg-green-100 text-green-600">
+                              <Check className="h-3 w-3" />
+                            </div>
                           </div>
+                          <span>{objective}</span>
                         </div>
-                        <span>{objective}</span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="text-muted-foreground text-center py-4">
-                    No objectives set for this session yet.
-                  </p>
-                )}
-              </CardContent>
-            </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-4">
+                      No objectives set for this session yet.
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            )}
           </div>
+        </div>
+
+        <div className="w-full mx-auto max-w-3xl">
+          <AddReviewModal
+            open={reviewOpen}
+            setOpen={setReviewOpen}
+            session={session}
+            onConfirm={fetchAll}
+          />
+          <Button
+            variant="secondary"
+            size="lg"
+            className="w-full"
+            disabled={isSessionCompleted}
+            onClick={handleCompleteFlow}
+          >
+            {isSessionCompleted ? "This session is completed" : "Complete Session"}
+          </Button>
         </div>
       </div>
     </div>
