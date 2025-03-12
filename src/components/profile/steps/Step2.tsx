@@ -92,6 +92,7 @@ export function StepTwo({ role }: StepTwoProps) {
                 <Input
                   {...field}
                   type="number"
+                  min={0}
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>

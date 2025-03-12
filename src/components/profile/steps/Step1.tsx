@@ -73,7 +73,7 @@ export function StepOne() {
             <FormItem>
               <FormLabel>First Name</FormLabel>
               <FormControl>
-                <Input placeholder="John" {...field} />
+                <Input placeholder="First Name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,7 +87,7 @@ export function StepOne() {
             <FormItem>
               <FormLabel>Last Name</FormLabel>
               <FormControl>
-                <Input placeholder="Doe" {...field} />
+                <Input placeholder="Last Name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

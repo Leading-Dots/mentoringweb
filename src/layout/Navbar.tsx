@@ -52,6 +52,11 @@ const Navbar = () => {
       url: "/home",
       icon: <HomeIcon className="h-5 w-5" />,
     },
+    {
+      title : "Search Mentees",
+      url : "/search-mentees",
+      icon : <UserCircle2 className="h-5 w-5" />,
+    },
 
     {
       title: "Sessions",

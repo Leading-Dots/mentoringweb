@@ -20,7 +20,7 @@ import { UserCard } from "@/components/common/UserCard";
 import { UserRole } from "types";
 import { getUser } from "@/lib/dbActions";
 import { DialogLoader } from "@/components/common/DialogLoader";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   Drawer,
@@ -190,10 +190,12 @@ const SessionRequestDetailsModal = ({
               </DrawerHeader>
               <Card>
                 <CardContent className="space-y-2 w-full">
+                  <Link to={sessionRequest.initiatedBy === "mentor" ? `/mentos/${sessionRequest.mentorID}` : `/mentee/${sessionRequest.menteeID}`}>
                   <UserCard
                     otherUserData={initiatorData}
                     role={sessionRequest.initiatedBy as UserRole}
                   />
+                  </Link>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 p-3 rounded-lg">
                       <Calendar1Icon className="h-5 w-5 text-primary" />
@@ -216,7 +218,7 @@ const SessionRequestDetailsModal = ({
                       <div>
                         <span className="text-sm text-gray-500">Duration</span>
                         <p className="font-medium">
-                          {sessionRequest.duration} minutes
+                          {sessionRequest.duration} Months
                         </p>
                       </div>
                     </div>
@@ -300,10 +302,13 @@ const SessionRequestDetailsModal = ({
             </DialogHeader>
             <Card>
               <CardContent className="space-y-2 w-full">
+              <Link to={sessionRequest.initiatedBy === "mentor" ? `/mentos/${sessionRequest.mentorID}` : `/mentee/${sessionRequest.menteeID}`}>
+
                 <UserCard
                   otherUserData={initiatorData}
                   role={sessionRequest.initiatedBy as UserRole}
                 />
+                </Link>
                 <div className="space-y-4">
                   <div className="flex items-center gap-3  p-3 rounded-lg">
                     <Calendar1Icon className="h-5 w-5 text-primary" />
@@ -326,7 +331,7 @@ const SessionRequestDetailsModal = ({
                     <div>
                       <span className="text-sm text-gray-500">Duration</span>
                       <p className="font-medium">
-                        {sessionRequest.duration} minutes
+                        {sessionRequest.duration} Months
                       </p>
                     </div>
                   </div>

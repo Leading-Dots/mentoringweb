@@ -10,13 +10,15 @@ import ProfilePage from "@/pages/root/ProfilePage";
 import CreateSessionRequestPage from "@/pages/root/CreateSessionRequestPage";
 import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
 import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
-import SearchPage from "@/pages/root/SearchPage";
+import SearchPage from "@/pages/root/SearchMentorsPage";
 import SessionsPage from "@/pages/root/SessionsPage";
 import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 import InboxPage from "@/pages/root/InboxPage";
 import ChatPage from "@/pages/root/ChatPage";
 import SettingsPage from "@/pages/root/SettingsPage";
 import NotificationsPage from "@/pages/root/NotificationsPage";
+import SearchMentorPage from "@/pages/root/SearchMentorsPage";
+import SearchMenteePage from "@/pages/root/SearchMenteePage";
 
 const routes = [
   {
@@ -91,9 +93,17 @@ const routes = [
     path: "/search-mentors",
     element: (
       <DashboardLayout isProtected={false}>
-        <SearchPage />
+        <SearchMentorPage />
       </DashboardLayout>
     ),
+  },
+  {
+    path : "/search-mentees",
+    element : (
+      <DashboardLayout isProtected={false}>
+        <SearchMenteePage />
+      </DashboardLayout>
+    )
   },
   {
     path: "/sessions",
