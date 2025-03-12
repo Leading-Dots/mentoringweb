@@ -70,6 +70,7 @@ type Notification @model @auth(rules: [{allow: public}]) {
   type: String
   fcmToken: String
   isSent: Boolean
+  isRead: Boolean
 }
 
 type Session @model @auth(rules: [{allow: public}]) {

@@ -34,12 +34,14 @@ export default function NotificationCreateForm(props) {
     type: "",
     fcmToken: "",
     isSent: false,
+    isRead: false,
   };
   const [title, setTitle] = React.useState(initialValues.title);
   const [body, setBody] = React.useState(initialValues.body);
   const [type, setType] = React.useState(initialValues.type);
   const [fcmToken, setFcmToken] = React.useState(initialValues.fcmToken);
   const [isSent, setIsSent] = React.useState(initialValues.isSent);
+  const [isRead, setIsRead] = React.useState(initialValues.isRead);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setTitle(initialValues.title);
@@ -47,6 +49,7 @@ export default function NotificationCreateForm(props) {
     setType(initialValues.type);
     setFcmToken(initialValues.fcmToken);
     setIsSent(initialValues.isSent);
+    setIsRead(initialValues.isRead);
     setErrors({});
   };
   const validations = {
@@ -55,6 +58,7 @@ export default function NotificationCreateForm(props) {
     type: [],
     fcmToken: [],
     isSent: [],
+    isRead: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -87,6 +91,7 @@ export default function NotificationCreateForm(props) {
           type,
           fcmToken,
           isSent,
+          isRead,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -154,6 +159,7 @@ export default function NotificationCreateForm(props) {
               type,
               fcmToken,
               isSent,
+              isRead,
             };
             const result = onChange(modelFields);
             value = result?.title ?? value;
@@ -182,6 +188,7 @@ export default function NotificationCreateForm(props) {
               type,
               fcmToken,
               isSent,
+              isRead,
             };
             const result = onChange(modelFields);
             value = result?.body ?? value;
@@ -210,6 +217,7 @@ export default function NotificationCreateForm(props) {
               type: value,
               fcmToken,
               isSent,
+              isRead,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -238,6 +246,7 @@ export default function NotificationCreateForm(props) {
               type,
               fcmToken: value,
               isSent,
+              isRead,
             };
             const result = onChange(modelFields);
             value = result?.fcmToken ?? value;
@@ -266,6 +275,7 @@ export default function NotificationCreateForm(props) {
               type,
               fcmToken,
               isSent: value,
+              isRead,
             };
             const result = onChange(modelFields);
             value = result?.isSent ?? value;
@@ -279,6 +289,35 @@ export default function NotificationCreateForm(props) {
         errorMessage={errors.isSent?.errorMessage}
         hasError={errors.isSent?.hasError}
         {...getOverrideProps(overrides, "isSent")}
+      ></SwitchField>
+      <SwitchField
+        label="Is read"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={isRead}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              title,
+              body,
+              type,
+              fcmToken,
+              isSent,
+              isRead: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.isRead ?? value;
+          }
+          if (errors.isRead?.hasError) {
+            runValidationTasks("isRead", value);
+          }
+          setIsRead(value);
+        }}
+        onBlur={() => runValidationTasks("isRead", isRead)}
+        errorMessage={errors.isRead?.errorMessage}
+        hasError={errors.isRead?.hasError}
+        {...getOverrideProps(overrides, "isRead")}
       ></SwitchField>
       <Flex
         justifyContent="space-between"

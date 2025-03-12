@@ -28,6 +28,7 @@ export declare type NotificationUpdateFormInputValues = {
     type?: string;
     fcmToken?: string;
     isSent?: boolean;
+    isRead?: boolean;
 };
 export declare type NotificationUpdateFormValidationValues = {
     title?: ValidationFunction<string>;
@@ -35,6 +36,7 @@ export declare type NotificationUpdateFormValidationValues = {
     type?: ValidationFunction<string>;
     fcmToken?: ValidationFunction<string>;
     isSent?: ValidationFunction<boolean>;
+    isRead?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type NotificationUpdateFormOverridesProps = {
@@ -44,6 +46,7 @@ export declare type NotificationUpdateFormOverridesProps = {
     type?: PrimitiveOverrideProps<TextFieldProps>;
     fcmToken?: PrimitiveOverrideProps<TextFieldProps>;
     isSent?: PrimitiveOverrideProps<SwitchFieldProps>;
+    isRead?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type NotificationUpdateFormProps = React.PropsWithChildren<{
     overrides?: NotificationUpdateFormOverridesProps | undefined | null;

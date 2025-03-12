@@ -410,6 +410,7 @@ export const getNotification = /* GraphQL */ `query GetNotification($id: ID!) {
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
@@ -434,6 +435,7 @@ export const listNotifications = /* GraphQL */ `query ListNotifications(
       type
       fcmToken
       isSent
+      isRead
       createdAt
       updatedAt
       __typename
@@ -469,6 +471,7 @@ export const notificationsByMentorID = /* GraphQL */ `query NotificationsByMento
       type
       fcmToken
       isSent
+      isRead
       createdAt
       updatedAt
       __typename
@@ -504,6 +507,7 @@ export const notificationsByMenteeID = /* GraphQL */ `query NotificationsByMente
       type
       fcmToken
       isSent
+      isRead
       createdAt
       updatedAt
       __typename

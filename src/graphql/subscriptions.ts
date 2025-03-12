@@ -263,6 +263,7 @@ export const onCreateNotification = /* GraphQL */ `subscription OnCreateNotifica
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
@@ -284,6 +285,7 @@ export const onUpdateNotification = /* GraphQL */ `subscription OnUpdateNotifica
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
@@ -305,6 +307,7 @@ export const onDeleteNotification = /* GraphQL */ `subscription OnDeleteNotifica
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename

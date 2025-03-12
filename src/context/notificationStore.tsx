@@ -1,23 +1,30 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import client from '@/lib/apiClient';
-import { notificationsByMenteeID, notificationsByMentorID } from '@/graphql/queries';
-import { Notification } from '@/API';
-import { useNavigate } from 'react-router-dom';
-import { onCreateNotification } from '@/graphql/subscriptions';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import client from "@/lib/apiClient";
+import {
+  notificationsByMenteeID,
+  notificationsByMentorID,
+} from "@/graphql/queries";
+import { Notification } from "@/API";
+import { useNavigate } from "react-router-dom";
+import { onCreateNotification } from "@/graphql/subscriptions";
 
 interface NotificationContextType {
   notificationCount: number;
 
   setNotificationCount: (count: number) => void;
   notifications: Notification[];
-    setNotifications: (notifications: Notification[]) => void;
+  setNotifications: (notifications: Notification[]) => void;
   fetchNotifications: () => Promise<void>;
 }
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+const NotificationContext = createContext<NotificationContextType | undefined>(
+  undefined
+);
 
-export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [notificationCount, setNotificationCount] = useState(0);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { user } = useAuth();
@@ -42,7 +49,12 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
           }
         );
         setNotifications(data.notificationsByMentorID.items);
-        setNotificationCount(data.notificationsByMentorID.items.length);
+
+        //filter the notification count to show only unread notifications
+        const unreadNotifications = data.notificationsByMentorID.items.filter(
+          (notification: Notification) => !notification.isRead
+        );
+        setNotificationCount(unreadNotifications.length);
       } else {
         const { data } = await client.graphql({
           query: notificationsByMenteeID,
@@ -60,11 +72,16 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         );
 
         setNotifications(data.notificationsByMenteeID.items);
-        setNotificationCount(data.notificationsByMenteeID.items.length);
+
+        //filter the notification count to show only unread notifications
+        const unreadNotifications = data.notificationsByMenteeID.items.filter(
+          (notification: Notification) => !notification.isRead
+        );
+        setNotificationCount(unreadNotifications.length);
       }
     } catch (error) {
       throw error;
-    } 
+    }
   };
 
   useEffect(() => {
@@ -72,12 +89,16 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
     fetchNotifications();
   }, []);
 
-
-
-
-  
   return (
-    <NotificationContext.Provider value={{ notificationCount, setNotificationCount, notifications, fetchNotifications, setNotifications }}>
+    <NotificationContext.Provider
+      value={{
+        notificationCount,
+        setNotificationCount,
+        notifications,
+        fetchNotifications,
+        setNotifications,
+      }}
+    >
       {children}
     </NotificationContext.Provider>
   );
@@ -86,7 +107,9 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
 export const useNotifications = () => {
   const context = useContext(NotificationContext);
   if (context === undefined) {
-    throw new Error('useNotifications must be used within a NotificationProvider');
+    throw new Error(
+      "useNotifications must be used within a NotificationProvider"
+    );
   }
   return context;
 };

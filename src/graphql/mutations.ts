@@ -294,6 +294,7 @@ export const createNotification = /* GraphQL */ `mutation CreateNotification(
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
@@ -316,6 +317,7 @@ export const updateNotification = /* GraphQL */ `mutation UpdateNotification(
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
@@ -338,6 +340,7 @@ export const deleteNotification = /* GraphQL */ `mutation DeleteNotification(
     type
     fcmToken
     isSent
+    isRead
     createdAt
     updatedAt
     __typename
