@@ -13,7 +13,7 @@ const uploadFileToS3 = async (
   try {
     const timestamp = new Date().toISOString();
     const file_name = name ? name : file.name;
-    const fileName = `${type}/${userId}/${file_name}-${timestamp}`;
+    const fileName = `${type}/${userId}/${timestamp}-${file_name}`;
 
     const result = await uploadData({
       path: `public/${fileName}`,
