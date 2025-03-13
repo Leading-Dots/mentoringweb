@@ -71,7 +71,7 @@ export function StepTwo({ role }: StepTwoProps) {
           name="expertise"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Expertise</FormLabel>
+              <FormLabel>Expertise *</FormLabel>
               <MultiSelect
                 options={expertiseOptions}
                 onValueChange={(value) => field.onChange(value)}
@@ -87,7 +87,7 @@ export function StepTwo({ role }: StepTwoProps) {
           name="yearsOfExperience"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Years of Experience</FormLabel>
+              <FormLabel>Years of Experience *</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -106,7 +106,7 @@ export function StepTwo({ role }: StepTwoProps) {
           name="hourlyRate"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Hourly Rate ($)</FormLabel>
+              <FormLabel>Hourly Rate ($) *</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -131,7 +131,7 @@ export function StepTwo({ role }: StepTwoProps) {
         name="goals"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Learning Goals</FormLabel>
+            <FormLabel>Learning Goals *</FormLabel>
             <MultiSelect
               options={goalOptions}
               onValueChange={(value) => field.onChange(value)}
@@ -146,7 +146,7 @@ export function StepTwo({ role }: StepTwoProps) {
         name="topics"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>What do you want to become good in</FormLabel>
+            <FormLabel>What do you want to become good in *</FormLabel>
             <MultiSelect
               options={topicOptions}
               onValueChange={(value) => field.onChange(value)}
@@ -162,7 +162,7 @@ export function StepTwo({ role }: StepTwoProps) {
         name="preferredMentorExperience"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Preferred Mentor Experience (years)</FormLabel>
+            <FormLabel>Preferred Mentor Experience (years) *</FormLabel>
             <FormControl>
               <Input
                 min={0}

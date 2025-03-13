@@ -51,7 +51,7 @@ const StepThree = ({ role }: StepThreeProps) => {
         name="summary"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Professional Summary</FormLabel>
+            <FormLabel>Professional Summary *</FormLabel>
             <FormDescription>
               {role === "mentor"
                 ? "Tell us about your professional experience"
@@ -111,7 +111,7 @@ const StepThree = ({ role }: StepThreeProps) => {
           render={({ field: { value, onChange, ...field } }) => (
             <FormItem>
               <FormLabel>Resume</FormLabel>
-              <FormDescription>Upload your resume (PDF format)</FormDescription>
+              <FormDescription>Upload your resume (PDF format) *</FormDescription>
               <FormControl>
                 <div className="relative">
                   <Input

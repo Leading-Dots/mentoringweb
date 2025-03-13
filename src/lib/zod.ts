@@ -6,8 +6,7 @@ export const MentorProfileFormSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   bio: z.string().min(10, "Bio must be at least 10 characters"),
-  profilePictureUrl: z.string().url("Unable to upload image").optional(),
-
+  profilePictureUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   // Step 2
   expertise: z.array(z.string()).min(1, "Select at least one expertise"),
   yearsOfExperience: z.number().min(0).max(50),
@@ -26,7 +25,7 @@ export const MenteeProfileFormSchema = z.object({
   lastName: z.string().min(2, "Last name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   bio: z.string().min(10, "Bio must be at least 10 characters"),
-  profilePictureUrl: z.string().url("Unable to upload image").optional(),
+  profilePictureUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
 
   //Step 2
 

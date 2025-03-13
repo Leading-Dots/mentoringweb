@@ -71,7 +71,7 @@ export function StepOne() {
           name="firstName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>First Name</FormLabel>
+                <FormLabel>First Name *</FormLabel>
               <FormControl>
                 <Input placeholder="First Name" {...field} />
               </FormControl>
@@ -85,7 +85,7 @@ export function StepOne() {
           name="lastName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Last Name</FormLabel>
+              <FormLabel>Last Name *</FormLabel>
               <FormControl>
                 <Input placeholder="Last Name" {...field} />
               </FormControl>
@@ -121,7 +121,7 @@ export function StepOne() {
         name="bio"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Bio</FormLabel>
+            <FormLabel>Bio *</FormLabel>
             <FormControl>
               <Textarea
                 placeholder="Tell us about yourself..."
