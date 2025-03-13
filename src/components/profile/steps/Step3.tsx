@@ -29,7 +29,11 @@ const StepThree = ({ role }: StepThreeProps) => {
 
     setLoading(true);
     try {
-      const file = e.target.files[0];
+      const file = e.target.files[0];    
+      if (!file.type.includes('pdf')) {
+        showToast("Please upload a PDF file", "error");
+        return;
+      }
       const url = await uploadResume(file, user.id);
       if (!url) {
         showToast("Error uploading file", "error");
