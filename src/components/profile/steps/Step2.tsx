@@ -165,6 +165,7 @@ export function StepTwo({ role }: StepTwoProps) {
             <FormLabel>Preferred Mentor Experience (years)</FormLabel>
             <FormControl>
               <Input
+                min={0}
                 {...field}
                 type="number"
                 onChange={(e) => field.onChange(parseInt(e.target.value))}
