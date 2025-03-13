@@ -1,4 +1,4 @@
-import { Session } from "@/API";
+import { Session, Status } from "@/API";
 import { sessionsByMenteeID, sessionsByMentorID } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
@@ -38,11 +38,19 @@ const SessionsComponent = () => {
           query: sessionsByMentorID,
           variables: {
             mentorID: user?.mentorId,
+            filter: {
+              or: [
+                { status: { eq: Status.SCHEDULED } },
+                { status: { eq: Status.RESCHEDULED } },
+              ],
+            },
           },
         });
 
         if (data) {
+
           const mentorSessions = data.sessionsByMentorID.items;
+          mentorSessions.sort((a, b) => new Date(a.sessionDate).getTime() - new Date(b.sessionDate).getTime());
           setSessions(mentorSessions);
         }
       } else {
@@ -50,11 +58,18 @@ const SessionsComponent = () => {
           query: sessionsByMenteeID,
           variables: {
             menteeID: user?.menteeId,
+            filter: {
+              or: [
+                { status: { eq: Status.SCHEDULED } },
+                { status: { eq: Status.RESCHEDULED } },
+              ],
+            },
           },
         });
 
         if (data) {
           const menteeSessions = data.sessionsByMenteeID.items;
+          menteeSessions.sort((a, b) => new Date(a.sessionDate).getTime() - new Date(b.sessionDate).getTime());
           setSessions(menteeSessions);
         }
       }
@@ -85,7 +100,6 @@ const SessionsComponent = () => {
       <Carousel
         opts={{
           align: "start",
-          loop: true,
           slidesToScroll: 1,
         }}
         className="flex flex-col gap-4 "
