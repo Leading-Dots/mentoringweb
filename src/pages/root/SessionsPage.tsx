@@ -1,4 +1,4 @@
-import { Session } from "@/API";
+import { Session, Status } from "@/API";
 import { sessionsByMenteeID, sessionsByMentorID } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
@@ -18,6 +18,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { formatTime } from "@/lib/utils";
+import SessionLoader from "@/components/common/SessionLoader";
 const SessionsPage = () => {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -32,12 +33,19 @@ const SessionsPage = () => {
           query: sessionsByMentorID,
           variables: {
             mentorID: user.mentorId,
+            
            
           },
         });
 
+      
         if (data) {
-          setSessions(data.sessionsByMentorID.items);
+          const sortedItems = [...data.sessionsByMentorID.items].sort((a, b) => {
+            if (a.status === Status.COMPLETED && b.status !== Status.COMPLETED) return 1;
+            if (a.status !== Status.COMPLETED && b.status === Status.COMPLETED) return -1;
+            return 0;
+          });
+          setSessions(sortedItems);
         }
       } else {
         // Fetch mentee sessions
@@ -48,7 +56,12 @@ const SessionsPage = () => {
           },
         });
         if (data) {
-          setSessions(data.sessionsByMenteeID.items);
+          const sortedItems = [...data.sessionsByMenteeID.items].sort((a, b) => {
+            if (a.status === Status.COMPLETED && b.status !== Status.COMPLETED) return 1;
+            if (a.status !== Status.COMPLETED && b.status === Status.COMPLETED) return -1;
+            return 0;
+          });
+          setSessions(sortedItems);
         }
       }
     } catch (error) {
@@ -62,53 +75,53 @@ const SessionsPage = () => {
     fetchSessions(user.role);
   }, [user.role]);
   return (
-    <div className="flex flex-col p-3 max-w-3xl">
+    <div className="flex flex-col p-3 max-w-4xl ">
       {loading ? (
-        <div className="text-center">Loading...</div>
+     <SessionLoader />
       ) : (
-        <div className="flex flex-col md:flex-row gap-4">
-          {sessions.map((session) => (
-            <Card
-              variant="gradient"
-              key={session.id}
-              className="w-full md:w-80 space-y-4"
-            >
-              <CardHeader className="pb-2">
-                <div className="flex items-center justify-between">
-                  <Calendar className="size-8 text-primary" />
-                  <Badge variant="outline" className="capitalize">
-                    {session.status}
-                  </Badge>
-                </div>
-                <CardTitle className="text-lg">
-                  {session.sessionTitle}
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pb-2">
-                <div className="flex flex-col gap-2 text-sm">
-                  <div className="flex items-center gap-1.5">
-                    <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
-                    {new Date(session.sessionDate!!).toLocaleDateString()}
-                  </div>
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="h-3.5 w-3.5 text-muted-foreground" />
-                    {formatTime(new Date(session.sessionDate!!))}
-                  </div>
-                  <Badge variant="default" className="w-fit">
-                    ${session.cost}
-                  </Badge>
-                </div>
-              </CardContent>
-              <CardFooter className="pt-0">
-                <Link to={`/sessions/${session.id}`} className="w-full">
-                  <Button variant="outline" size="sm" className="w-full">
-                    View Details
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {sessions.map((session) => (
+        <Card
+          variant="gradient"
+          key={session.id}
+          className="w-full space-y-4"
+        >
+          <CardHeader className="pb-2">
+          <div className="flex items-center justify-between">
+            <Calendar className="size-8 text-primary" />
+            <Badge variant="outline" className="capitalize">
+            {session.status}
+            </Badge>
+          </div>
+          <CardTitle className="text-lg line-clamp-2">
+            {session.sessionTitle}
+          </CardTitle>
+          </CardHeader>
+          <CardContent className="pb-2">
+          <div className="flex flex-col gap-2 text-sm">
+            <div className="flex items-center gap-1.5">
+            <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+            {new Date(session.sessionDate!!).toLocaleDateString()}
+            </div>
+            <div className="flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+            {formatTime(new Date(session.sessionDate!!))}
+            </div>
+            <Badge variant="default" className="w-fit">
+            ${session.cost}
+            </Badge>
+          </div>
+          </CardContent>
+          <CardFooter className="pt-0">
+          <Link to={`/sessions/${session.id}`} className="w-full">
+            <Button variant="outline" size="sm" className="w-full">
+            View Details
+            </Button>
+          </Link>
+          </CardFooter>
+        </Card>
+        ))}
+      </div>
       )}
     </div>
   );
