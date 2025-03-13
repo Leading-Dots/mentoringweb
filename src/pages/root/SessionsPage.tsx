@@ -40,11 +40,16 @@ const SessionsPage = () => {
 
       
         if (data) {
-          const sortedItems = [...data.sessionsByMentorID.items].sort((a, b) => {
+            const sortedItems = [...data.sessionsByMentorID.items].sort((a, b) => {
+            // First sort by completion status
             if (a.status === Status.COMPLETED && b.status !== Status.COMPLETED) return 1;
             if (a.status !== Status.COMPLETED && b.status === Status.COMPLETED) return -1;
-            return 0;
-          });
+            
+            // Then sort by date (nearest first)
+            const dateA = new Date(a.sessionDate || '');
+            const dateB = new Date(b.sessionDate || '');
+            return dateA.getTime() - dateB.getTime();
+            });
           setSessions(sortedItems);
         }
       } else {
@@ -57,10 +62,15 @@ const SessionsPage = () => {
         });
         if (data) {
           const sortedItems = [...data.sessionsByMenteeID.items].sort((a, b) => {
+            // First sort by completion status
             if (a.status === Status.COMPLETED && b.status !== Status.COMPLETED) return 1;
             if (a.status !== Status.COMPLETED && b.status === Status.COMPLETED) return -1;
-            return 0;
-          });
+            
+            // Then sort by date (nearest first)
+            const dateA = new Date(a.sessionDate || '');
+            const dateB = new Date(b.sessionDate || '');
+            return dateA.getTime() - dateB.getTime();
+            });
           setSessions(sortedItems);
         }
       }
