@@ -7,6 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 
 import { MenteeProfileFormValues, MentorProfileFormValues } from "@/lib/zod";
+import { showToast } from "./toast";
 
 type ProfileData = MentorProfileFormValues | MenteeProfileFormValues | null;
 
@@ -58,4 +59,16 @@ export const formatTime = (date: Date) => {
     minute: "numeric",
     hour12: true,
   });
+}
+
+
+export const validateFileForPdf = (e : any) => {
+  if (!e.target.files?.[0]) return false;
+  const file = e.target.files[0];
+  const fileType = file.type;
+  if (fileType !== "application/pdf") {
+    showToast("Invalid file type. Please upload a PDF file", "error");
+    return false;
+  }
+  return true;
 }

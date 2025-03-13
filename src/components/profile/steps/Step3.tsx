@@ -14,6 +14,7 @@ import { useState } from "react";
 import { uploadProfileImage, uploadResume } from "@/lib/storage";
 import { showToast } from "@/lib/toast";
 import { Link } from "react-router-dom";
+import { validateFileForPdf } from "@/lib/utils";
 
 interface StepThreeProps {
   role: "mentor" | "mentee";
@@ -30,10 +31,7 @@ const StepThree = ({ role }: StepThreeProps) => {
     setLoading(true);
     try {
       const file = e.target.files[0];    
-      if (!file.type.includes('pdf')) {
-        showToast("Please upload a PDF file", "error");
-        return;
-      }
+    
       const url = await uploadResume(file, user.id);
       if (!url) {
         showToast("Error uploading file", "error");
@@ -124,6 +122,11 @@ const StepThree = ({ role }: StepThreeProps) => {
                     accept="application/pdf"
                     disabled={loading}
                     onChange={(e) => {
+                      if(!validateFileForPdf(e)) {
+                        //reset the input field
+                        e.target.value = "";
+                        return;
+                      }
                       handleFileUpload(e);
                       onChange(e);
                     }}

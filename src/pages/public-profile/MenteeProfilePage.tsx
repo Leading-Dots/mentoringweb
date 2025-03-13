@@ -67,7 +67,7 @@ const MenteeProfilePage = () => {
         mentorName: `${user?.firstName} ${user?.lastName}`,
       });
 
-      if(!chatId) return;
+      if (!chatId) return;
       console.log(chatId);
       router(`/chat/${chatId}`);
     } catch (error) {
@@ -210,7 +210,7 @@ const MenteeProfilePage = () => {
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline flex items-center gap-2"
                     >
-                     <ExternalLink className="w-5 h-5" />
+                      <ExternalLink className="w-5 h-5" />
                       Resume
                     </a>
                   )}
@@ -218,49 +218,53 @@ const MenteeProfilePage = () => {
               ) : null}
 
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Button
-                  variant="outline"
-                  className="gap-2 w-full sm:w-auto"
-                  onClick={handleChat}
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Message
-                </Button>
-                {currentMeeting ? (
-                  <>
-                    <Link
-                      to={`/sessions/${currentMeeting.id}`}
-                      className="w-full sm:w-auto"
-                    >
-                      <Button className="gap-2 w-full">
-                        <Calendar className="w-4 h-4" />
-                        View Current Session
-                      </Button>
-                    </Link>
+              {isCurrentUser && (
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                  <Button
+                    variant="outline"
+                    className="gap-2 w-full sm:w-auto"
+                    onClick={handleChat}
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Message
+                  </Button>
+                  {currentMeeting ? (
+                    <>
+                      <Link
+                        to={`/sessions/${currentMeeting.id}`}
+                        className="w-full sm:w-auto"
+                      >
+                        <Button className="gap-2 w-full">
+                          <Calendar className="w-4 h-4" />
+                          View Current Session
+                        </Button>
+                      </Link>
+                      <CreateSessionRequestModal
+                        otherUserId={mentee.menteeId!!}
+                      >
+                        <Button
+                          disabled={isCurrentUser || isGuest}
+                          className="gap-2 w-full sm:w-auto"
+                          variant="outline"
+                        >
+                          <CalendarPlus className="w-4 h-4" />
+                          Create Another Session
+                        </Button>
+                      </CreateSessionRequestModal>
+                    </>
+                  ) : (
                     <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
                       <Button
                         disabled={isCurrentUser || isGuest}
                         className="gap-2 w-full sm:w-auto"
-                        variant="outline"
                       >
-                        <CalendarPlus className="w-4 h-4" />
-                        Create Another Session
+                        <Calendar className="w-4 h-4" />
+                        Book a Session
                       </Button>
                     </CreateSessionRequestModal>
-                  </>
-                ) : (
-                  <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
-                    <Button
-                      disabled={isCurrentUser || isGuest}
-                      className="gap-2 w-full sm:w-auto"
-                    >
-                      <Calendar className="w-4 h-4" />
-                      Book a Session
-                    </Button>
-                  </CreateSessionRequestModal>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
