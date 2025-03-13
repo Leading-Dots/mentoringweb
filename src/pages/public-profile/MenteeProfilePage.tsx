@@ -38,6 +38,7 @@ const MenteeProfilePage = () => {
 
   const isCurrentUser =
     (user && user?.menteeId === params.id) || user?.mentorId === params.id;
+    console.log("isCurrentUser", isCurrentUser);
   const isGuest = !user;
 
   const fetchReviews = async (userId: string) => {
@@ -218,7 +219,7 @@ const MenteeProfilePage = () => {
               ) : null}
 
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
-              {isCurrentUser && (
+              {!isCurrentUser && (
                 <div className="flex flex-col sm:flex-row gap-4 pt-2">
                   <Button
                     variant="outline"

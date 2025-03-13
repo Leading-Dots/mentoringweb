@@ -208,46 +208,50 @@ const MentorProfilePage = () => {
 
               <p className=" text-lg leading-relaxed">{mentor.bio}</p>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                <Button
-                  variant="outline"
-                  onClick={handleChat}
-                  className="gap-2"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  Message
-                </Button>
-                {currentMeeting ? (
-                  <>
-                    <Link to={`/sessions/${currentMeeting.id}`}>
-                      <Button className="gap-2 w-full">
-                        <Calendar className="w-4 h-4" />
-                        View Current Session
-                      </Button>
-                    </Link>
+              {!isCurrentUser && (
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                  <Button
+                    variant="outline"
+                    onClick={handleChat}
+                    className="gap-2"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    Message
+                  </Button>
+                  {currentMeeting ? (
+                    <>
+                      <Link to={`/sessions/${currentMeeting.id}`}>
+                        <Button className="gap-2 w-full">
+                          <Calendar className="w-4 h-4" />
+                          View Current Session
+                        </Button>
+                      </Link>
+                      <CreateSessionRequestModal
+                        otherUserId={mentor.mentorId!!}
+                      >
+                        <Button
+                          variant="outline"
+                          disabled={isCurrentUser || isGuest}
+                          className="gap-2"
+                        >
+                          <CalendarPlus className="w-4 h-4" />
+                          {isGuest ? "Login to Schedule" : "Schedule Session"}
+                        </Button>
+                      </CreateSessionRequestModal>
+                    </>
+                  ) : (
                     <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
                       <Button
-                        variant="outline"
                         disabled={isCurrentUser || isGuest}
                         className="gap-2"
                       >
-                        <CalendarPlus className="w-4 h-4" />
+                        <Calendar className="w-4 h-4" />
                         {isGuest ? "Login to Schedule" : "Schedule Session"}
                       </Button>
                     </CreateSessionRequestModal>
-                  </>
-                ) : (
-                  <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
-                    <Button
-                      disabled={isCurrentUser || isGuest}
-                      className="gap-2"
-                    >
-                      <Calendar className="w-4 h-4" />
-                      {isGuest ? "Login to Schedule" : "Schedule Session"}
-                    </Button>
-                  </CreateSessionRequestModal>
-                )}
-              </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
