@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 import {
@@ -23,6 +23,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { listSessions } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { showToast } from "@/lib/toast";
+import ReviewCard from "@/components/common/ReviewCard";
 
 const MentorProfilePage = () => {
   const params = useParams();
@@ -141,7 +142,7 @@ const MentorProfilePage = () => {
       <div className="container max-w-4xl">
         {/* Profile Header */}
         <div className="rounded-xl shadow-sm p-8 mb-6">
-          <div className="flex flex-col md:flex-row gap-8">
+          <div className="flex flex-col md:flex-row gap-8 ">
             <div className="flex-shrink-0 ">
               <Avatar className="h-32 w-32  ">
                 <AvatarImage src={mentor.profilePictureUrl || ""} />
@@ -161,6 +162,8 @@ const MentorProfilePage = () => {
                   <span>{mentor.email}</span>
                 </div>
               </div>
+
+              
               {mentor.linkedInUrl || mentor.websiteUrl ? (
                 <div className="flex items-center gap-4">
                   {mentor.linkedInUrl && (
@@ -207,6 +210,7 @@ const MentorProfilePage = () => {
               ) : null}
 
               <p className=" text-lg leading-relaxed">{mentor.bio}</p>
+              
 
               {!isCurrentUser && (
                 <div className="flex flex-col sm:flex-row gap-4 pt-2">
@@ -313,6 +317,10 @@ const MentorProfilePage = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Reviews</CardTitle>
+                <CardDescription>
+                 
+                  <ReviewCard reviews={reviews} />
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {reviews.length > 0 ? (

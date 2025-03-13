@@ -3,7 +3,7 @@ import { Mentee, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
 import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 import {
@@ -25,6 +25,7 @@ import client from "@/lib/apiClient";
 import { listSessions } from "@/graphql/queries";
 import { UserRole } from "types";
 import { showToast } from "@/lib/toast";
+import ReviewCard from "@/components/common/ReviewCard";
 
 const MenteeProfilePage = () => {
   const params = useParams();
@@ -319,9 +320,14 @@ const MenteeProfilePage = () => {
 
           {/* Right Column - Reviews */}
           <div className="space-y-6">
-            <Card>
+          <Card>
               <CardHeader>
                 <CardTitle>Reviews</CardTitle>
+                <CardDescription>
+                 
+                    
+                  <ReviewCard reviews={reviews} />
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 {reviews.length > 0 ? (
