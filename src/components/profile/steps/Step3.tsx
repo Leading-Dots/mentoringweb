@@ -117,7 +117,7 @@ const StepThree = ({ role }: StepThreeProps) => {
                   <Input
                     {...field}
                     type="file"
-                    accept=".pdf"
+                    accept="application/pdf"
                     disabled={loading}
                     onChange={(e) => {
                       handleFileUpload(e);
