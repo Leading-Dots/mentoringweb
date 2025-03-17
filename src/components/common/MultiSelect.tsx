@@ -8,6 +8,7 @@ import {
   ChevronDown,
   XIcon,
   WandSparkles,
+  PlusCircle,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -117,6 +118,17 @@ interface MultiSelectProps
    * Optional, can be used to add custom styles.
    */
   className?: string;
+  /**
+   * Optional callback function to handle adding new options.
+   * If provided, shows an "Add new" option in the dropdown.
+   */
+  onAddOption?: (value: string) => void;
+
+  /**
+   * Maximum number of values that can be selected.
+   * Optional, if not provided, allows unlimited selections.
+   */
+  maxSelections?: number;
 }
 
 export const MultiSelect = React.forwardRef<
@@ -135,10 +147,13 @@ export const MultiSelect = React.forwardRef<
       modalPopover = false,
       asChild = false,
       className,
+      onAddOption,
+      maxSelections,
       ...props
     },
     ref
   ) => {
+    const [newOptionValue, setNewOptionValue] = React.useState("");
     const [selectedValues, setSelectedValues] =
       React.useState<string[]>(defaultValue);
     const [isPopoverOpen, setIsPopoverOpen] = React.useState(false);
@@ -157,12 +172,32 @@ export const MultiSelect = React.forwardRef<
       }
     };
 
+    // Modify toggleOption to check maxSelections
     const toggleOption = (option: string) => {
-      const newSelectedValues = selectedValues.includes(option)
+      const isSelected = selectedValues.includes(option);
+      if (
+        !isSelected &&
+        maxSelections &&
+        selectedValues.length >= maxSelections
+      ) {
+        return; // Don't add if max selections reached
+      }
+
+      const newSelectedValues = isSelected
         ? selectedValues.filter((value) => value !== option)
         : [...selectedValues, option];
       setSelectedValues(newSelectedValues);
       onValueChange(newSelectedValues);
+    };
+    const handleInputChange = (value: string) => {
+      setNewOptionValue(value);
+    };
+
+    const handleAddOption = () => {
+      if (newOptionValue.trim() && onAddOption) {
+        onAddOption(newOptionValue.trim());
+        setNewOptionValue("");
+      }
     };
 
     const handleClear = () => {
@@ -289,27 +324,48 @@ export const MultiSelect = React.forwardRef<
             <CommandInput
               placeholder="Search..."
               onKeyDown={handleInputKeyDown}
+              value={newOptionValue}
+              onValueChange={handleInputChange}
             />
             <CommandList>
-              <CommandEmpty>No results found.</CommandEmpty>
-              <CommandGroup>
-                <CommandItem
-                  key="all"
-                  onSelect={toggleAll}
-                  className="cursor-pointer"
-                >
-                  <div
-                    className={cn(
-                      "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
-                      selectedValues.length === options.length
-                        ? "bg-primary text-primary-foreground"
-                        : "opacity-50 [&_svg]:invisible"
-                    )}
+              <CommandEmpty>
+                {onAddOption && newOptionValue && (
+                  <Button
+                    variant="ghost"
+                    onClick={handleAddOption}
+                    className="flex items-center justify-start w-full px-2 py-1.5 text-sm"
                   >
-                    <CheckIcon className="h-4 w-4" />
-                  </div>
-                  <span>(Select All)</span>
-                </CommandItem>
+                    <PlusCircle className="h-4 w-4 mr-2 shrink-0" />
+                    <span className="truncate">Add "{newOptionValue}"</span>
+                  </Button>
+                )}
+                {!onAddOption && "No results found."}
+              </CommandEmpty>
+              {maxSelections && (
+                <div className="px-2 py-1 text-xs text-muted-foreground">
+                  {selectedValues.length}/{maxSelections} selected
+                </div>
+              )}
+              <CommandGroup>
+                {!maxSelections && (
+                  <CommandItem
+                    key="all"
+                    onSelect={toggleAll}
+                    className="cursor-pointer"
+                  >
+                    <div
+                      className={cn(
+                        "mr-2 flex h-4 w-4 items-center justify-center rounded-sm border border-primary",
+                        selectedValues.length === options.length
+                          ? "bg-primary text-primary-foreground"
+                          : "opacity-50 [&_svg]:invisible"
+                      )}
+                    >
+                      <CheckIcon className="h-4 w-4" />
+                    </div>
+                    <span>(Select All)</span>
+                  </CommandItem>
+                )}
                 {options.map((option) => {
                   const isSelected = selectedValues.includes(option.value);
                   return (

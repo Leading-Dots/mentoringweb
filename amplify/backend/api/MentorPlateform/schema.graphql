@@ -1,3 +1,8 @@
+type Category @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  value: String
+}
+
 type Review @model @auth(rules: [{allow: public}]) {
   id: ID!
   rating: String
@@ -127,9 +132,9 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   SessionRequests: [SessionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
   ChatRooms: [ChatRoom] @hasMany(indexName: "byMentee", fields: ["id"])
   summary: String
-  topics: [String]
   linkedInUrl: AWSURL
   websiteUrl: AWSURL
   resumeUrl: String
+  topics: [String]
 }
  

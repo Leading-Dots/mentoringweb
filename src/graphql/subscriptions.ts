@@ -8,6 +8,45 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateCategory = /* GraphQL */ `subscription OnCreateCategory($filter: ModelSubscriptionCategoryFilterInput) {
+  onCreateCategory(filter: $filter) {
+    id
+    value
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateCategorySubscriptionVariables,
+  APITypes.OnCreateCategorySubscription
+>;
+export const onUpdateCategory = /* GraphQL */ `subscription OnUpdateCategory($filter: ModelSubscriptionCategoryFilterInput) {
+  onUpdateCategory(filter: $filter) {
+    id
+    value
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateCategorySubscriptionVariables,
+  APITypes.OnUpdateCategorySubscription
+>;
+export const onDeleteCategory = /* GraphQL */ `subscription OnDeleteCategory($filter: ModelSubscriptionCategoryFilterInput) {
+  onDeleteCategory(filter: $filter) {
+    id
+    value
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteCategorySubscriptionVariables,
+  APITypes.OnDeleteCategorySubscription
+>;
 export const onCreateReview = /* GraphQL */ `subscription OnCreateReview($filter: ModelSubscriptionReviewFilterInput) {
   onCreateReview(filter: $filter) {
     id
@@ -551,10 +590,10 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
       __typename
     }
     summary
-    topics
     linkedInUrl
     websiteUrl
     resumeUrl
+    topics
     createdAt
     updatedAt
     __typename
@@ -594,10 +633,10 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
       __typename
     }
     summary
-    topics
     linkedInUrl
     websiteUrl
     resumeUrl
+    topics
     createdAt
     updatedAt
     __typename
@@ -637,10 +676,10 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
       __typename
     }
     summary
-    topics
     linkedInUrl
     websiteUrl
     resumeUrl
+    topics
     createdAt
     updatedAt
     __typename

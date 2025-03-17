@@ -2,26 +2,16 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateReviewInput = {
+export type CreateCategoryInput = {
   id?: string | null,
-  rating?: string | null,
-  comment?: string | null,
-  reviewerRole?: string | null,
-  reviewerID?: string | null,
-  reviewedID?: string | null,
-  sessionID: string,
+  value?: string | null,
 };
 
-export type ModelReviewConditionInput = {
-  rating?: ModelStringInput | null,
-  comment?: ModelStringInput | null,
-  reviewerRole?: ModelStringInput | null,
-  reviewerID?: ModelStringInput | null,
-  reviewedID?: ModelStringInput | null,
-  sessionID?: ModelIDInput | null,
-  and?: Array< ModelReviewConditionInput | null > | null,
-  or?: Array< ModelReviewConditionInput | null > | null,
-  not?: ModelReviewConditionInput | null,
+export type ModelCategoryConditionInput = {
+  value?: ModelStringInput | null,
+  and?: Array< ModelCategoryConditionInput | null > | null,
+  or?: Array< ModelCategoryConditionInput | null > | null,
+  not?: ModelCategoryConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
@@ -64,6 +54,47 @@ export type ModelSizeInput = {
   ge?: number | null,
   gt?: number | null,
   between?: Array< number | null > | null,
+};
+
+export type Category = {
+  __typename: "Category",
+  id: string,
+  value?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateCategoryInput = {
+  id: string,
+  value?: string | null,
+};
+
+export type DeleteCategoryInput = {
+  id: string,
+};
+
+export type CreateReviewInput = {
+  id?: string | null,
+  rating?: string | null,
+  comment?: string | null,
+  reviewerRole?: string | null,
+  reviewerID?: string | null,
+  reviewedID?: string | null,
+  sessionID: string,
+};
+
+export type ModelReviewConditionInput = {
+  rating?: ModelStringInput | null,
+  comment?: ModelStringInput | null,
+  reviewerRole?: ModelStringInput | null,
+  reviewerID?: ModelStringInput | null,
+  reviewedID?: ModelStringInput | null,
+  sessionID?: ModelIDInput | null,
+  and?: Array< ModelReviewConditionInput | null > | null,
+  or?: Array< ModelReviewConditionInput | null > | null,
+  not?: ModelReviewConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type ModelIDInput = {
@@ -606,10 +637,10 @@ export type CreateMenteeInput = {
   profileStatus?: ProfileStatus | null,
   menteeId?: string | null,
   summary?: string | null,
-  topics?: Array< string | null > | null,
   linkedInUrl?: string | null,
   websiteUrl?: string | null,
   resumeUrl?: string | null,
+  topics?: Array< string | null > | null,
 };
 
 export type ModelMenteeConditionInput = {
@@ -624,10 +655,10 @@ export type ModelMenteeConditionInput = {
   profileStatus?: ModelProfileStatusInput | null,
   menteeId?: ModelStringInput | null,
   summary?: ModelStringInput | null,
-  topics?: ModelStringInput | null,
   linkedInUrl?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
   resumeUrl?: ModelStringInput | null,
+  topics?: ModelStringInput | null,
   and?: Array< ModelMenteeConditionInput | null > | null,
   or?: Array< ModelMenteeConditionInput | null > | null,
   not?: ModelMenteeConditionInput | null,
@@ -653,10 +684,10 @@ export type Mentee = {
   SessionRequests?: ModelSessionRequestConnection | null,
   ChatRooms?: ModelChatRoomConnection | null,
   summary?: string | null,
-  topics?: Array< string | null > | null,
   linkedInUrl?: string | null,
   websiteUrl?: string | null,
   resumeUrl?: string | null,
+  topics?: Array< string | null > | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -674,14 +705,30 @@ export type UpdateMenteeInput = {
   profileStatus?: ProfileStatus | null,
   menteeId?: string | null,
   summary?: string | null,
-  topics?: Array< string | null > | null,
   linkedInUrl?: string | null,
   websiteUrl?: string | null,
   resumeUrl?: string | null,
+  topics?: Array< string | null > | null,
 };
 
 export type DeleteMenteeInput = {
   id: string,
+};
+
+export type ModelCategoryFilterInput = {
+  id?: ModelIDInput | null,
+  value?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelCategoryFilterInput | null > | null,
+  or?: Array< ModelCategoryFilterInput | null > | null,
+  not?: ModelCategoryFilterInput | null,
+};
+
+export type ModelCategoryConnection = {
+  __typename: "ModelCategoryConnection",
+  items:  Array<Category | null >,
+  nextToken?: string | null,
 };
 
 export type ModelReviewFilterInput = {
@@ -831,10 +878,10 @@ export type ModelMenteeFilterInput = {
   profileStatus?: ModelProfileStatusInput | null,
   menteeId?: ModelStringInput | null,
   summary?: ModelStringInput | null,
-  topics?: ModelStringInput | null,
   linkedInUrl?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
   resumeUrl?: ModelStringInput | null,
+  topics?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelMenteeFilterInput | null > | null,
@@ -848,18 +895,13 @@ export type ModelMenteeConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionReviewFilterInput = {
+export type ModelSubscriptionCategoryFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  rating?: ModelSubscriptionStringInput | null,
-  comment?: ModelSubscriptionStringInput | null,
-  reviewerRole?: ModelSubscriptionStringInput | null,
-  reviewerID?: ModelSubscriptionStringInput | null,
-  reviewedID?: ModelSubscriptionStringInput | null,
-  sessionID?: ModelSubscriptionIDInput | null,
+  value?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionReviewFilterInput | null > | null,
-  or?: Array< ModelSubscriptionReviewFilterInput | null > | null,
+  and?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
+  or?: Array< ModelSubscriptionCategoryFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -890,6 +932,20 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionReviewFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  rating?: ModelSubscriptionStringInput | null,
+  comment?: ModelSubscriptionStringInput | null,
+  reviewerRole?: ModelSubscriptionStringInput | null,
+  reviewerID?: ModelSubscriptionStringInput | null,
+  reviewedID?: ModelSubscriptionStringInput | null,
+  sessionID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionReviewFilterInput | null > | null,
+  or?: Array< ModelSubscriptionReviewFilterInput | null > | null,
 };
 
 export type ModelSubscriptionChatRoomFilterInput = {
@@ -1035,14 +1091,59 @@ export type ModelSubscriptionMenteeFilterInput = {
   profileStatus?: ModelSubscriptionStringInput | null,
   menteeId?: ModelSubscriptionStringInput | null,
   summary?: ModelSubscriptionStringInput | null,
-  topics?: ModelSubscriptionStringInput | null,
   linkedInUrl?: ModelSubscriptionStringInput | null,
   websiteUrl?: ModelSubscriptionStringInput | null,
   resumeUrl?: ModelSubscriptionStringInput | null,
+  topics?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
   or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+};
+
+export type CreateCategoryMutationVariables = {
+  input: CreateCategoryInput,
+  condition?: ModelCategoryConditionInput | null,
+};
+
+export type CreateCategoryMutation = {
+  createCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateCategoryMutationVariables = {
+  input: UpdateCategoryInput,
+  condition?: ModelCategoryConditionInput | null,
+};
+
+export type UpdateCategoryMutation = {
+  updateCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteCategoryMutationVariables = {
+  input: DeleteCategoryInput,
+  condition?: ModelCategoryConditionInput | null,
+};
+
+export type DeleteCategoryMutation = {
+  deleteCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateReviewMutationVariables = {
@@ -1624,10 +1725,10 @@ export type CreateMenteeMutation = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1669,10 +1770,10 @@ export type UpdateMenteeMutation = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1714,12 +1815,46 @@ export type DeleteMenteeMutation = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetCategoryQueryVariables = {
+  id: string,
+};
+
+export type GetCategoryQuery = {
+  getCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListCategoriesQueryVariables = {
+  filter?: ModelCategoryFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCategoriesQuery = {
+  listCategories?:  {
+    __typename: "ModelCategoryConnection",
+    items:  Array< {
+      __typename: "Category",
+      id: string,
+      value?: string | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -2411,10 +2546,10 @@ export type GetMenteeQuery = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2443,14 +2578,56 @@ export type ListMenteesQuery = {
       profileStatus?: ProfileStatus | null,
       menteeId?: string | null,
       summary?: string | null,
-      topics?: Array< string | null > | null,
       linkedInUrl?: string | null,
       websiteUrl?: string | null,
       resumeUrl?: string | null,
+      topics?: Array< string | null > | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateCategorySubscriptionVariables = {
+  filter?: ModelSubscriptionCategoryFilterInput | null,
+};
+
+export type OnCreateCategorySubscription = {
+  onCreateCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCategorySubscriptionVariables = {
+  filter?: ModelSubscriptionCategoryFilterInput | null,
+};
+
+export type OnUpdateCategorySubscription = {
+  onUpdateCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCategorySubscriptionVariables = {
+  filter?: ModelSubscriptionCategoryFilterInput | null,
+};
+
+export type OnDeleteCategorySubscription = {
+  onDeleteCategory?:  {
+    __typename: "Category",
+    id: string,
+    value?: string | null,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -3011,10 +3188,10 @@ export type OnCreateMenteeSubscription = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3055,10 +3232,10 @@ export type OnUpdateMenteeSubscription = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3099,10 +3276,10 @@ export type OnDeleteMenteeSubscription = {
       nextToken?: string | null,
     } | null,
     summary?: string | null,
-    topics?: Array< string | null > | null,
     linkedInUrl?: string | null,
     websiteUrl?: string | null,
     resumeUrl?: string | null,
+    topics?: Array< string | null > | null,
     createdAt: string,
     updatedAt: string,
   } | null,

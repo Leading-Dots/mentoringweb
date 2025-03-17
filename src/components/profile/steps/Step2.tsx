@@ -8,15 +8,14 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useFormContext } from "react-hook-form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { MultiSelect } from "@/components/common/MultiSelect";
-import { Textarea } from "@/components/ui/textarea";
+import { useEffect, useState } from "react";
+import { c } from "node_modules/framer-motion/dist/types.d-6pKw1mTI";
+import client from "@/lib/apiClient";
+import { listCategories } from "@/graphql/queries";
+import { createCategory } from "@/graphql/mutations";
+import { Button } from "@/components/ui/button";
+import { showToast } from "@/lib/toast";
 
 interface StepTwoProps {
   role: "mentor" | "mentee";
@@ -24,6 +23,8 @@ interface StepTwoProps {
 
 export function StepTwo({ role }: StepTwoProps) {
   const form = useFormContext();
+  const [topicOptions, setTopicOptions] = useState([]);
+  const [newTopic, setNewTopic] = useState("");
 
   const expertiseOptions = [
     { label: "Frontend Development", value: "Frontend Development" },
@@ -40,28 +41,55 @@ export function StepTwo({ role }: StepTwoProps) {
     { label: "Build a portfolio", value: "Build a portfolio" },
   ];
 
-  const topicOptions = [
-    {
-      label: "Frontend Development",
-      value: "Frontend Development",
-    },
-    {
-      label: "Backend Development",
-      value: "Backend Development",
-    },
-    {
-      label: "Full Stack Development",
-      value: "Full Stack Development",
-    },
-    {
-      label: "DevOps",
-      value: "DevOps",
-    },
-    {
-      label: "UI/UX Design",
-      value: "UI/UX Design  ",
-    },
-  ];
+  const addTopic = async (topicValue: string) => {
+    try {
+      if (topicValue === "") return;
+      console.log("Topic created", topicValue);
+  
+      const existingTopic = topicOptions.find((topic) => topic.value === topicValue);
+  
+      if(existingTopic) {
+        showToast("Category already exists", "error");
+        return;
+      }
+  
+      const { data } = await client.graphql({
+        query: createCategory,
+        variables: { input: { value: topicValue } },
+      });
+      console.log("Topic created", data);
+  
+      const newTopicOption = { label: topicValue, value: topicValue };
+      setTopicOptions([...topicOptions, newTopicOption]);
+  
+      if (role === "mentee") {
+        form.setValue("topics", [...(form.getValues("topics") || []), newTopicOption]);
+      } else {
+        form.setValue("expertise", [...(form.getValues("expertise") || []), newTopicOption]);
+      }
+      setNewTopic("");
+    } catch (error) {
+      console.error("Error creating topic", error);
+    }
+  };
+  useEffect(() => {
+    const fetchTopics = async () => {
+      const { data } = await client.graphql({
+        query: listCategories,
+        variables: { limit: 100 },
+      });
+
+      const options = data.listCategories.items.map((topic) => ({
+        label: topic.value,
+        value: topic.value,
+      }));
+
+      console.log("Topics fetched", options);
+      setTopicOptions(options || []);
+    };
+
+    fetchTopics();
+  }, []);
 
   if (role === "mentor") {
     return (
@@ -73,11 +101,14 @@ export function StepTwo({ role }: StepTwoProps) {
             <FormItem>
               <FormLabel>Expertise *</FormLabel>
               <MultiSelect
-                options={expertiseOptions}
+                options={topicOptions}
+                onAddOption={addTopic}
+                maxSelections={4}
                 onValueChange={(value) => field.onChange(value)}
                 defaultValue={field.value}
               />
               <FormMessage />
+             
             </FormItem>
           )}
         />
@@ -124,8 +155,6 @@ export function StepTwo({ role }: StepTwoProps) {
 
   return (
     <div className="space-y-4">
-     
-
       <FormField
         control={form.control}
         name="goals"
@@ -133,8 +162,11 @@ export function StepTwo({ role }: StepTwoProps) {
           <FormItem>
             <FormLabel>Learning Goals *</FormLabel>
             <MultiSelect
+
               options={goalOptions}
-              onValueChange={(value) => field.onChange(value)}
+              onValueChange={(value) => field.onChange(value)
+
+              }
               defaultValue={field.value || []}
             />
             <FormMessage />
@@ -148,11 +180,15 @@ export function StepTwo({ role }: StepTwoProps) {
           <FormItem>
             <FormLabel>What do you want to become good in *</FormLabel>
             <MultiSelect
+              onAddOption={addTopic}
+              maxSelections={4}
               options={topicOptions}
               onValueChange={(value) => field.onChange(value)}
               defaultValue={field.value || []}
             />
             <FormMessage />
+
+            
           </FormItem>
         )}
       />

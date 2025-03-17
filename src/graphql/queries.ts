@@ -8,6 +8,40 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getCategory = /* GraphQL */ `query GetCategory($id: ID!) {
+  getCategory(id: $id) {
+    id
+    value
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetCategoryQueryVariables,
+  APITypes.GetCategoryQuery
+>;
+export const listCategories = /* GraphQL */ `query ListCategories(
+  $filter: ModelCategoryFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listCategories(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      value
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListCategoriesQueryVariables,
+  APITypes.ListCategoriesQuery
+>;
 export const getReview = /* GraphQL */ `query GetReview($id: ID!) {
   getReview(id: $id) {
     id
@@ -755,10 +789,10 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
       __typename
     }
     summary
-    topics
     linkedInUrl
     websiteUrl
     resumeUrl
+    topics
     createdAt
     updatedAt
     __typename
@@ -784,10 +818,10 @@ export const listMentees = /* GraphQL */ `query ListMentees(
       profileStatus
       menteeId
       summary
-      topics
       linkedInUrl
       websiteUrl
       resumeUrl
+      topics
       createdAt
       updatedAt
       __typename

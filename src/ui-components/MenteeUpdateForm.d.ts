@@ -34,10 +34,10 @@ export declare type MenteeUpdateFormInputValues = {
     profileStatus?: string;
     menteeId?: string;
     summary?: string;
-    topics?: string[];
     linkedInUrl?: string;
     websiteUrl?: string;
     resumeUrl?: string;
+    topics?: string[];
 };
 export declare type MenteeUpdateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -51,10 +51,10 @@ export declare type MenteeUpdateFormValidationValues = {
     profileStatus?: ValidationFunction<string>;
     menteeId?: ValidationFunction<string>;
     summary?: ValidationFunction<string>;
-    topics?: ValidationFunction<string>;
     linkedInUrl?: ValidationFunction<string>;
     websiteUrl?: ValidationFunction<string>;
     resumeUrl?: ValidationFunction<string>;
+    topics?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MenteeUpdateFormOverridesProps = {
@@ -70,10 +70,10 @@ export declare type MenteeUpdateFormOverridesProps = {
     profileStatus?: PrimitiveOverrideProps<SelectFieldProps>;
     menteeId?: PrimitiveOverrideProps<TextFieldProps>;
     summary?: PrimitiveOverrideProps<TextFieldProps>;
-    topics?: PrimitiveOverrideProps<TextFieldProps>;
     linkedInUrl?: PrimitiveOverrideProps<TextFieldProps>;
     websiteUrl?: PrimitiveOverrideProps<TextFieldProps>;
     resumeUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    topics?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MenteeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MenteeUpdateFormOverridesProps | undefined | null;
