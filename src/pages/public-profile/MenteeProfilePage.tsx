@@ -284,7 +284,7 @@ const MenteeProfilePage = () => {
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
-                  {(mentee.goals ?? []).map((skill, index) => (
+                  {(mentee.topics ?? []).map((skill, index) => (
                     <Badge
                       key={index}
                       variant="secondary"
