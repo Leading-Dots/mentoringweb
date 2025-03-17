@@ -774,6 +774,11 @@ export default function MenteeUpdateForm(props) {
           value="REJECTED"
           {...getOverrideProps(overrides, "profileStatusoption2")}
         ></option>
+        <option
+          children="Inprogress"
+          value="INPROGRESS"
+          {...getOverrideProps(overrides, "profileStatusoption3")}
+        ></option>
       </SelectField>
       <TextField
         label="Mentee id"

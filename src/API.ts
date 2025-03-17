@@ -511,6 +511,7 @@ export enum ProfileStatus {
   PENDING = "PENDING",
   PUBLISHED = "PUBLISHED",
   REJECTED = "REJECTED",
+  INPROGRESS = "INPROGRESS",
 }
 
 

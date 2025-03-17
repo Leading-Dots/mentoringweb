@@ -13,6 +13,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {  useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { ProfileStatus } from "@/API";
 
 export function StepOne() {
   const form = useFormContext();
@@ -32,6 +33,20 @@ export function StepOne() {
       router(`/mentee/${user?.menteeId}`);
     }
   };
+
+
+  const StatusBadge = () => {
+    const status = user?.profileStatus;
+    console.log("Status", status);
+    if (!status) return null;
+    return (
+      <div className="flex items-center space-x-2">
+        <span className="text-sm font-semibold text-gray-800 bg-gray-200 px-2 py-1 rounded-full">
+          {status}
+        </span>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -59,9 +74,13 @@ export function StepOne() {
       </div>
 
       <div className="flex justify-center items-center space-y-2 gap-4">
-        <Button variant={"ghost"} onClick={handlePublicProfile}>
-          View Public Profile
-        </Button>
+          <StatusBadge  />
+          {
+            user?.profileStatus === ProfileStatus.PUBLISHED && (
+              <Button onClick={handlePublicProfile}>View Public Profile</Button>
+            )
+          }
+      
       </div>
 
       {/* Name Fields Row */}

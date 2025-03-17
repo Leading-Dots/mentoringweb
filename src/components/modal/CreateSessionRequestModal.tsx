@@ -12,7 +12,7 @@ import { SessionRequestForm } from "@/components/session/SessionRequestForm";
 import { useEffect, useState } from "react";
 import { UserCard } from "../common/UserCard";
 import { getUser } from "@/lib/dbActions";
-import { Mentee, Mentor, SessionRequestStatus } from "@/API";
+import { Mentee, Mentor, ProfileStatus, SessionRequestStatus } from "@/API";
 import { showToast } from "@/lib/toast";
 import { DialogLoader } from "../common/DialogLoader";
 import client from "@/lib/apiClient";
@@ -51,6 +51,13 @@ export function CreateSessionRequestModal({
       setLoading(true);
       // TODO: Implement your submission logic here
       console.log("Form data:", data);
+
+      //only for published profiles
+      if (user?.profileStatus !== ProfileStatus.PUBLISHED) {
+        showToast("You need to publish your profile to request a session", "error");
+        return;
+      }
+
 
       if (userRole === "mentor") {
         // Send session request to mentee

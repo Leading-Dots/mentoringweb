@@ -105,7 +105,7 @@ const Navbar = () => {
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
-  const isPublished = user?.profileStatus === "PUBLISHED";
+  const isNotPending = user?.profileStatus !== ProfileStatus.PENDING;
 
   const NavContent = () => {
     // For guest users, show guest nav items
@@ -137,7 +137,7 @@ const Navbar = () => {
     }
 
     // For logged in users
-    const displayNavItems = !isPublished
+    const displayNavItems = !isNotPending
       ? navItems.filter((item) => item.title === "Profile")
       : navItems;
 
@@ -167,7 +167,7 @@ const Navbar = () => {
             </Link>
           );
         })}
-        {!isPublished && (
+        {!isNotPending && (
           <Link
             to="/profile"
             className={cn(
