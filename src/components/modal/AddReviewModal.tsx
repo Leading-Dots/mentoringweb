@@ -74,6 +74,14 @@ const AddReviewModal = ({
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+
+    if(session.status !== "COMPLETED") {
+      showToast("You can only review completed sessions", "error");
+      return;
+    }
+
+
+
     try {
       setLoading(true);
       const response = await client.graphql({
