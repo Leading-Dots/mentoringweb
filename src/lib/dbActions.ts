@@ -269,27 +269,24 @@ export const intiateChat = async ({
   }
 };
 
-export const getSessionReview = async (
+export const getSessionReviews = async (
   sessionID: string,
-  userRole: UserRole
 ) => {
   try {
     const { data } = await client.graphql({
       query: listReviews,
       variables: {
-        limit: 1,
+        limit: 2,
         filter: {
           sessionID: {
             eq: sessionID,
           },
-          reviewerRole: {
-            eq: userRole,
-          },
+         
         },
       },
     });
     if (data.listReviews.items.length > 0) {
-      return data.listReviews.items[0];
+      return data.listReviews.items;
     }
     return null;
   } catch (error) {

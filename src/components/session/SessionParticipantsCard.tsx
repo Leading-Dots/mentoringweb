@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import AddReviewModal from "../modal/AddReviewModal";
 import { UserRole } from "types";
-import { getSessionReview } from "@/lib/dbActions";
+import { getSessionReviews } from "@/lib/dbActions";
 import { showToast } from "@/lib/toast";
 import { intiateChat } from "@/lib/dbActions";
 
@@ -27,7 +27,8 @@ const SessionParticipantsCard = ({
   const { user } = useAuth();
   const router = useNavigate();
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
-  const [review, setReview] = useState<Review | null>(null);
+  const [mentorReview, setMentorReview] = useState<Review | null>(null);
+  const [menteeReview, setMenteeReview] = useState<Review | null>(null);
   const [loading, setLoading] = useState(false);
 
   const userRole = user?.role;
@@ -48,7 +49,7 @@ const SessionParticipantsCard = ({
         mentorName: `${user?.firstName} ${user?.lastName}`,
       });
 
-      if(!chatId) return;
+      if (!chatId) return;
 
       router(`/chat/${chatId}`);
     } catch (error) {
@@ -59,9 +60,19 @@ const SessionParticipantsCard = ({
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const reviewData = await getSessionReview(session.id, userRole);
+      const reviewData: Review[] = await getSessionReviews(session.id!!);
       if (reviewData) {
-        setReview(reviewData);
+        const reviewByMentor = reviewData.find(
+          (review) => review.reviewerRole === "mentor"
+        );
+        const reviewByMentee = reviewData.find(
+          (review) => review.reviewerRole === "mentee"
+        );
+
+        console.log("reviewByMentor", reviewByMentor);
+        console.log("reviewByMentee", reviewByMentee);
+        setMentorReview(reviewByMentor || null);
+        setMenteeReview(reviewByMentee || null);
       }
     } catch (error) {
       console.error(error);
@@ -85,7 +96,7 @@ const SessionParticipantsCard = ({
           open={reviewModalOpen}
           setOpen={setReviewModalOpen}
           session={session}
-          existingReview={review}
+          existingReview={userRole === "mentor" ? mentorReview : menteeReview}
           onConfirm={onConfirm}
         />
         <div className="flex flex-col gap-2 p-4 rounded-lg border bg-card">
@@ -116,13 +127,12 @@ const SessionParticipantsCard = ({
               <div className="flex items-center gap-2">
                 {userRole === "mentee" && (
                   <>
-                  
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={handleReviewClick}
                     >
-                      {review ? "See Review" : "Leave a Review"}
+                      {menteeReview ? "See Review" : "Leave a Review"}
                     </Button>
                   </>
                 )}
@@ -153,10 +163,9 @@ const SessionParticipantsCard = ({
                 </div>
               </Link>
               <div className="flex items-center gap-2">
-                
                 {userRole === "mentor" && (
                   <Button variant="ghost" size="sm" onClick={handleReviewClick}>
-                    {review ? "See Review" : "Leave a Review"}
+                    {mentorReview ? "See Review" : "Leave a Review"}
                   </Button>
                 )}
               </div>
