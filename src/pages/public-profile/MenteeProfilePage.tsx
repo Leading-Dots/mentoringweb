@@ -1,7 +1,7 @@
 import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { Mentee, Review, Session } from "@/API";
+import { Mentee, Mentorship, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
-import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
+import { checkMentorship, getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Card,
@@ -42,6 +42,9 @@ const MenteeProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [currentMentorship, setCurrentMentorship] = useState<Mentorship | null>(
+    null
+  );
   const router = useNavigate();
 
   const isCurrentUser =
@@ -57,11 +60,19 @@ const MenteeProfilePage = () => {
       console.error(error);
     }
   };
+  const verifyMentorship = async () => {
+      try {
+        const mentorship = await checkMentorship(user?.mentorId!, params.id!);
+        setCurrentMentorship(mentorship || null);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   useEffect(() => {
     if (params.id) {
       fetchMenteeProfile();
-      checkSession();
+      verifyMentorship();
       fetchReviews(params.id);
     }
   }, [params.id]);
@@ -229,13 +240,11 @@ const MenteeProfilePage = () => {
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
               {!isCurrentUser && (
                 <ProfileActions
-                  currentMeeting={currentMeeting}
+                  currentMentorship={currentMentorship}
                   userId={mentee.menteeId!!}
                   isCurrentUser={isCurrentUser}
                   isGuest={isGuest}
                   onChatClick={handleChat}
-                  scheduleButtonText="Book a Session"
-                  currentMeetingText="View Current Session"
                 />
               )}
             </div>

@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "pull" : "amplify pull && npm run codegen",
     "codegen": "amplify update codegen && amplify codegen"
   },
   "dependencies": {

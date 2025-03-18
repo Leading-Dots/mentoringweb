@@ -8,6 +8,122 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getIntroductionRequest = /* GraphQL */ `query GetIntroductionRequest($id: ID!) {
+  getIntroductionRequest(id: $id) {
+    id
+    mentorID
+    menteeID
+    note
+    title
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetIntroductionRequestQueryVariables,
+  APITypes.GetIntroductionRequestQuery
+>;
+export const listIntroductionRequests = /* GraphQL */ `query ListIntroductionRequests(
+  $filter: ModelIntroductionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listIntroductionRequests(
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      note
+      title
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListIntroductionRequestsQueryVariables,
+  APITypes.ListIntroductionRequestsQuery
+>;
+export const introductionRequestsByMentorID = /* GraphQL */ `query IntroductionRequestsByMentorID(
+  $mentorID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelIntroductionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  introductionRequestsByMentorID(
+    mentorID: $mentorID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      note
+      title
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.IntroductionRequestsByMentorIDQueryVariables,
+  APITypes.IntroductionRequestsByMentorIDQuery
+>;
+export const introductionRequestsByMenteeID = /* GraphQL */ `query IntroductionRequestsByMenteeID(
+  $menteeID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelIntroductionRequestFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  introductionRequestsByMenteeID(
+    menteeID: $menteeID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      mentorID
+      menteeID
+      note
+      title
+      status
+      initiatedBy
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.IntroductionRequestsByMenteeIDQueryVariables,
+  APITypes.IntroductionRequestsByMenteeIDQuery
+>;
 export const getMentorship = /* GraphQL */ `query GetMentorship($id: ID!) {
   getMentorship(id: $id) {
     id
@@ -227,7 +343,6 @@ export const getChatRoom = /* GraphQL */ `query GetChatRoom($id: ID!) {
       __typename
     }
     name
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -249,7 +364,6 @@ export const listChatRooms = /* GraphQL */ `query ListChatRooms(
       mentorID
       menteeID
       name
-      untitledfield
       mentorshipID
       createdAt
       updatedAt
@@ -282,7 +396,6 @@ export const chatRoomsByMentorID = /* GraphQL */ `query ChatRoomsByMentorID(
       mentorID
       menteeID
       name
-      untitledfield
       mentorshipID
       createdAt
       updatedAt
@@ -315,7 +428,6 @@ export const chatRoomsByMenteeID = /* GraphQL */ `query ChatRoomsByMenteeID(
       mentorID
       menteeID
       name
-      untitledfield
       mentorshipID
       createdAt
       updatedAt
@@ -342,7 +454,6 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
     initiatedBy
     sessionID
     sessionTitle
-    untitledfield
     mentorshipID
     mentorID
     createdAt
@@ -372,7 +483,6 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
       initiatedBy
       sessionID
       sessionTitle
-      untitledfield
       mentorshipID
       mentorID
       createdAt
@@ -413,7 +523,6 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
       initiatedBy
       sessionID
       sessionTitle
-      untitledfield
       mentorshipID
       mentorID
       createdAt
@@ -454,7 +563,6 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
       initiatedBy
       sessionID
       sessionTitle
-      untitledfield
       mentorshipID
       mentorID
       createdAt
@@ -847,6 +955,10 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    IntroductionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -922,6 +1034,10 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
     resumeUrl
     topics
     Mentorships {
+      nextToken
+      __typename
+    }
+    IntroductionRequests {
       nextToken
       __typename
     }

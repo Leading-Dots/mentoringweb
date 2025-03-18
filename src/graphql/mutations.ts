@@ -8,6 +8,69 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createIntroductionRequest = /* GraphQL */ `mutation CreateIntroductionRequest(
+  $input: CreateIntroductionRequestInput!
+  $condition: ModelIntroductionRequestConditionInput
+) {
+  createIntroductionRequest(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    note
+    title
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateIntroductionRequestMutationVariables,
+  APITypes.CreateIntroductionRequestMutation
+>;
+export const updateIntroductionRequest = /* GraphQL */ `mutation UpdateIntroductionRequest(
+  $input: UpdateIntroductionRequestInput!
+  $condition: ModelIntroductionRequestConditionInput
+) {
+  updateIntroductionRequest(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    note
+    title
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateIntroductionRequestMutationVariables,
+  APITypes.UpdateIntroductionRequestMutation
+>;
+export const deleteIntroductionRequest = /* GraphQL */ `mutation DeleteIntroductionRequest(
+  $input: DeleteIntroductionRequestInput!
+  $condition: ModelIntroductionRequestConditionInput
+) {
+  deleteIntroductionRequest(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    note
+    title
+    status
+    initiatedBy
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteIntroductionRequestMutationVariables,
+  APITypes.DeleteIntroductionRequestMutation
+>;
 export const createMentorship = /* GraphQL */ `mutation CreateMentorship(
   $input: CreateMentorshipInput!
   $condition: ModelMentorshipConditionInput
@@ -186,7 +249,6 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
       __typename
     }
     name
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -210,7 +272,6 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
       __typename
     }
     name
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -234,7 +295,6 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
       __typename
     }
     name
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -261,7 +321,6 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     initiatedBy
     sessionID
     sessionTitle
-    untitledfield
     mentorshipID
     mentorID
     createdAt
@@ -289,7 +348,6 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     initiatedBy
     sessionID
     sessionTitle
-    untitledfield
     mentorshipID
     mentorID
     createdAt
@@ -317,7 +375,6 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     initiatedBy
     sessionID
     sessionTitle
-    untitledfield
     mentorshipID
     mentorID
     createdAt
@@ -597,6 +654,10 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       nextToken
       __typename
     }
+    IntroductionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -646,6 +707,10 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    IntroductionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -692,6 +757,10 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       __typename
     }
     SessionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionRequests {
       nextToken
       __typename
     }
@@ -745,6 +814,10 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
       nextToken
       __typename
     }
+    IntroductionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -795,6 +868,10 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    IntroductionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -842,6 +919,10 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
     resumeUrl
     topics
     Mentorships {
+      nextToken
+      __typename
+    }
+    IntroductionRequests {
       nextToken
       __typename
     }

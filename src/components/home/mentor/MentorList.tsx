@@ -44,7 +44,7 @@ const MentorList = () => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-semibold">Find Mentors Around You</h3>
+        <h3 className="text-xl font-semibold">Recommended Mentors For You</h3>
         <Button variant="ghost">
           <Link to="/search-mentors">See all</Link>
         </Button>

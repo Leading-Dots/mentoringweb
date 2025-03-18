@@ -1,4 +1,5 @@
 import { DialogLoader } from "@/components/common/DialogLoader";
+import IntroductionRequestComponent from "@/components/home/IntroductionRequestComponent";
 import ListComponent from "@/components/home/ListComponent";
 import SessionRequestComponent from "@/components/home/SessionRequestComponent";
 import SessionsComponent from "@/components/home/SessionsComponent";
@@ -20,6 +21,9 @@ const Home = () => {
       </div>
       <div className="flex items-center justify-between max-w-4xl">
         <ListComponent  />
+      </div>
+      <div className="flex items-center justify-between max-w-4xl">
+        <IntroductionRequestComponent  />
       </div>
     </main>
   );

@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -46,6 +45,7 @@ export function SessionRequestForm({
   isMentor: boolean;
 }) {
   const [isFree, setIsFree] = useState(false);
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema(isMentor)),
     defaultValues: {
@@ -61,7 +61,7 @@ export function SessionRequestForm({
     // Transform the data to match the schema
     const transformedData = {
       ...data,
-      [isMentor ? "mentorNote" : "menteeNote"]: data.note,
+   
     };
     onSubmit(transformedData);
   };

@@ -2,7 +2,14 @@ import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
 import { Mentorship, MentorshipStatus } from "@/API";
 import { Link } from "react-router-dom";
-import { MessageCircle, Calendar, CalendarPlus, LogIn } from "lucide-react";
+import {
+  MessageCircle,
+  Calendar,
+  CalendarPlus,
+  LogIn,
+  UserPlus,
+} from "lucide-react";
+import { CreateIntroductionModal } from "../modal/CreateIntroductionModal";
 
 interface ProfileActionsProps {
   currentMentorship: Mentorship | null;
@@ -21,35 +28,45 @@ export const ProfileActions = ({
 }: ProfileActionsProps) => {
   if (isGuest) {
     return (
-      <Link to="/login" className="w-full sm:w-auto">
-        <Button className="w-full sm:w-auto gap-2">
-          <LogIn className="w-4 h-4" />
-          Login to Connect
-        </Button>
-      </Link>
+      <div className="flex flex-col sm:flex-row gap-2 pt-2">
+        <Link to="/login" className="w-full sm:w-auto">
+          <Button variant="outline" className="w-full sm:w-auto gap-2">
+            <LogIn className="w-4 h-4" />
+            Login to Connect
+          </Button>
+        </Link>
+      </div>
     );
   }
 
   const mentorshipStatus = currentMentorship?.mentorshipStatus;
 
-  const canMessage = mentorshipStatus === MentorshipStatus.ACCEPTED || mentorshipStatus === MentorshipStatus.INTRODUCTION;
+  const canMessage =
+    mentorshipStatus === MentorshipStatus.ACCEPTED ||
+    mentorshipStatus === MentorshipStatus.INTRODUCTION;
 
   const renderActionButton = () => {
     if (!currentMentorship) {
       return (
-        <CreateSessionRequestModal otherUserId={userId}>
-          <Button className="gap-2 w-full sm:w-auto">
-            <Calendar className="w-4 h-4" />
-            Book Introduction
+        <CreateIntroductionModal otherUserId={userId}>
+          <Button
+            variant="outline"
+            className="gap-2 w-full sm:w-auto hover:bg-primary hover:text-primary-foreground"
+          >
+            <UserPlus className="w-4 h-4" />
+            Request Introduction
           </Button>
-        </CreateSessionRequestModal>
+        </CreateIntroductionModal>
       );
     }
 
     switch (mentorshipStatus) {
       case MentorshipStatus.INTRODUCTION:
         return (
-          <Link to={`/mentorship/${currentMentorship.id}`} className="w-full sm:w-auto">
+          <Link
+            to={`/mentorship/${currentMentorship.id}`}
+            className="w-full sm:w-auto"
+          >
             <Button variant="outline" className="gap-2 w-full">
               <Calendar className="w-4 h-4" />
               View Introduction Request

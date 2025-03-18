@@ -12,11 +12,20 @@ import { SessionRequestForm } from "@/components/session/SessionRequestForm";
 import { useEffect, useState } from "react";
 import { UserCard } from "../common/UserCard";
 import { getUser } from "@/lib/dbActions";
-import { Mentee, Mentor, ProfileStatus, SessionRequestStatus } from "@/API";
+import {
+  Mentee,
+  Mentor,
+  MentorshipStatus,
+  ProfileStatus,
+  SessionRequestStatus,
+} from "@/API";
 import { showToast } from "@/lib/toast";
 import { DialogLoader } from "../common/DialogLoader";
 import client from "@/lib/apiClient";
-import { createSessionRequest } from "@/graphql/mutations";
+import {
+  createIntroductionRequest,
+  createSessionRequest,
+} from "@/graphql/mutations";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import {
   Drawer,
@@ -28,9 +37,9 @@ import {
   DrawerDescription,
 } from "@/components/ui/drawer";
 import { sendNotification } from "@/lib/firebase/messaging";
-import { UserRole } from "types";
+import { IntroductionRequestForm } from "../profile/IntroductionRequestForm";
 
-export function CreateSessionRequestModal({
+export function CreateIntroductionModal({
   children,
   otherUserId,
 }: {
@@ -43,84 +52,44 @@ export function CreateSessionRequestModal({
   const [loading, setLoading] = useState(false);
 
   const isMobile = useMediaQuery("(max-width: 640px)");
+  const isPublished = user?.profileStatus === ProfileStatus.PUBLISHED;
   const userRole = user?.role;
   const otherRole = userRole === "mentor" ? "mentee" : "mentor";
 
   const handleSubmit = async (data: any) => {
     try {
-      setLoading(true);
-      console.log("Form data:", data);
-
-      //only for published profiles
-      if (user?.profileStatus !== ProfileStatus.PUBLISHED) {
+      if (!isPublished) {
         showToast(
-          "You need to publish your profile to request a session",
+          "You need to publish your profile to send a request",
           "error"
         );
         return;
       }
+      setLoading(true);
 
-      if (userRole === "mentor") {
-        // Send session request to mentee
+      console.log("Form data:", data);
 
-        const requestData = {
-          sessionTitle: data.title,
-          mentorID: user?.mentorId,
-          menteeID: otherUserId,
-          status: SessionRequestStatus.SENT,
-          mentorNote: data.mentorNote,
-          menteeNote: "No Note",
-          duration: data.duration,
-          proposedSessionTime: data.proposedSessionTime,
-          proposedCost: data.proposedCost,
-          sessionID: "nosession",
-          initiatedBy: userRole,
-        };
-
-        console.log("requestData", requestData);
-        const response = await client.graphql({
-          query: createSessionRequest,
-          variables: {
-            input: requestData,
+      await client.graphql({
+        query: createIntroductionRequest,
+        variables: {
+          input: {
+            ...data,
+            status: MentorshipStatus.PENDING,
+            initiatedBy: userRole,
+            mentorID: userRole === "mentor" ? user?.mentorId : otherUserId,
+            menteeID: userRole === "mentee" ? user?.menteeId : otherUserId,
           },
-        });
-        sendNotification({
-          title: "New Session Request",
-          body: `You have a new session request from ${user?.firstName}`,
-          recipientId: otherUserId,
-          recipientRole: otherRole as UserRole,
-        });
-        showToast("Session request sent successfully", "success");
-        return response;
-      } else {
-        // Send session request to mentor
-        const response = await client.graphql({
-          query: createSessionRequest,
-          variables: {
-            input: {
-              sessionTitle: data.title,
-              mentorID: otherUserId,
-              menteeID: user?.menteeId,
-              status: SessionRequestStatus.SENT,
-              menteeNote: data.menteeNote,
-              mentorNote: "No Note",
-              duration: data.duration,
-              proposedSessionTime: data.proposedSessionTime,
-              proposedCost: data.proposedCost,
-              sessionID: "nosession",
-              initiatedBy: userRole,
-            },
-          },
-        });
-        sendNotification({
-          title: "New Session Request",
-          body: `You have a new session request from ${user?.firstName}`,
-          recipientId: otherUserId,
-          recipientRole: otherRole as UserRole,
-        });
-        showToast("Session request sent successfully", "success");
-        return response;
-      }
+        },
+      });
+
+      showToast("Request sent successfully", "success");
+
+      await sendNotification({
+        title: "New Introduction Request",
+        body: `You have a new introduction request from ${user?.firstName} ${user?.lastName}`,
+        recipientId: otherUserId,
+        recipientRole: otherRole,
+      });
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
@@ -157,7 +126,7 @@ export function CreateSessionRequestModal({
     return (
       <Drawer open={open} onOpenChange={setOpen}>
         <DrawerTrigger asChild>{children}</DrawerTrigger>
-        <DrawerContent className="h-[90vh]">
+        <DrawerContent className="">
           {loading ? (
             <DialogLoader />
           ) : (
@@ -174,17 +143,15 @@ export function CreateSessionRequestModal({
                 <UserCard otherUserData={otherUser} role={otherRole} />
               )}
               <div className="grid gap-4 py-4">
-                <SessionRequestForm
-                  onSubmit={handleSubmit}
-                  isMentor={userRole === "mentor"}
-                />
+                <IntroductionRequestForm onSubmit={handleSubmit} />
               </div>
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={() => setOpen(false)}>
-                  Cancel
-                </Button>
-                <Button type="submit" form="session-request-form">
-                 Send
+              <div className="flex space-x-2">
+                <Button
+                  type="submit"
+                  form="introduction-request-form"
+                  className="w-full"
+                >
+                  Send
                 </Button>
               </div>
             </div>
@@ -203,26 +170,26 @@ export function CreateSessionRequestModal({
         ) : (
           <>
             <DialogHeader>
-              <DialogTitle className="text-2xl">Request a Session</DialogTitle>
+              <DialogTitle className="text-2xl">
+                Request A Introduction Session
+              </DialogTitle>
               <DialogDescription>
-                Fill in the details to request a new mentoring session.
+                Fill in the details to request mentorship.
               </DialogDescription>
             </DialogHeader>
             {otherUser && (
               <UserCard otherUserData={otherUser} role={otherRole} />
             )}
             <div className="grid gap-4 py-4">
-              <SessionRequestForm
-                onSubmit={handleSubmit}
-                isMentor={userRole === "mentor"}
-              />
+              <IntroductionRequestForm onSubmit={handleSubmit} />
             </div>
-            <div className="flex justify-end space-x-2">
-              <Button variant="outline" onClick={() => setOpen(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" form="session-request-form">
-                Create Request
+            <div className="flex w-full space-x-2">
+              <Button
+                type="submit"
+                className="w-full"
+                form="introduction-request-form"
+              >
+                Send
               </Button>
             </div>
           </>

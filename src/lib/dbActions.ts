@@ -224,6 +224,13 @@ export const intiateChat = async ({
     }
 
     //will also need to verify if users are in mentorship relationship
+    const mentorship = await checkMentorship(mentorId, menteeId);
+    if(!mentorship){
+      console.log("You need to be in a mentorship relationship to chat");
+      showToast("You need to be in a mentorship relationship to chat", "error");
+      return null;
+    }
+
 
     const { data, errors } = await client.graphql({
       query: listChatRooms,
@@ -347,7 +354,7 @@ export const addMentorship = async (mentorId: string, menteeId: string) => {
         input: {
           mentorID: mentorId,
           menteeID: menteeId,
-          mentorshipStatus: MentorshipStatus.PENDING,
+          mentorshipStatus: MentorshipStatus.INTRODUCTION,
         },
       },
     });

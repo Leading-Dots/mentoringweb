@@ -141,7 +141,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
       await handleSignOut();
+      window.location.href = "/";
+
       setUser(null);
+
     } catch (error) {
       throw error;
     } finally {

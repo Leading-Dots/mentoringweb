@@ -1,3 +1,13 @@
+type IntroductionRequest @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  mentorID: ID! @index(name: "byMentor")
+  menteeID: ID! @index(name: "byMentee")
+  note: String
+  title: String
+  status: MentorshipStatus
+  initiatedBy: String
+}
+
 enum MentorshipStatus {
   INTRODUCTION
   ACCEPTED
@@ -33,7 +43,6 @@ type ChatRoom @model @auth(rules: [{allow: public}]) {
   menteeID: ID! @index(name: "byMentee")
   Messages: [Messages] @hasMany(indexName: "byChatRoom", fields: ["id"])
   name: String
-  untitledfield: String
   mentorshipID: String
 }
 
@@ -55,7 +64,6 @@ type SessionRequest @model @auth(rules: [{allow: public}]) {
   initiatedBy: String
   sessionID: String
   sessionTitle: String
-  untitledfield: String
   mentorshipID: String
   mentorID: ID! @index(name: "byMentor")
 }
@@ -135,6 +143,7 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   websiteUrl: String
   Mentorships: [Mentorship] @hasMany(indexName: "byMentor", fields: ["id"])
   SessionRequests: [SessionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
+  IntroductionRequests: [IntroductionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -159,5 +168,6 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   resumeUrl: String
   topics: [String]
   Mentorships: [Mentorship] @hasMany(indexName: "byMentee", fields: ["id"])
+  IntroductionRequests: [IntroductionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
 }
  

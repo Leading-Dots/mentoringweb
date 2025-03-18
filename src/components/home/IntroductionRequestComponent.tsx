@@ -1,67 +1,72 @@
-import { SessionRequest, SessionRequestStatus, Status } from "@/API";
 import {
-  sessionRequestsByMenteeID,
-  sessionRequestsByMentorID,
+  IntroductionRequest,
+  MentorshipStatus,
+} from "@/API";
+import {
+  introductionRequestsByMenteeID,
+  introductionRequestsByMentorID,
 } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
 import React from "react";
 import { UserRole } from "types";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
-import { Calendar, ClipboardList, Inbox, User } from "lucide-react";
+import { Calendar, Inbox, User } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
 import SessionRequestDetailsModal from "./modal/SessionRequestDetailsModal";
+import IntroductionRequestDetailsModal from "./modal/IntroductionRequestDetailsModal";
 
-const SessionRequestComponent = () => {
+const IntroductionRequestComponent = () => {
   const { user } = useAuth();
 
   const userRole = user?.role;
-  const [sessionRequests, setSessionRequests] = React.useState<
-    SessionRequest[]
+  const [introductionRequests, setIntroductionRequests] = React.useState<
+    IntroductionRequest[]
   >([]);
 
   if (!user) {
     return null;
   }
 
-  const getSessionRequests = async (role: UserRole) => {
+  const getIntroductionRequests = async (role: UserRole) => {
     try {
       console.log(role, "role");
       if (role === "mentor") {
         console.log(user?.mentorId, "mentor");
         const { data } = await client.graphql({
-          query: sessionRequestsByMentorID,
+          query: introductionRequestsByMentorID,
           variables: {
             filter: {
-              status: {
-                eq: SessionRequestStatus.SENT,
-              },
+                status: {
+                eq: MentorshipStatus.PENDING,
+                },
             },
             mentorID: user?.mentorId,
           },
         });
 
         if (data) {
-          setSessionRequests(data.sessionRequestsByMentorID.items);
+          setIntroductionRequests(data.introductionRequestsByMentorID.items);
         }
       } else {
         console.log(user?.menteeId, "mentee");
         const { data } = await client.graphql({
-          query: sessionRequestsByMenteeID,
+          query: introductionRequestsByMenteeID,
           variables: {
             menteeID: user?.menteeId,
+            filter: {
+              status: {
+                eq: MentorshipStatus.PENDING,
+              },
+            },
           },
         });
 
         if (data) {
           //show only pending requests
 
-          const pendingRequests = data.sessionRequestsByMenteeID.items.filter(
-            (request: SessionRequest) =>
-              request.status === SessionRequestStatus.SENT
-          );
-          setSessionRequests(pendingRequests);
+          setIntroductionRequests(data.introductionRequestsByMenteeID.items);
         }
       }
     } catch (error) {
@@ -71,20 +76,20 @@ const SessionRequestComponent = () => {
 
   React.useEffect(() => {
     if (userRole) {
-      getSessionRequests(userRole);
+      getIntroductionRequests(userRole);
     }
   }, []);
 
-  if (sessionRequests.length === 0) {
+  if (introductionRequests.length === 0) {
     return null;
   }
   return (
     <div className="w-full p-4">
       <div className="flex items-center gap-2 mb-4">
-        <h2 className="text-xl font-semibold">Session Requests</h2>
+        <h2 className="text-xl font-semibold">Mentorship Requests</h2>
       </div>
       <div className="space-y-4">
-        {sessionRequests.length === 0 ? (
+        {introductionRequests.length === 0 ? (
           <Card className="p-6">
             <div className="flex flex-col items-center justify-center text-center space-y-2">
               <Inbox className="w-12 h-12 text-muted-foreground" />
@@ -94,7 +99,7 @@ const SessionRequestComponent = () => {
             </div>
           </Card>
         ) : (
-          sessionRequests.map((request) => (
+          introductionRequests.map((request) => (
             <Card key={request.id} className="p-4">
               <CardHeader className="p-0 pb-4">
                 <div className="flex justify-between items-center">
@@ -108,7 +113,7 @@ const SessionRequestComponent = () => {
                     <div className="flex items-center gap-2">
                       <User className="w-4 h-4" />
                       <h3 className="font-semibold">
-                        {request.sessionTitle}-Request
+                        {request.title}-Request
                       </h3>
                     </div>
                   </Link>
@@ -122,9 +127,7 @@ const SessionRequestComponent = () => {
               </CardHeader>
               <CardContent className="p-0">
                 <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-none">
-                  {request.initiatedBy === "mentor"
-                    ? request.mentorNote
-                    : request.menteeNote}
+                    {request.note}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   <Badge variant="secondary" className="text-xs md:text-sm">
@@ -134,13 +137,13 @@ const SessionRequestComponent = () => {
               </CardContent>
 
               <CardFooter className="p-0 pt-4">
-                <SessionRequestDetailsModal sessionRequest={request}>
+                <IntroductionRequestDetailsModal introRequest={request}>
                   {userRole !== request.initiatedBy && (
                     <span className="text-primary underline cursor-pointer">
                       View
                     </span>
                   )}
-                </SessionRequestDetailsModal>
+                </IntroductionRequestDetailsModal>
               </CardFooter>
             </Card>
           ))
@@ -150,4 +153,4 @@ const SessionRequestComponent = () => {
   );
 };
 
-export default SessionRequestComponent;
+export default IntroductionRequestComponent;
