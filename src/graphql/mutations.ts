@@ -8,6 +8,60 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createMentorship = /* GraphQL */ `mutation CreateMentorship(
+  $input: CreateMentorshipInput!
+  $condition: ModelMentorshipConditionInput
+) {
+  createMentorship(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMentorshipMutationVariables,
+  APITypes.CreateMentorshipMutation
+>;
+export const updateMentorship = /* GraphQL */ `mutation UpdateMentorship(
+  $input: UpdateMentorshipInput!
+  $condition: ModelMentorshipConditionInput
+) {
+  updateMentorship(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMentorshipMutationVariables,
+  APITypes.UpdateMentorshipMutation
+>;
+export const deleteMentorship = /* GraphQL */ `mutation DeleteMentorship(
+  $input: DeleteMentorshipInput!
+  $condition: ModelMentorshipConditionInput
+) {
+  deleteMentorship(input: $input, condition: $condition) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMentorshipMutationVariables,
+  APITypes.DeleteMentorshipMutation
+>;
 export const createCategory = /* GraphQL */ `mutation CreateCategory(
   $input: CreateCategoryInput!
   $condition: ModelCategoryConditionInput
@@ -132,6 +186,8 @@ export const createChatRoom = /* GraphQL */ `mutation CreateChatRoom(
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -154,6 +210,8 @@ export const updateChatRoom = /* GraphQL */ `mutation UpdateChatRoom(
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -176,6 +234,8 @@ export const deleteChatRoom = /* GraphQL */ `mutation DeleteChatRoom(
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -196,12 +256,14 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -222,12 +284,14 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -248,12 +312,14 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -418,6 +484,8 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -447,6 +515,8 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -476,6 +546,8 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -510,10 +582,6 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -521,6 +589,14 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -555,10 +631,6 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -566,6 +638,14 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -600,10 +680,6 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -611,6 +687,14 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -657,6 +741,10 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -703,6 +791,10 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -749,6 +841,10 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename

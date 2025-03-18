@@ -3,7 +3,13 @@ import { Mentee, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
 import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 import {
@@ -26,6 +32,7 @@ import { listSessions } from "@/graphql/queries";
 import { UserRole } from "types";
 import { showToast } from "@/lib/toast";
 import ReviewCard from "@/components/common/ReviewCard";
+import { ProfileActions } from "@/components/common/ProfileAction";
 
 const MenteeProfilePage = () => {
   const params = useParams();
@@ -39,7 +46,7 @@ const MenteeProfilePage = () => {
 
   const isCurrentUser =
     (user && user?.menteeId === params.id) || user?.mentorId === params.id;
-    console.log("isCurrentUser", isCurrentUser);
+  console.log("isCurrentUser", isCurrentUser);
   const isGuest = !user;
 
   const fetchReviews = async (userId: string) => {
@@ -221,51 +228,15 @@ const MenteeProfilePage = () => {
 
               <p className=" text-lg leading-relaxed">{mentee.bio}</p>
               {!isCurrentUser && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                  <Button
-                    variant="outline"
-                    className="gap-2 w-full sm:w-auto"
-                    onClick={handleChat}
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Message
-                  </Button>
-                  {currentMeeting ? (
-                    <>
-                      <Link
-                        to={`/sessions/${currentMeeting.id}`}
-                        className="w-full sm:w-auto"
-                      >
-                        <Button className="gap-2 w-full">
-                          <Calendar className="w-4 h-4" />
-                          View Current Session
-                        </Button>
-                      </Link>
-                      <CreateSessionRequestModal
-                        otherUserId={mentee.menteeId!!}
-                      >
-                        <Button
-                          disabled={isCurrentUser || isGuest}
-                          className="gap-2 w-full sm:w-auto"
-                          variant="outline"
-                        >
-                          <CalendarPlus className="w-4 h-4" />
-                          Create Another Session
-                        </Button>
-                      </CreateSessionRequestModal>
-                    </>
-                  ) : (
-                    <CreateSessionRequestModal otherUserId={mentee.menteeId!!}>
-                      <Button
-                        disabled={isCurrentUser || isGuest}
-                        className="gap-2 w-full sm:w-auto"
-                      >
-                        <Calendar className="w-4 h-4" />
-                        Book a Session
-                      </Button>
-                    </CreateSessionRequestModal>
-                  )}
-                </div>
+                <ProfileActions
+                  currentMeeting={currentMeeting}
+                  userId={mentee.menteeId!!}
+                  isCurrentUser={isCurrentUser}
+                  isGuest={isGuest}
+                  onChatClick={handleChat}
+                  scheduleButtonText="Book a Session"
+                  currentMeetingText="View Current Session"
+                />
               )}
             </div>
           </div>
@@ -320,12 +291,10 @@ const MenteeProfilePage = () => {
 
           {/* Right Column - Reviews */}
           <div className="space-y-6">
-          <Card>
+            <Card>
               <CardHeader>
                 <CardTitle>Reviews</CardTitle>
                 <CardDescription>
-                 
-                    
                   <ReviewCard reviews={reviews} />
                 </CardDescription>
               </CardHeader>

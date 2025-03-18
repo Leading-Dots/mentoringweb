@@ -1,9 +1,20 @@
-import { Mentor, Review, Session } from "@/API";
+import { Mentor, Mentorship, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { getUser, getUserReviews, intiateChat } from "@/lib/dbActions";
+import {
+  checkMentorship,
+  getUser,
+  getUserReviews,
+  intiateChat,
+} from "@/lib/dbActions";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { getInitials } from "@/lib/utils";
 import {
@@ -24,11 +35,16 @@ import { listSessions } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { showToast } from "@/lib/toast";
 import ReviewCard from "@/components/common/ReviewCard";
+import { aw } from "node_modules/framer-motion/dist/types.d-6pKw1mTI";
+import { ProfileActions } from "@/components/common/ProfileAction";
 
 const MentorProfilePage = () => {
   const params = useParams();
   const router = useNavigate();
   const [mentor, setMentor] = useState<Mentor>({} as Mentor);
+  const [currentMentorship, setCurrentMentorship] = useState<Mentorship | null>(
+    null
+  );
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
@@ -51,7 +67,7 @@ const MentorProfilePage = () => {
   useEffect(() => {
     if (params.id) {
       fetchMentorProfile();
-      checkSession();
+      verifyMentorship();
       fetchReviews(params.id);
     }
   }, [params.id]);
@@ -74,6 +90,15 @@ const MentorProfilePage = () => {
       router(`/chat/${chatId}`);
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const verifyMentorship = async () => {
+    try {
+      const mentorship = await checkMentorship(user?.menteeId!, params.id!);
+      setCurrentMentorship(mentorship || null);
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -163,7 +188,6 @@ const MentorProfilePage = () => {
                 </div>
               </div>
 
-              
               {mentor.linkedInUrl || mentor.websiteUrl ? (
                 <div className="flex items-center gap-4">
                   {mentor.linkedInUrl && (
@@ -210,51 +234,15 @@ const MentorProfilePage = () => {
               ) : null}
 
               <p className=" text-lg leading-relaxed">{mentor.bio}</p>
-              
 
               {!isCurrentUser && (
-                <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                  <Button
-                    variant="outline"
-                    onClick={handleChat}
-                    className="gap-2"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    Message
-                  </Button>
-                  {currentMeeting ? (
-                    <>
-                      <Link to={`/sessions/${currentMeeting.id}`}>
-                        <Button className="gap-2 w-full">
-                          <Calendar className="w-4 h-4" />
-                          View Current Session
-                        </Button>
-                      </Link>
-                      <CreateSessionRequestModal
-                        otherUserId={mentor.mentorId!!}
-                      >
-                        <Button
-                          variant="outline"
-                          disabled={isCurrentUser || isGuest}
-                          className="gap-2"
-                        >
-                          <CalendarPlus className="w-4 h-4" />
-                          {isGuest ? "Login to Schedule" : "Schedule Session"}
-                        </Button>
-                      </CreateSessionRequestModal>
-                    </>
-                  ) : (
-                    <CreateSessionRequestModal otherUserId={mentor.mentorId!!}>
-                      <Button
-                        disabled={isCurrentUser || isGuest}
-                        className="gap-2"
-                      >
-                        <Calendar className="w-4 h-4" />
-                        {isGuest ? "Login to Schedule" : "Schedule Session"}
-                      </Button>
-                    </CreateSessionRequestModal>
-                  )}
-                </div>
+                <ProfileActions
+                  currentMentorship={currentMentorship}
+                  userId={mentor.mentorId!!}
+                  isCurrentUser={isCurrentUser}
+                  isGuest={isGuest}
+                  onChatClick={handleChat}
+                />
               )}
             </div>
           </div>
@@ -318,7 +306,6 @@ const MentorProfilePage = () => {
               <CardHeader>
                 <CardTitle>Reviews</CardTitle>
                 <CardDescription>
-                 
                   <ReviewCard reviews={reviews} />
                 </CardDescription>
               </CardHeader>

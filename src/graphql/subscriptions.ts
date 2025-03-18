@@ -8,6 +8,57 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateMentorship = /* GraphQL */ `subscription OnCreateMentorship(
+  $filter: ModelSubscriptionMentorshipFilterInput
+) {
+  onCreateMentorship(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateMentorshipSubscriptionVariables,
+  APITypes.OnCreateMentorshipSubscription
+>;
+export const onUpdateMentorship = /* GraphQL */ `subscription OnUpdateMentorship(
+  $filter: ModelSubscriptionMentorshipFilterInput
+) {
+  onUpdateMentorship(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateMentorshipSubscriptionVariables,
+  APITypes.OnUpdateMentorshipSubscription
+>;
+export const onDeleteMentorship = /* GraphQL */ `subscription OnDeleteMentorship(
+  $filter: ModelSubscriptionMentorshipFilterInput
+) {
+  onDeleteMentorship(filter: $filter) {
+    id
+    mentorID
+    menteeID
+    mentorshipStatus
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteMentorshipSubscriptionVariables,
+  APITypes.OnDeleteMentorshipSubscription
+>;
 export const onCreateCategory = /* GraphQL */ `subscription OnCreateCategory($filter: ModelSubscriptionCategoryFilterInput) {
   onCreateCategory(filter: $filter) {
     id
@@ -111,6 +162,8 @@ export const onCreateChatRoom = /* GraphQL */ `subscription OnCreateChatRoom($fi
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -130,6 +183,8 @@ export const onUpdateChatRoom = /* GraphQL */ `subscription OnUpdateChatRoom($fi
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -149,6 +204,8 @@ export const onDeleteChatRoom = /* GraphQL */ `subscription OnDeleteChatRoom($fi
       __typename
     }
     name
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -168,12 +225,14 @@ export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessio
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -193,12 +252,14 @@ export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessio
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -218,12 +279,14 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
     menteeNote
     duration
     proposedSessionTime
-    mentorID
     menteeID
     status
     initiatedBy
     sessionID
     sessionTitle
+    untitledfield
+    mentorshipID
+    mentorID
     createdAt
     updatedAt
     __typename
@@ -373,6 +436,8 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -399,6 +464,8 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -425,6 +492,8 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
       nextToken
       __typename
     }
+    untitledfield
+    mentorshipID
     createdAt
     updatedAt
     __typename
@@ -456,10 +525,6 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -467,6 +532,14 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -498,10 +571,6 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -509,6 +578,14 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -540,10 +617,6 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
     }
     profileStatus
     mentorId
-    SessionRequests {
-      nextToken
-      __typename
-    }
     ChatRooms {
       nextToken
       __typename
@@ -551,6 +624,14 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
     summary
     linkedInUrl
     websiteUrl
+    Mentorships {
+      nextToken
+      __typename
+    }
+    SessionRequests {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -594,6 +675,10 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -637,6 +722,10 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -680,6 +769,10 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
     websiteUrl
     resumeUrl
     topics
+    Mentorships {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename

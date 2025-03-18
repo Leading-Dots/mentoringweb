@@ -19,6 +19,7 @@ import SettingsPage from "@/pages/root/SettingsPage";
 import NotificationsPage from "@/pages/root/NotificationsPage";
 import SearchMentorPage from "@/pages/root/SearchMentorsPage";
 import SearchMenteePage from "@/pages/root/SearchMenteePage";
+import MyMentors from "@/pages/root/MyMentors";
 
 const routes = [
   {
@@ -98,12 +99,20 @@ const routes = [
     ),
   },
   {
-    path : "/search-mentees",
-    element : (
+    path: "/search-mentees",
+    element: (
       <DashboardLayout isProtected={false}>
         <SearchMenteePage />
       </DashboardLayout>
-    )
+    ),
+  },
+  {
+    path: "/my-mentors",
+    element: (
+      <DashboardLayout>
+        <MyMentors />
+      </DashboardLayout>
+    ),
   },
   {
     path: "/sessions",
@@ -114,46 +123,45 @@ const routes = [
     ),
   },
   {
-    path : "/sessions/:id",
-    element : (
+    path: "/sessions/:id",
+    element: (
       <DashboardLayout>
         <SessionDetailsPage />
       </DashboardLayout>
-    )
+    ),
   },
   {
-    path : "/inbox",
-    element : (
+    path: "/inbox",
+    element: (
       <DashboardLayout>
         <InboxPage />
       </DashboardLayout>
-    )
+    ),
   },
   {
-    path : "/chat/:id",
-    element : (
+    path: "/chat/:id",
+    element: (
       <DashboardLayout>
         <ChatPage />
       </DashboardLayout>
-    )
+    ),
   },
   {
-    path : "settings",
-    element : (
+    path: "settings",
+    element: (
       <DashboardLayout>
         <SettingsPage />
       </DashboardLayout>
-    )
+    ),
   },
   {
-    path : "Notifications",
-    element : (
+    path: "Notifications",
+    element: (
       <DashboardLayout>
         <NotificationsPage />
       </DashboardLayout>
-    )
-  }
-
+    ),
+  },
 ];
 
 const router = createBrowserRouter(routes);

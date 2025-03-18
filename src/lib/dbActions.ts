@@ -2,6 +2,7 @@ import {
   listChatRooms,
   listMentees,
   listMentors,
+  listMentorships,
   listReviews,
 } from "@/graphql/queries";
 import client from "./apiClient";
@@ -9,10 +10,12 @@ import {
   createChatRoom,
   createMentee,
   createMentor,
+  createMentorship,
   updateMentee,
   updateMentor,
+  updateMentorship,
 } from "@/graphql/mutations";
-import { ProfileStatus } from "@/API";
+import { MentorshipStatus, ProfileStatus } from "@/API";
 import { UserRole } from "types";
 import { showToast } from "./toast";
 type ROLE = "mentor" | "mentee";
@@ -191,8 +194,6 @@ const findMentee = async (userId: string, fcmToken?: string) => {
         },
       });
 
-      
-
       if (updateErrors) {
         console.error(updateErrors);
       }
@@ -216,12 +217,13 @@ export const intiateChat = async ({
     //bascially we run action when user clicks on chat button if there no chatrrrom between mentor and mentee we create one otherwise we just redirect to chatroom
     //we return chatroom id
 
-
-    if(mentorId === menteeId){
+    if (mentorId === menteeId) {
       console.log("You can't chat with yourself");
       showToast("You can't chat with yourself", "error");
       return null;
     }
+
+    //will also need to verify if users are in mentorship relationship
 
     const { data, errors } = await client.graphql({
       query: listChatRooms,
@@ -269,9 +271,7 @@ export const intiateChat = async ({
   }
 };
 
-export const getSessionReviews = async (
-  sessionID: string,
-) => {
+export const getSessionReviews = async (sessionID: string) => {
   try {
     const { data } = await client.graphql({
       query: listReviews,
@@ -281,7 +281,6 @@ export const getSessionReviews = async (
           sessionID: {
             eq: sessionID,
           },
-         
         },
       },
     });
@@ -313,5 +312,71 @@ export const getUserReviews = async (userId: string) => {
     return [];
   } catch (error) {
     console.error("Error fetching reviews", error);
+  }
+};
+
+export const checkMentorship = async (mentorId: string, menteeId: string) => {
+  try {
+    const { data } = await client.graphql({
+      query: listMentorships,
+      variables: {
+        filter: {
+          mentorID: {
+            eq: mentorId,
+          },
+          menteeID: {
+            eq: menteeId,
+          },
+        },
+      },
+    });
+    if (data.listMentorships.items.length > 0) {
+      return data.listMentorships.items[0];
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching mentorship", error);
+  }
+};
+
+export const addMentorship = async (mentorId: string, menteeId: string) => {
+  try {
+    const { data } = await client.graphql({
+      query: createMentorship,
+      variables: {
+        input: {
+          mentorID: mentorId,
+          menteeID: menteeId,
+          mentorshipStatus: MentorshipStatus.PENDING,
+        },
+      },
+    });
+    if (data.createMentorship) {
+      return data.createMentorship;
+    }
+
+    return null;
+  } catch (error) {
+    console.error("Error creating mentorship", error);
+  }
+};
+
+export const updateMentorshipStatus = async (
+  mentorshipID: string,
+  status: MentorshipStatus
+) => {
+  try {
+    const { data } = await client.graphql({
+      query: updateMentorship,
+      variables: {
+        input: {
+          id: mentorshipID,
+          mentorshipStatus: status,
+        },
+      },
+    });
+    return data.updateMentorship;
+  } catch (error) {
+    console.error("Error updating mentorship", error);
   }
 };
