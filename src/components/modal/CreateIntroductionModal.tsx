@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/form";
 
 import {
-    DialogPortal,
+  DialogPortal,
   Dialog,
   DialogContent,
   DialogDescription,
@@ -40,6 +40,7 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { DateTimePicker } from "../common/DatePicker";
 
 interface CreateIntroductionSessionModalProps {
   children: React.ReactNode;
@@ -51,17 +52,18 @@ export function CreateIntroductionSessionModal({
   children,
   menteeId,
   mentorId,
- 
 }: CreateIntroductionSessionModalProps) {
   const { user } = useAuth();
 
   const [loading, setLoading] = useState(false);
-    const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
 
   const createIntroductionSessionSchema = z.object({
     duration: z.string().optional(),
-    sessionDate: z.string().min(1, "Session date is required"),
+    sessionDate: z.date({
+      required_error: "Please select a date and time",
+    }),
     meetingLink: z.string().url("Please enter a valid URL"),
   });
 
@@ -69,7 +71,7 @@ export function CreateIntroductionSessionModal({
     resolver: zodResolver(createIntroductionSessionSchema),
     defaultValues: {
       duration: "30",
-      sessionDate: "",
+      sessionDate: new Date(),
       meetingLink: "",
     },
   });
@@ -146,11 +148,12 @@ export function CreateIntroductionSessionModal({
                   control={form.control}
                   name="sessionDate"
                   render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Session Date</FormLabel>
-                      <FormControl>
-                        <Input type="datetime-local" {...field} required />
-                      </FormControl>
+                    <FormItem className="flex flex-col">
+                      <FormLabel>Session Date & Time</FormLabel>
+                      <DateTimePicker
+                        date={field.value}
+                        onChange={field.onChange}
+                      />
                       <FormMessage />
                     </FormItem>
                   )}
