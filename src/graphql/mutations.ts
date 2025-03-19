@@ -8,6 +8,72 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createIntroductionSession = /* GraphQL */ `mutation CreateIntroductionSession(
+  $input: CreateIntroductionSessionInput!
+  $condition: ModelIntroductionSessionConditionInput
+) {
+  createIntroductionSession(input: $input, condition: $condition) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateIntroductionSessionMutationVariables,
+  APITypes.CreateIntroductionSessionMutation
+>;
+export const updateIntroductionSession = /* GraphQL */ `mutation UpdateIntroductionSession(
+  $input: UpdateIntroductionSessionInput!
+  $condition: ModelIntroductionSessionConditionInput
+) {
+  updateIntroductionSession(input: $input, condition: $condition) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateIntroductionSessionMutationVariables,
+  APITypes.UpdateIntroductionSessionMutation
+>;
+export const deleteIntroductionSession = /* GraphQL */ `mutation DeleteIntroductionSession(
+  $input: DeleteIntroductionSessionInput!
+  $condition: ModelIntroductionSessionConditionInput
+) {
+  deleteIntroductionSession(input: $input, condition: $condition) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteIntroductionSessionMutationVariables,
+  APITypes.DeleteIntroductionSessionMutation
+>;
 export const createIntroductionRequest = /* GraphQL */ `mutation CreateIntroductionRequest(
   $input: CreateIntroductionRequestInput!
   $condition: ModelIntroductionRequestConditionInput
@@ -541,7 +607,6 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -572,7 +637,6 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -603,7 +667,6 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -655,6 +718,10 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }
@@ -711,6 +778,10 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -761,6 +832,10 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }
@@ -818,6 +893,10 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -872,6 +951,10 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -923,6 +1006,10 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }

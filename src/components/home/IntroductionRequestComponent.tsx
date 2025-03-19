@@ -15,7 +15,7 @@ import { Calendar, Inbox, User } from "lucide-react";
 import { Badge } from "../ui/badge";
 import { Link } from "react-router-dom";
 import SessionRequestDetailsModal from "./modal/SessionRequestDetailsModal";
-import IntroductionRequestDetailsModal from "./modal/IntroductionRequestDetailsModal";
+import IntroductionRequestDetailsModal from "./modal/MentorshipRequestDetailsModal";
 
 const IntroductionRequestComponent = () => {
   const { user } = useAuth();

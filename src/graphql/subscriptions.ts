@@ -8,6 +8,69 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
+export const onCreateIntroductionSession = /* GraphQL */ `subscription OnCreateIntroductionSession(
+  $filter: ModelSubscriptionIntroductionSessionFilterInput
+) {
+  onCreateIntroductionSession(filter: $filter) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnCreateIntroductionSessionSubscriptionVariables,
+  APITypes.OnCreateIntroductionSessionSubscription
+>;
+export const onUpdateIntroductionSession = /* GraphQL */ `subscription OnUpdateIntroductionSession(
+  $filter: ModelSubscriptionIntroductionSessionFilterInput
+) {
+  onUpdateIntroductionSession(filter: $filter) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnUpdateIntroductionSessionSubscriptionVariables,
+  APITypes.OnUpdateIntroductionSessionSubscription
+>;
+export const onDeleteIntroductionSession = /* GraphQL */ `subscription OnDeleteIntroductionSession(
+  $filter: ModelSubscriptionIntroductionSessionFilterInput
+) {
+  onDeleteIntroductionSession(filter: $filter) {
+    id
+    duration
+    sessionDate
+    meetingLink
+    mentorshipID
+    sessionStatus
+    menteeID
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+  APITypes.OnDeleteIntroductionSessionSubscriptionVariables,
+  APITypes.OnDeleteIntroductionSessionSubscription
+>;
 export const onCreateIntroductionRequest = /* GraphQL */ `subscription OnCreateIntroductionRequest(
   $filter: ModelSubscriptionIntroductionRequestFilterInput
 ) {
@@ -490,7 +553,6 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -518,7 +580,6 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -546,7 +607,6 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
       nextToken
       __typename
     }
-    untitledfield
     mentorshipID
     createdAt
     updatedAt
@@ -595,6 +655,10 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }
@@ -648,6 +712,10 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -695,6 +763,10 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }
@@ -749,6 +821,10 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -800,6 +876,10 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
       nextToken
       __typename
     }
+    IntroductionSessions {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -848,6 +928,10 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
       __typename
     }
     IntroductionRequests {
+      nextToken
+      __typename
+    }
+    IntroductionSessions {
       nextToken
       __typename
     }

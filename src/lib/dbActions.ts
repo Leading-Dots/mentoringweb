@@ -346,7 +346,7 @@ export const checkMentorship = async (mentorId: string, menteeId: string) => {
   }
 };
 
-export const addMentorship = async (mentorId: string, menteeId: string) => {
+export const addMentorship = async (mentorId: string, menteeId: string, status: MentorshipStatus = MentorshipStatus.INTRODUCTION) => {
   try {
     const { data } = await client.graphql({
       query: createMentorship,
@@ -354,7 +354,7 @@ export const addMentorship = async (mentorId: string, menteeId: string) => {
         input: {
           mentorID: mentorId,
           menteeID: menteeId,
-          mentorshipStatus: MentorshipStatus.INTRODUCTION,
+          mentorshipStatus: status,
         },
       },
     });

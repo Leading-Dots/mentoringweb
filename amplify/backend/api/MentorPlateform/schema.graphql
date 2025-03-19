@@ -1,3 +1,14 @@
+type IntroductionSession @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  duration: String
+  sessionDate: AWSDateTime
+  meetingLink: String
+  mentorshipID: String
+  sessionStatus: MentorshipStatus
+  menteeID: ID! @index(name: "byMentee")
+  mentorID: ID! @index(name: "byMentor")
+}
+
 type IntroductionRequest @model @auth(rules: [{allow: public}]) {
   id: ID!
   mentorID: ID! @index(name: "byMentor")
@@ -118,7 +129,6 @@ type Session @model @auth(rules: [{allow: public}]) {
   sessionTitle: String
   objectives: [String]
   Reviews: [Review] @hasMany(indexName: "bySession", fields: ["id"])
-  untitledfield: String
   mentorshipID: String
 }
 
@@ -144,6 +154,7 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   Mentorships: [Mentorship] @hasMany(indexName: "byMentor", fields: ["id"])
   SessionRequests: [SessionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
   IntroductionRequests: [IntroductionRequest] @hasMany(indexName: "byMentor", fields: ["id"])
+  IntroductionSessions: [IntroductionSession] @hasMany(indexName: "byMentor", fields: ["id"])
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -169,5 +180,6 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   topics: [String]
   Mentorships: [Mentorship] @hasMany(indexName: "byMentee", fields: ["id"])
   IntroductionRequests: [IntroductionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
+  IntroductionSessions: [IntroductionSession] @hasMany(indexName: "byMentee", fields: ["id"])
 }
  

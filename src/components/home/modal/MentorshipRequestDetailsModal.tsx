@@ -31,18 +31,19 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { sendNotification } from "@/lib/firebase/messaging";
+import { CreateIntroductionSessionModal } from "@/components/modal/CreateIntroductionModal";
 
-interface IntroductionRequestDetailsModalProps {
+interface MentorshipRequestProps {
   introRequest: IntroductionRequest;
   children: React.ReactNode;
   onConfirm?: () => void;
 }
 
-const IntroductionRequestDetailsModal = ({
+const MentorshipRequestDetailsModal = ({
   introRequest,
   children,
   onConfirm,
-}: IntroductionRequestDetailsModalProps) => {
+}: MentorshipRequestProps) => {
   const router = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [initiatorData, setInitiatorData] = React.useState<any>();
@@ -52,6 +53,51 @@ const IntroductionRequestDetailsModal = ({
 
   const onClose = () => {
     setOpen(false);
+  };
+
+  //This basically creates the mentorship directly
+  const onMentorshipRequest = async (introRequest: IntroductionRequest) => {
+    try {
+      //set the introRequest status to complete
+
+      const { data } = await client.graphql({
+        query: updateIntroductionRequest,
+        variables: {
+          input: {
+            id: introRequest.id,
+            status: MentorshipStatus.ACCEPTED,
+          },
+        },
+      });
+
+      const mentorship = await addMentorship(
+        data.updateIntroductionRequest.mentorID,
+        data.updateIntroductionRequest.menteeID,
+        MentorshipStatus.ACCEPTED
+      );
+
+      if (!mentorship) {
+        showToast("Failed to create mentorship", "error");
+      }
+
+      showToast("Mentorship request accepted", "success", "You are now in mentorship session!");
+
+      sendNotification({
+        title: "Mentor Request Accepted",
+        body: `You are now in mentorship session!`,
+        recipientId:
+          introRequest.initiatedBy === "mentor"
+            ? introRequest.mentorID
+            : introRequest.menteeID,
+        recipientRole:
+          introRequest.initiatedBy === "mentor" ? "mentor" : "mentee",
+      });
+    } catch (error) {
+      showToast("Failed to accept introduction request", "error");
+    } finally {
+      setLoading(false);
+      onClose();
+    }
   };
 
   const onAccept = async (introRequest: IntroductionRequest) => {
@@ -104,35 +150,6 @@ const IntroductionRequestDetailsModal = ({
     }
   };
 
-  const onReject = async (introRequest: IntroductionRequest) => {
-    try {
-      setLoading(true);
-      const { data } = await client.graphql({
-        query: updateIntroductionRequest,
-        variables: {
-          input: {
-            id: introRequest.id,
-            status: MentorshipStatus.REJECTED,
-          },
-        },
-      });
-
-      if (data) {
-        showToast(
-          "Introduction request rejected",
-          "success",
-          "You have successfully rejected the introduction request"
-        );
-        onConfirm?.();
-      }
-    } catch (error) {
-      showToast("Failed to reject introduction request", "error");
-    } finally {
-      setLoading(false);
-      onClose();
-    }
-  };
-
   const getInitiatorData = async () => {
     try {
       setLoading(true);
@@ -161,8 +178,8 @@ const IntroductionRequestDetailsModal = ({
 
   const Content = () => (
     <>
-      <Card>
-        <CardContent className="space-y-2 w-full">
+      <Card className="mb-4">
+        <CardContent className="space-y-5 w-full">
           <Link
             to={
               introRequest.initiatedBy === "mentor"
@@ -175,40 +192,33 @@ const IntroductionRequestDetailsModal = ({
               role={introRequest.initiatedBy as UserRole}
             />
           </Link>
-          <div className="space-y-4">
-            {introRequest.title && (
-              <div className="flex gap-3 p-3 rounded-lg">
-                <MessageSquare className="h-5 w-5 text-primary shrink-0" />
-                <div>
-                  <span className="text-sm text-gray-500">Title</span>
-                  <p className="text-sm mt-1">{introRequest.title}</p>
-                </div>
-              </div>
-            )}
-
+          <div className="space-y-3">
             {introRequest.note && (
-              <div className="flex gap-3 p-3 rounded-lg">
+              <div className="flex gap-3 p-4 rounded-lg bg-muted border">
                 <MessageSquare className="h-5 w-5 text-primary shrink-0" />
                 <div>
-                  <span className="text-sm text-gray-500">Note</span>
-                  <p className="text-sm mt-1">{introRequest.note}</p>
+                  <span className="text-sm font-medium text-primary">Note</span>
+                  <p className="text-sm mt-1 text-muted-foreground">
+                    {introRequest.note}
+                  </p>
                 </div>
               </div>
             )}
           </div>
         </CardContent>
       </Card>
-      <div className="gap-2 w-full">
-        <Button className="w-full mb-2" onClick={() => onAccept(introRequest)}>
-          Accept
+      <div className="gap-4  w-full">
+        <Button className="w-full mb-2" onClick={() => onMentorshipRequest(introRequest)}>
+          Accept Mentorship
         </Button>
-        <Button
-          className="w-full text-destructive"
-          variant="outline"
-          onClick={() => onReject(introRequest)}
+        <CreateIntroductionSessionModal
+          menteeId={introRequest.menteeID}
+          mentorId={introRequest.mentorID}
         >
-          Reject
-        </Button>
+          <Button variant="outline" className="w-full" disabled>
+            Request Introduction Session (Comming Soon)
+          </Button>
+        </CreateIntroductionSessionModal>
       </div>
     </>
   );
@@ -224,11 +234,8 @@ const IntroductionRequestDetailsModal = ({
             <div className="px-4 pb-4">
               <DrawerHeader className="pt-4">
                 <DrawerTitle className="text-2xl">
-                  Introduction Request Details
+                  {introRequest.title}
                 </DrawerTitle>
-                <DrawerDescription>
-                  Review the introduction request details and take action
-                </DrawerDescription>
               </DrawerHeader>
               <Content />
             </div>
@@ -248,11 +255,8 @@ const IntroductionRequestDetailsModal = ({
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl">
-                Introduction Request Details
+                {introRequest.title}
               </DialogTitle>
-              <DialogDescription>
-                Review the introduction request details and take action
-              </DialogDescription>
             </DialogHeader>
             <Content />
           </>
@@ -262,4 +266,4 @@ const IntroductionRequestDetailsModal = ({
   );
 };
 
-export default IntroductionRequestDetailsModal;
+export default MentorshipRequestDetailsModal;

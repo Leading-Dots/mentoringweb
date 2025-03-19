@@ -2,14 +2,15 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateIntroductionRequestInput = {
+export type CreateIntroductionSessionInput = {
   id?: string | null,
-  mentorID: string,
+  duration?: string | null,
+  sessionDate?: string | null,
+  meetingLink?: string | null,
+  mentorshipID?: string | null,
+  sessionStatus?: MentorshipStatus | null,
   menteeID: string,
-  note?: string | null,
-  title?: string | null,
-  status?: MentorshipStatus | null,
-  initiatedBy?: string | null,
+  mentorID: string,
 };
 
 export enum MentorshipStatus {
@@ -20,21 +21,22 @@ export enum MentorshipStatus {
 }
 
 
-export type ModelIntroductionRequestConditionInput = {
-  mentorID?: ModelIDInput | null,
+export type ModelIntroductionSessionConditionInput = {
+  duration?: ModelStringInput | null,
+  sessionDate?: ModelStringInput | null,
+  meetingLink?: ModelStringInput | null,
+  mentorshipID?: ModelStringInput | null,
+  sessionStatus?: ModelMentorshipStatusInput | null,
   menteeID?: ModelIDInput | null,
-  note?: ModelStringInput | null,
-  title?: ModelStringInput | null,
-  status?: ModelMentorshipStatusInput | null,
-  initiatedBy?: ModelStringInput | null,
-  and?: Array< ModelIntroductionRequestConditionInput | null > | null,
-  or?: Array< ModelIntroductionRequestConditionInput | null > | null,
-  not?: ModelIntroductionRequestConditionInput | null,
+  mentorID?: ModelIDInput | null,
+  and?: Array< ModelIntroductionSessionConditionInput | null > | null,
+  or?: Array< ModelIntroductionSessionConditionInput | null > | null,
+  not?: ModelIntroductionSessionConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelIDInput = {
+export type ModelStringInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -74,7 +76,12 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelStringInput = {
+export type ModelMentorshipStatusInput = {
+  eq?: MentorshipStatus | null,
+  ne?: MentorshipStatus | null,
+};
+
+export type ModelIDInput = {
   ne?: string | null,
   eq?: string | null,
   le?: string | null,
@@ -90,9 +97,57 @@ export type ModelStringInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelMentorshipStatusInput = {
-  eq?: MentorshipStatus | null,
-  ne?: MentorshipStatus | null,
+export type IntroductionSession = {
+  __typename: "IntroductionSession",
+  id: string,
+  duration?: string | null,
+  sessionDate?: string | null,
+  meetingLink?: string | null,
+  mentorshipID?: string | null,
+  sessionStatus?: MentorshipStatus | null,
+  menteeID: string,
+  mentorID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateIntroductionSessionInput = {
+  id: string,
+  duration?: string | null,
+  sessionDate?: string | null,
+  meetingLink?: string | null,
+  mentorshipID?: string | null,
+  sessionStatus?: MentorshipStatus | null,
+  menteeID?: string | null,
+  mentorID?: string | null,
+};
+
+export type DeleteIntroductionSessionInput = {
+  id: string,
+};
+
+export type CreateIntroductionRequestInput = {
+  id?: string | null,
+  mentorID: string,
+  menteeID: string,
+  note?: string | null,
+  title?: string | null,
+  status?: MentorshipStatus | null,
+  initiatedBy?: string | null,
+};
+
+export type ModelIntroductionRequestConditionInput = {
+  mentorID?: ModelIDInput | null,
+  menteeID?: ModelIDInput | null,
+  note?: ModelStringInput | null,
+  title?: ModelStringInput | null,
+  status?: ModelMentorshipStatusInput | null,
+  initiatedBy?: ModelStringInput | null,
+  and?: Array< ModelIntroductionRequestConditionInput | null > | null,
+  or?: Array< ModelIntroductionRequestConditionInput | null > | null,
+  not?: ModelIntroductionRequestConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
 };
 
 export type IntroductionRequest = {
@@ -525,7 +580,6 @@ export type CreateSessionInput = {
   sessionRequestID: string,
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
-  untitledfield?: string | null,
   mentorshipID?: string | null,
 };
 
@@ -548,7 +602,6 @@ export type ModelSessionConditionInput = {
   sessionRequestID?: ModelStringInput | null,
   sessionTitle?: ModelStringInput | null,
   objectives?: ModelStringInput | null,
-  untitledfield?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
   and?: Array< ModelSessionConditionInput | null > | null,
   or?: Array< ModelSessionConditionInput | null > | null,
@@ -576,7 +629,6 @@ export type Session = {
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
   Reviews?: ModelReviewConnection | null,
-  untitledfield?: string | null,
   mentorshipID?: string | null,
   createdAt: string,
   updatedAt: string,
@@ -600,7 +652,6 @@ export type UpdateSessionInput = {
   sessionRequestID?: string | null,
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
-  untitledfield?: string | null,
   mentorshipID?: string | null,
 };
 
@@ -696,6 +747,7 @@ export type Mentor = {
   Mentorships?: ModelMentorshipConnection | null,
   SessionRequests?: ModelSessionRequestConnection | null,
   IntroductionRequests?: ModelIntroductionRequestConnection | null,
+  IntroductionSessions?: ModelIntroductionSessionConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -733,6 +785,12 @@ export type ModelSessionRequestConnection = {
 export type ModelIntroductionRequestConnection = {
   __typename: "ModelIntroductionRequestConnection",
   items:  Array<IntroductionRequest | null >,
+  nextToken?: string | null,
+};
+
+export type ModelIntroductionSessionConnection = {
+  __typename: "ModelIntroductionSessionConnection",
+  items:  Array<IntroductionSession | null >,
   nextToken?: string | null,
 };
 
@@ -824,6 +882,7 @@ export type Mentee = {
   topics?: Array< string | null > | null,
   Mentorships?: ModelMentorshipConnection | null,
   IntroductionRequests?: ModelIntroductionRequestConnection | null,
+  IntroductionSessions?: ModelIntroductionSessionConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -851,6 +910,28 @@ export type DeleteMenteeInput = {
   id: string,
 };
 
+export type ModelIntroductionSessionFilterInput = {
+  id?: ModelIDInput | null,
+  duration?: ModelStringInput | null,
+  sessionDate?: ModelStringInput | null,
+  meetingLink?: ModelStringInput | null,
+  mentorshipID?: ModelStringInput | null,
+  sessionStatus?: ModelMentorshipStatusInput | null,
+  menteeID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelIntroductionSessionFilterInput | null > | null,
+  or?: Array< ModelIntroductionSessionFilterInput | null > | null,
+  not?: ModelIntroductionSessionFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelIntroductionRequestFilterInput = {
   id?: ModelIDInput | null,
   mentorID?: ModelIDInput | null,
@@ -865,12 +946,6 @@ export type ModelIntroductionRequestFilterInput = {
   or?: Array< ModelIntroductionRequestFilterInput | null > | null,
   not?: ModelIntroductionRequestFilterInput | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type ModelMentorshipFilterInput = {
   id?: ModelIDInput | null,
@@ -994,7 +1069,6 @@ export type ModelSessionFilterInput = {
   sessionRequestID?: ModelStringInput | null,
   sessionTitle?: ModelStringInput | null,
   objectives?: ModelStringInput | null,
-  untitledfield?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
@@ -1062,18 +1136,19 @@ export type ModelMenteeConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionIntroductionRequestFilterInput = {
+export type ModelSubscriptionIntroductionSessionFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  mentorID?: ModelSubscriptionIDInput | null,
+  duration?: ModelSubscriptionStringInput | null,
+  sessionDate?: ModelSubscriptionStringInput | null,
+  meetingLink?: ModelSubscriptionStringInput | null,
+  mentorshipID?: ModelSubscriptionStringInput | null,
+  sessionStatus?: ModelSubscriptionStringInput | null,
   menteeID?: ModelSubscriptionIDInput | null,
-  note?: ModelSubscriptionStringInput | null,
-  title?: ModelSubscriptionStringInput | null,
-  status?: ModelSubscriptionStringInput | null,
-  initiatedBy?: ModelSubscriptionStringInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionIntroductionRequestFilterInput | null > | null,
-  or?: Array< ModelSubscriptionIntroductionRequestFilterInput | null > | null,
+  and?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
+  or?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -1104,6 +1179,20 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionIntroductionRequestFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
+  note?: ModelSubscriptionStringInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  status?: ModelSubscriptionStringInput | null,
+  initiatedBy?: ModelSubscriptionStringInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionIntroductionRequestFilterInput | null > | null,
+  or?: Array< ModelSubscriptionIntroductionRequestFilterInput | null > | null,
 };
 
 export type ModelSubscriptionMentorshipFilterInput = {
@@ -1232,7 +1321,6 @@ export type ModelSubscriptionSessionFilterInput = {
   sessionRequestID?: ModelSubscriptionStringInput | null,
   sessionTitle?: ModelSubscriptionStringInput | null,
   objectives?: ModelSubscriptionStringInput | null,
-  untitledfield?: ModelSubscriptionStringInput | null,
   mentorshipID?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
@@ -1295,6 +1383,69 @@ export type ModelSubscriptionMenteeFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
   or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+};
+
+export type CreateIntroductionSessionMutationVariables = {
+  input: CreateIntroductionSessionInput,
+  condition?: ModelIntroductionSessionConditionInput | null,
+};
+
+export type CreateIntroductionSessionMutation = {
+  createIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateIntroductionSessionMutationVariables = {
+  input: UpdateIntroductionSessionInput,
+  condition?: ModelIntroductionSessionConditionInput | null,
+};
+
+export type UpdateIntroductionSessionMutation = {
+  updateIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteIntroductionSessionMutationVariables = {
+  input: DeleteIntroductionSessionInput,
+  condition?: ModelIntroductionSessionConditionInput | null,
+};
+
+export type DeleteIntroductionSessionMutation = {
+  deleteIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateIntroductionRequestMutationVariables = {
@@ -1809,7 +1960,6 @@ export type CreateSessionMutation = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -1839,7 +1989,6 @@ export type UpdateSessionMutation = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -1869,7 +2018,6 @@ export type DeleteSessionMutation = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -1921,6 +2069,10 @@ export type CreateMentorMutation = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -1975,6 +2127,10 @@ export type UpdateMentorMutation = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2025,6 +2181,10 @@ export type DeleteMentorMutation = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -2080,6 +2240,10 @@ export type CreateMenteeMutation = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2131,6 +2295,10 @@ export type UpdateMenteeMutation = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -2186,8 +2354,114 @@ export type DeleteMenteeMutation = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetIntroductionSessionQueryVariables = {
+  id: string,
+};
+
+export type GetIntroductionSessionQuery = {
+  getIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListIntroductionSessionsQueryVariables = {
+  filter?: ModelIntroductionSessionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListIntroductionSessionsQuery = {
+  listIntroductionSessions?:  {
+    __typename: "ModelIntroductionSessionConnection",
+    items:  Array< {
+      __typename: "IntroductionSession",
+      id: string,
+      duration?: string | null,
+      sessionDate?: string | null,
+      meetingLink?: string | null,
+      mentorshipID?: string | null,
+      sessionStatus?: MentorshipStatus | null,
+      menteeID: string,
+      mentorID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type IntroductionSessionsByMenteeIDQueryVariables = {
+  menteeID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelIntroductionSessionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type IntroductionSessionsByMenteeIDQuery = {
+  introductionSessionsByMenteeID?:  {
+    __typename: "ModelIntroductionSessionConnection",
+    items:  Array< {
+      __typename: "IntroductionSession",
+      id: string,
+      duration?: string | null,
+      sessionDate?: string | null,
+      meetingLink?: string | null,
+      mentorshipID?: string | null,
+      sessionStatus?: MentorshipStatus | null,
+      menteeID: string,
+      mentorID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type IntroductionSessionsByMentorIDQueryVariables = {
+  mentorID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelIntroductionSessionFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type IntroductionSessionsByMentorIDQuery = {
+  introductionSessionsByMentorID?:  {
+    __typename: "ModelIntroductionSessionConnection",
+    items:  Array< {
+      __typename: "IntroductionSession",
+      id: string,
+      duration?: string | null,
+      sessionDate?: string | null,
+      meetingLink?: string | null,
+      mentorshipID?: string | null,
+      sessionStatus?: MentorshipStatus | null,
+      menteeID: string,
+      mentorID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -2898,7 +3172,6 @@ export type GetSessionQuery = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -2927,7 +3200,6 @@ export type ListSessionsQuery = {
       sessionRequestID: string,
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
-      untitledfield?: string | null,
       mentorshipID?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -2960,7 +3232,6 @@ export type SessionsByMenteeIDQuery = {
       sessionRequestID: string,
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
-      untitledfield?: string | null,
       mentorshipID?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -2993,7 +3264,6 @@ export type SessionsByMentorIDQuery = {
       sessionRequestID: string,
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
-      untitledfield?: string | null,
       mentorshipID?: string | null,
       createdAt: string,
       updatedAt: string,
@@ -3046,6 +3316,10 @@ export type GetMentorQuery = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -3133,6 +3407,10 @@ export type GetMenteeQuery = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3169,6 +3447,66 @@ export type ListMenteesQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateIntroductionSessionSubscriptionVariables = {
+  filter?: ModelSubscriptionIntroductionSessionFilterInput | null,
+};
+
+export type OnCreateIntroductionSessionSubscription = {
+  onCreateIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateIntroductionSessionSubscriptionVariables = {
+  filter?: ModelSubscriptionIntroductionSessionFilterInput | null,
+};
+
+export type OnUpdateIntroductionSessionSubscription = {
+  onUpdateIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteIntroductionSessionSubscriptionVariables = {
+  filter?: ModelSubscriptionIntroductionSessionFilterInput | null,
+};
+
+export type OnDeleteIntroductionSessionSubscription = {
+  onDeleteIntroductionSession?:  {
+    __typename: "IntroductionSession",
+    id: string,
+    duration?: string | null,
+    sessionDate?: string | null,
+    meetingLink?: string | null,
+    mentorshipID?: string | null,
+    sessionStatus?: MentorshipStatus | null,
+    menteeID: string,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -3659,7 +3997,6 @@ export type OnCreateSessionSubscription = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -3688,7 +4025,6 @@ export type OnUpdateSessionSubscription = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -3717,7 +4053,6 @@ export type OnDeleteSessionSubscription = {
       __typename: "ModelReviewConnection",
       nextToken?: string | null,
     } | null,
-    untitledfield?: string | null,
     mentorshipID?: string | null,
     createdAt: string,
     updatedAt: string,
@@ -3768,6 +4103,10 @@ export type OnCreateMentorSubscription = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -3821,6 +4160,10 @@ export type OnUpdateMentorSubscription = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3870,6 +4213,10 @@ export type OnDeleteMentorSubscription = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -3924,6 +4271,10 @@ export type OnCreateMenteeSubscription = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3976,6 +4327,10 @@ export type OnUpdateMenteeSubscription = {
       __typename: "ModelIntroductionRequestConnection",
       nextToken?: string | null,
     } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4026,6 +4381,10 @@ export type OnDeleteMenteeSubscription = {
     } | null,
     IntroductionRequests?:  {
       __typename: "ModelIntroductionRequestConnection",
+      nextToken?: string | null,
+    } | null,
+    IntroductionSessions?:  {
+      __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,

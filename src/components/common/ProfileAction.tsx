@@ -9,7 +9,7 @@ import {
   LogIn,
   UserPlus,
 } from "lucide-react";
-import { CreateIntroductionModal } from "../modal/CreateIntroductionModal";
+import { CreateIntroductionModal } from "../modal/CreateIntroductionRequestModal";
 
 interface ProfileActionsProps {
   currentMentorship: Mentorship | null;
