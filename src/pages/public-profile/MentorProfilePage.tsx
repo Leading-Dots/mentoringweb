@@ -95,7 +95,8 @@ const MentorProfilePage = () => {
 
   const verifyMentorship = async () => {
     try {
-      const mentorship = await checkMentorship(user?.menteeId!, params.id!);
+      const mentorship = await checkMentorship(params.id!, user?.menteeId!);
+      console.log("Mentorship:", mentorship);
       setCurrentMentorship(mentorship || null);
     } catch (error) {
       console.error(error);

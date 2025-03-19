@@ -133,7 +133,7 @@ export function CreateIntroductionModal({
             <div className="h-full overflow-auto p-6">
               <DrawerHeader>
                 <DrawerTitle className="text-2xl">
-                  Request A Introduction Session
+                  Request An Introduction
                 </DrawerTitle>
                 <DrawerDescription>
                   Fill in the details to request mentorship.
@@ -171,7 +171,7 @@ export function CreateIntroductionModal({
           <>
             <DialogHeader>
               <DialogTitle className="text-2xl">
-                Request A Introduction Session
+                Request an Introduction
               </DialogTitle>
               <DialogDescription>
                 Fill in the details to request mentorship.
