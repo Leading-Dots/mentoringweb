@@ -1,4 +1,4 @@
-import { Mentee } from "@/API";
+import { Mentee, Mentorship } from "@/API";
 import { listMentees, mentorshipsByMentorID } from "@/graphql/queries";
 import { useAuth } from "@/hooks/useAuth";
 import client from "@/lib/apiClient";
@@ -14,10 +14,13 @@ import {
 } from "../ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
 import ListLoader from "../common/ListLoader";
+import { Badge } from "../ui/badge";
+import { MentorshipStatus } from "@/API";
 
 const MyMentees = () => {
   const { user } = useAuth();
   const [mentees, setMentees] = useState<Mentee[]>([]);
+  const [mentorships, setMentorships] = useState<Mentorship[]>([]);
   const [loading, setLoading] = useState(false);
 
   const fetchMyMentees = async () => {
@@ -32,6 +35,7 @@ const MyMentees = () => {
           mentorID: user.mentorId,
         },
       });
+      setMentorships(mentorshipsData?.mentorshipsByMentorID?.items || []);
 
       // Extract unique mentee IDs
       const menteeIds = [
@@ -66,6 +70,42 @@ const MyMentees = () => {
     fetchMyMentees();
   }, [user?.mentorId]);
 
+
+  const renderStatusBadge = (status: MentorshipStatus) => {
+    console.log(status);
+    switch (status) {
+      case MentorshipStatus.ACCEPTED:
+        return (
+          <Badge className="bg-green-500 text-white hover:bg-green-600">
+            Accepted
+          </Badge>
+        );
+      case MentorshipStatus.PENDING:
+        return (
+          <Badge className="bg-yellow-500 text-white hover:bg-yellow-600">
+            Pending
+          </Badge>
+        );
+      case MentorshipStatus.INTRODUCTION:
+        return (
+          <Badge className="bg-blue-500 text-white hover:bg-blue-600">
+            Introduction
+          </Badge>
+        );
+      default:
+        return (
+          <Badge className="bg-gray-400 text-white hover:bg-gray-500">
+            Unknown
+          </Badge>
+        );
+    }
+  };
+const findMentorshipStatus = (mentee: Mentee) => {
+    const mentorship = mentorships?.find(
+      (m) => m?.menteeID === mentee?.menteeId
+    );
+    return mentorship?.mentorshipStatus;
+  };
   return (
     <div className="flex flex-col p-3 max-w-4xl space-y-4">
       {loading ? (
@@ -86,6 +126,8 @@ const MyMentees = () => {
                       {mentee!.firstName}
                     </h3>
                     <p className="text-sm text-gray-500">{mentee!.bio}</p>
+                    {renderStatusBadge(findMentorshipStatus(mentee))}
+
                   </div>
                 </div>
                 <div className="flex items-center gap-2">

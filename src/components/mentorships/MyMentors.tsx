@@ -30,7 +30,7 @@ const MyMentors = () => {
       case MentorshipStatus.ACCEPTED:
         return (
           <Badge className="bg-green-500 text-white hover:bg-green-600">
-            Active
+            Accepted
           </Badge>
         );
       case MentorshipStatus.PENDING:
@@ -42,7 +42,7 @@ const MyMentors = () => {
       case MentorshipStatus.INTRODUCTION:
         return (
           <Badge className="bg-blue-500 text-white hover:bg-blue-600">
-            Completed
+            Introduction
           </Badge>
         );
       default:
@@ -102,7 +102,9 @@ const MyMentors = () => {
   }, [user?.menteeId]);
 
   const findMentorshipStatus = (mentor: Mentor) => {
-    const mentorship = mentorships?.find((m) => m?.mentorID === mentor?.mentorId);
+    const mentorship = mentorships?.find(
+      (m) => m?.mentorID === mentor?.mentorId
+    );
     return mentorship?.mentorshipStatus;
   };
   return (

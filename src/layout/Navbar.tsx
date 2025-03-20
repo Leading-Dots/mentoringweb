@@ -14,6 +14,7 @@ import {
   Settings,
   User2,
   UserCircle2,
+  UsersRound,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
@@ -53,9 +54,14 @@ const Navbar = () => {
       icon: <HomeIcon className="h-5 w-5" />,
     },
     {
-      title : "Search Mentees",
-      url : "/search-mentees",
-      icon : <UserCircle2 className="h-5 w-5" />,
+      title: "Mentorships",
+      url: "/mentorships",
+      icon: <UsersRound className="h-5 w-5" />,
+    },
+    {
+      title: "Search Mentees",
+      url: "/search-mentees",
+      icon: <UserCircle2 className="h-5 w-5" />,
     },
 
     {
@@ -72,7 +78,7 @@ const Navbar = () => {
       title: "Inbox",
       url: "/inbox",
       icon: <MessagesSquare className="h-5 w-5" />,
-    }
+    },
   ];
 
   const menteeNavItems: NavItem[] = [
@@ -80,6 +86,11 @@ const Navbar = () => {
       title: "Home",
       url: "/home",
       icon: <HomeIcon className="h-5 w-5" />,
+    },
+    {
+      title: "Mentorships",
+      url: "/mentorships",
+      icon: <UsersRound className="h-5 w-5" />,
     },
     {
       title: "Search Mentors",
@@ -101,7 +112,7 @@ const Navbar = () => {
       title: "Inbox",
       url: "/inbox",
       icon: <MessagesSquare className="h-5 w-5" />,
-    }
+    },
   ];
 
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
@@ -225,13 +236,13 @@ const Navbar = () => {
           </div>
           <NavContent />
           {user && (
-          <div className="flex flex-col items-start gap-2 mt-auto">
-            <Button onClick={signOut} variant="ghost" size="sm">
-              <LogOut className="h-4 w-4" />
-              <span>Logout</span>
-            </Button>
-          </div>
-        )}
+            <div className="flex flex-col items-start gap-2 mt-auto">
+              <Button onClick={signOut} variant="ghost" size="sm">
+                <LogOut className="h-4 w-4" />
+                <span>Logout</span>
+              </Button>
+            </div>
+          )}
         </SheetContent>
       </Sheet>
     </>

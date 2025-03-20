@@ -42,7 +42,7 @@ const menteeList = () => {
   return (
     <div className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <h3 className="text-xl font-semibold">Find mentees</h3>
+        <h3 className="text-xl font-semibold">Recommended Mentees For You</h3>
       </div>
       {mentees.map((mentee) => (
         <MenteeCard key={mentee.id} mentee={mentee} />
