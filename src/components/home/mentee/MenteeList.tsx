@@ -6,6 +6,7 @@ import { listMentees } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { MenteeCard } from "./MenteeCard";
 import { Link } from "react-router-dom";
+import ListLoader from "@/components/common/ListLoader";
 const menteeList = () => {
   const [mentees, setmentees] = React.useState<Mentee[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -34,9 +35,7 @@ const menteeList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        Loading mentees...
-      </div>
+      <ListLoader />
     );
   }
 

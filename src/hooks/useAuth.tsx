@@ -17,6 +17,7 @@ import { UserRole } from "types";
 import { getCurrentUser } from "aws-amplify/auth";
 import { Loader } from "@/components/common/Loader";
 import { showToast } from "@/lib/toast";
+import DashboardLoader from "@/components/common/DashboardLoader";
 
 type AuthContextType = {
   user: any | null;
@@ -226,7 +227,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider value={value}>
-      {loading ? <Loader /> : children}
+      {loading ? <DashboardLoader /> : children}
     </AuthContext.Provider>
   );
 }

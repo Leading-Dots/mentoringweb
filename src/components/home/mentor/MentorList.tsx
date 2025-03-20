@@ -7,6 +7,7 @@ import client from "@/lib/apiClient";
 import { MentorCard } from "./MentorCard";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import ListLoader from "@/components/common/ListLoader";
 const MentorList = () => {
   const [mentors, setMentors] = React.useState<Mentor[]>([]);
   const [loading, setLoading] = React.useState(true);
@@ -35,9 +36,7 @@ const MentorList = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        Loading mentors...
-      </div>
+      <ListLoader />
     );
   }
 
