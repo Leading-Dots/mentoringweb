@@ -7,7 +7,6 @@ import AuthLayout from "@/layout/AuthLayout";
 import SignUpPage from "@/pages/auth/SignUpPage";
 import ConfirmSignUpPage from "@/pages/auth/ConfirmSignUpPage";
 import ProfilePage from "@/pages/root/ProfilePage";
-import CreateSessionRequestPage from "@/pages/root/CreateSessionRequestPage";
 import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
 import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
 import SearchPage from "@/pages/root/SearchMentorsPage";
@@ -19,7 +18,7 @@ import SettingsPage from "@/pages/root/SettingsPage";
 import NotificationsPage from "@/pages/root/NotificationsPage";
 import SearchMentorPage from "@/pages/root/SearchMentorsPage";
 import SearchMenteePage from "@/pages/root/SearchMenteePage";
-import MyMentors from "@/pages/root/MyMentors";
+import MyMentors from "@/pages/root/MyMentorships";
 
 const routes = [
   {
@@ -66,14 +65,7 @@ const routes = [
       </DashboardLayout>
     ),
   },
-  {
-    path: "/sessionRequest",
-    element: (
-      <DashboardLayout>
-        <CreateSessionRequestPage />
-      </DashboardLayout>
-    ),
-  },
+  
   {
     path: "/mentor/:id",
     element: (
@@ -107,7 +99,7 @@ const routes = [
     ),
   },
   {
-    path: "/my-mentors",
+    path: "/mentorships",
     element: (
       <DashboardLayout>
         <MyMentors />

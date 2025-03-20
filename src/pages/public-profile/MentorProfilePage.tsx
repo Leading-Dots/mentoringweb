@@ -27,15 +27,12 @@ import {
   Target,
   CalendarPlus,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
 import { PublicProfileLoader } from "./PublicProfileLoader";
 import { useAuth } from "@/hooks/useAuth";
 import { listSessions } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { showToast } from "@/lib/toast";
 import ReviewCard from "@/components/common/ReviewCard";
-import { aw } from "node_modules/framer-motion/dist/types.d-6pKw1mTI";
 import { ProfileActions } from "@/components/common/ProfileAction";
 
 const MentorProfilePage = () => {
