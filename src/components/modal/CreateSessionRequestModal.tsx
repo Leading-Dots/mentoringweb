@@ -164,10 +164,10 @@ export function CreateSessionRequestModal({
             <div className="h-full overflow-auto p-6">
               <DrawerHeader>
                 <DrawerTitle className="text-2xl">
-                  Request A Introduction Session
+                Request a Session
                 </DrawerTitle>
                 <DrawerDescription>
-                  Fill in the details to request mentorship.
+                Fill in the details to request a new mentoring session.
                 </DrawerDescription>
               </DrawerHeader>
               {otherUser && (

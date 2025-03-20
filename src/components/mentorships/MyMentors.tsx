@@ -15,6 +15,9 @@ import {
 import { MoreVertical } from "lucide-react";
 import ListLoader from "../common/ListLoader";
 import { Badge } from "../ui/badge";
+import { showToast } from "@/lib/toast";
+import { intiateChat } from "@/lib/dbActions";
+import { useNavigate } from "react-router-dom";
 
 const MyMentors = () => {
   const { user } = useAuth();
@@ -24,6 +27,7 @@ const MyMentors = () => {
   const [mentorships, setMentorships] = useState<Mentorship[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const router = useNavigate();
   const renderStatusBadge = (status: MentorshipStatus) => {
     console.log(status);
     switch (status) {
@@ -51,6 +55,31 @@ const MyMentors = () => {
             Unknown
           </Badge>
         );
+    }
+  };
+
+
+
+  
+
+  const handleChat = async (mentor: Mentor) => {
+    try {
+      if (!user) return showToast("Login to start a chat", "error");
+      const chatId = await intiateChat({
+        mentorId: mentor.mentorId as string,
+        menteeId:
+          user?.role === "mentee" ? user?.menteeId : (user?.mentorId as string),
+        mentorName: `${mentor.firstName} ${mentor.lastName}`,
+        menteeName: `${user?.firstName} ${user?.lastName}`,
+      });
+
+      console.log(chatId);
+
+      if (!chatId) return;
+
+      router(`/chat/${chatId}`);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -131,7 +160,11 @@ const MyMentors = () => {
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleChat(mentor)}
+                  >
                     Chat
                   </Button>
                   <DropdownMenu>

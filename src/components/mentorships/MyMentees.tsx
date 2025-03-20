@@ -16,6 +16,10 @@ import { MoreVertical } from "lucide-react";
 import ListLoader from "../common/ListLoader";
 import { Badge } from "../ui/badge";
 import { MentorshipStatus } from "@/API";
+import { showToast } from "@/lib/toast";
+import { intiateChat } from "@/lib/dbActions";
+import { useNavigate } from "react-router-dom";
+import { CreateSessionRequestModal } from "../modal/CreateSessionRequestModal";
 
 const MyMentees = () => {
   const { user } = useAuth();
@@ -23,6 +27,7 @@ const MyMentees = () => {
   const [mentorships, setMentorships] = useState<Mentorship[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const router = useNavigate();
   const fetchMyMentees = async () => {
     if (!user?.mentorId) return;
 
@@ -70,7 +75,6 @@ const MyMentees = () => {
     fetchMyMentees();
   }, [user?.mentorId]);
 
-
   const renderStatusBadge = (status: MentorshipStatus) => {
     console.log(status);
     switch (status) {
@@ -100,12 +104,31 @@ const MyMentees = () => {
         );
     }
   };
-const findMentorshipStatus = (mentee: Mentee) => {
+  const findMentorshipStatus = (mentee: Mentee) => {
     const mentorship = mentorships?.find(
       (m) => m?.menteeID === mentee?.menteeId
     );
     return mentorship?.mentorshipStatus;
   };
+
+  const handleChat = async (mentee: Mentee) => {
+    try {
+      if (!user) return showToast("Login to start a chat", "error");
+      const chatId = await intiateChat({
+        menteeId: mentee.menteeId!,
+        mentorId: user?.role === "mentor" ? user?.mentorId : user?.menteeId,
+        menteeName: `${mentee.firstName} ${mentee.lastName}`,
+        mentorName: `${user?.firstName} ${user?.lastName}`,
+      });
+
+      if (!chatId) return;
+      console.log(chatId);
+      router(`/chat/${chatId}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="flex flex-col p-3 max-w-4xl space-y-4">
       {loading ? (
@@ -127,11 +150,14 @@ const findMentorshipStatus = (mentee: Mentee) => {
                     </h3>
                     <p className="text-sm text-gray-500">{mentee!.bio}</p>
                     {renderStatusBadge(findMentorshipStatus(mentee))}
-
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleChat(mentee)}
+                  >
                     Chat
                   </Button>
                   <DropdownMenu>
@@ -141,10 +167,24 @@ const findMentorshipStatus = (mentee: Mentee) => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Schedule Meeting</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          router(`/mentee/${mentee.menteeId}`);
+                        }}
+                      >
+                        View Profile
+                      </DropdownMenuItem>
+                      <CreateSessionRequestModal otherUserId={mentee.menteeId}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Schedule Meeting</DropdownMenuItem>
+                      </CreateSessionRequestModal>
+
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          showToast("Feature coming soon", "info");
+                        }}
+                        className="text-red-600"
+                      >
                         Remove Mentee
                       </DropdownMenuItem>
                     </DropdownMenuContent>
