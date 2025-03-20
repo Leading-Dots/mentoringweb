@@ -5,8 +5,15 @@ import { useState } from "react";
 import { DialogLoader } from "../common/DialogLoader";
 import { showToast } from "@/lib/toast";
 import client from "@/lib/apiClient";
-import { createIntroductionSession } from "@/graphql/mutations";
-import { CreateIntroductionSessionInput, MentorshipStatus } from "@/API";
+import {
+  createIntroductionSession,
+  updateIntroductionRequest,
+} from "@/graphql/mutations";
+import {
+  CreateIntroductionSessionInput,
+  IntroductionRequest,
+  MentorshipStatus,
+} from "@/API";
 import { sendNotification } from "@/lib/firebase/messaging";
 
 import {
@@ -41,20 +48,27 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { DateTimePicker } from "../common/DatePicker";
+import { useNavigate } from "react-router-dom";
+import { addMentorship } from "@/lib/dbActions";
 
 interface CreateIntroductionSessionModalProps {
   children: React.ReactNode;
   menteeId: string;
   mentorId: string;
+  introductionRequest: IntroductionRequest;
+  onDone?: () => void;
 }
 
 export function CreateIntroductionSessionModal({
   children,
   menteeId,
   mentorId,
+  introductionRequest,
+  onDone,
 }: CreateIntroductionSessionModalProps) {
   const { user } = useAuth();
 
+  const router = useNavigate();
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 640px)");
@@ -76,9 +90,16 @@ export function CreateIntroductionSessionModal({
     },
   });
 
-  const handleSubmit = async (data: CreateIntroductionSessionInput) => {
+  const handleSubmit = async (data: any) => {
     try {
       setLoading(true);
+
+
+      const mentorship = await addMentorship(
+        mentorId,
+        menteeId,
+        MentorshipStatus.INTRODUCTION
+      );
 
       const sessionInput = {
         menteeID: menteeId,
@@ -86,7 +107,8 @@ export function CreateIntroductionSessionModal({
         duration: data.duration || "30", // default 30 minutes
         sessionDate: data.sessionDate,
         meetingLink: data.meetingLink,
-        sessionStatus: MentorshipStatus.PENDING,
+        mentorshipID: mentorship.id,
+        sessionStatus: MentorshipStatus.INTRODUCTION,
       };
 
       const response = await client.graphql({
@@ -96,24 +118,40 @@ export function CreateIntroductionSessionModal({
         },
       });
 
-      showToast("Introduction session created successfully", "success");
+      showToast("Introduction Meeting created successfully", "success");
 
       // Notify the other user
       const recipientId = user?.role === "mentor" ? menteeId : mentorId;
       const recipientRole = user?.role === "mentor" ? "mentee" : "mentor";
 
-      await sendNotification({
-        title: "New Introduction Session",
+      if (response.data) {
+        await client.graphql({
+          query: updateIntroductionRequest,
+          variables: {
+            input: {
+              id: introductionRequest.id,
+              status: MentorshipStatus.ACCEPTED,
+            },
+          },
+        });
+       
+      }
+
+      sendNotification({
+        title: "New Introduction Meeting",
         body: `${user?.firstName} ${user?.lastName} has created an introduction session`,
         recipientId,
         recipientRole,
       });
 
       setOpen(false);
+
+      return response;
     } catch (error) {
       console.error("Error creating introduction session:", error);
       showToast("Failed to create introduction session", "error");
     } finally {
+      onDone?.();
       setLoading(false);
     }
   };

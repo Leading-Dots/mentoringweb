@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/drawer";
 import { sendNotification } from "@/lib/firebase/messaging";
 import { IntroductionRequestForm } from "../profile/IntroductionRequestForm";
+import { listIntroductionRequests } from "@/graphql/queries";
 
 export function CreateIntroductionModal({
   children,
@@ -64,6 +65,29 @@ export function CreateIntroductionModal({
       setLoading(true);
 
       console.log("Form data:", data);
+
+      //before sending one check if one already exists
+
+      const existingRequest = await client.graphql({
+        query : listIntroductionRequests,
+        variables: {
+          filter: {
+            mentorID: {
+              eq: userRole === "mentor" ? user?.mentorId : otherUserId,
+            },
+            menteeID: {
+              eq: userRole === "mentee" ? user?.menteeId : otherUserId,
+            },
+          },
+        },
+      });
+      console.log("existingRequest", existingRequest);
+      if (existingRequest.data.listIntroductionRequests.items.length > 0) {
+        showToast("You have already sent a request", "error");
+        return;
+      }
+
+
 
       const response = await client.graphql({
         query: createIntroductionRequest,

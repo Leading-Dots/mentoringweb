@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { CreateSessionRequestModal } from "@/components/modal/CreateSessionRequestModal";
-import { Mentorship, MentorshipStatus } from "@/API";
+import { IntroductionSession, Mentorship, MentorshipStatus } from "@/API";
 import { Link } from "react-router-dom";
 import {
   MessageCircle,
@@ -10,6 +10,11 @@ import {
   UserPlus,
 } from "lucide-react";
 import { CreateIntroductionModal } from "../modal/CreateIntroductionRequestModal";
+import { listIntroductionSessions } from "@/graphql/queries";
+import client from "@/lib/apiClient";
+import { useEffect, useState } from "react";
+import { ViewIntroductionSession } from "../modal/ViewIntroductionSession";
+import { set } from "date-fns";
 
 interface ProfileActionsProps {
   currentMentorship: Mentorship | null;
@@ -26,6 +31,10 @@ export const ProfileActions = ({
   isGuest,
   onChatClick,
 }: ProfileActionsProps) => {
+  const [introductionMeeting, setIntroductionMeeting] =
+    useState<IntroductionSession | null>(null);
+
+  const [loading, setLoading] = useState(false);
   if (isGuest) {
     return (
       <div className="flex flex-col sm:flex-row gap-2 pt-2">
@@ -45,6 +54,37 @@ export const ProfileActions = ({
     mentorshipStatus === MentorshipStatus.ACCEPTED ||
     mentorshipStatus === MentorshipStatus.INTRODUCTION;
 
+  const getIntroductionMeeting = async () => {
+    try {
+      setLoading(true);
+      const { data } = await client.graphql({
+        query: listIntroductionSessions,
+        variables: {
+          filter: {
+            mentorshipID: {
+              eq: currentMentorship?.id,
+            },
+          },
+        },
+      });
+      if (data.listIntroductionSessions.items.length > 0) {
+        setIntroductionMeeting(data.listIntroductionSessions.items[0]);
+        return data.listIntroductionSessions.items[0];
+      }
+      return null;
+    } catch (error) {
+      console.error("Error fetching introduction meeting", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (currentMentorship) {
+      getIntroductionMeeting();
+    }
+  }, []);
+
   const renderActionButton = () => {
     if (!currentMentorship) {
       return (
@@ -54,7 +94,7 @@ export const ProfileActions = ({
             className="gap-2 w-full sm:w-auto hover:bg-primary hover:text-primary-foreground"
           >
             <UserPlus className="w-4 h-4" />
-            Request Introduction
+            Send Introduction
           </Button>
         </CreateIntroductionModal>
       );
@@ -62,16 +102,17 @@ export const ProfileActions = ({
 
     switch (mentorshipStatus) {
       case MentorshipStatus.INTRODUCTION:
-        return (
-          <Link
-            to={`/mentorship/${currentMentorship.id}`}
-            className="w-full sm:w-auto"
-          >
-            <Button variant="outline" className="gap-2 w-full">
+        return loading ? (
+          <Button variant="outline" className="w-full sm:w-auto">
+            Loading...
+          </Button>
+        ) : (
+          <ViewIntroductionSession introSession={introductionMeeting}>
+            <Button variant="outline" className="">
               <Calendar className="w-4 h-4" />
-              View Introduction Request
+              View Introduction Meeting
             </Button>
-          </Link>
+          </ViewIntroductionSession>
         );
       case MentorshipStatus.ACCEPTED:
         return (

@@ -213,10 +213,15 @@ const MentorshipRequestDetailsModal = ({
         </Button>
         <CreateIntroductionSessionModal
           menteeId={introRequest.menteeID}
+          introductionRequest={introRequest}
           mentorId={introRequest.mentorID}
+          onDone={() => {
+            onClose();
+            router("/home");
+          }}
         >
-          <Button variant="outline" className="w-full" disabled>
-            Request Introduction Session (Comming Soon)
+          <Button variant="outline" className="w-full" >
+            Request Introduction Session
           </Button>
         </CreateIntroductionSessionModal>
       </div>
