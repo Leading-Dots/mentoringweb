@@ -11,6 +11,7 @@ import {
   Sun,
   Moon,
   ChevronRight,
+  Settings2,
 } from "lucide-react";
 import { useTheme } from "@/components/theme/theme-provider";
 import { useAuth } from "@/hooks/useAuth";
@@ -24,10 +25,8 @@ const SettingsPage = () => {
   const userRole = user?.role;
   const router = useNavigate();
 
-
-
-
-  const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] = useState(false);
+  const [isUpdatePasswordModalOpen, setIsUpdatePasswordModalOpen] =
+    useState(false);
   const settingsOptions = [
     {
       title: "Edit Profile",
@@ -64,9 +63,34 @@ const SettingsPage = () => {
 
   return (
     <div className="container py-8 max-w-3xl">
-
-    <UpdatePasswordModal isOpen={isUpdatePasswordModalOpen} onClose={() => setIsUpdatePasswordModalOpen(false)} />
+      <UpdatePasswordModal
+        isOpen={isUpdatePasswordModalOpen}
+        onClose={() => setIsUpdatePasswordModalOpen(false)}
+      />
       <div className="space-y-4">
+      {user?.role === "mentor" && (
+          <Card
+            className="hover:bg-accent cursor-pointer"
+            onClick={() => router("/preferences")} 
+          >
+            <CardHeader className="flex flex-row items-center space-y-0 p-4">
+              <div className="flex items-center flex-1">
+                <Settings2 className="h-5 w-5" />
+
+                <div className="ml-4">
+                  <CardTitle className="text-lg">Session Preferences</CardTitle>
+                  <CardDescription>
+                    Update your session preferences
+                  </CardDescription>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <ChevronRight className="h-5 w-5 text-muted-foreground" />
+              </div>
+            </CardHeader>
+          </Card>
+        )}
+
         {settingsOptions.map((option, index) => (
           <Card
             key={index}
@@ -92,6 +116,8 @@ const SettingsPage = () => {
             </CardHeader>
           </Card>
         ))}
+
+       
       </div>
     </div>
   );

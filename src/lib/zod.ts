@@ -11,7 +11,7 @@ export const MentorProfileFormSchema = z.object({
   expertise: z.array(z.string()).min(1, "Select at least one expertise"),
   yearsOfExperience: z.number().min(0).max(50),
   hourlyRate: z.number().min(0),
-
+  availability: z.string().min(1, "Select at least one availability"),
 
   // Step 3
   websiteUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),

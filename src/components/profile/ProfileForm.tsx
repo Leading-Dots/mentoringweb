@@ -48,11 +48,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
     try {
       console.log("data", data);
 
-      //uploadImage
-
       if (role === "mentor") {
-
-
         const mentorData = data as MentorProfileFormValues;
         console.log("mentorData", mentorData);
         const response = await client.graphql({
@@ -72,6 +68,7 @@ export function ProfileForm({ role, initialData = null }: ProfileFormProps) {
               summary: mentorData.summary,
               websiteUrl: mentorData.websiteUrl || null,
               linkedInUrl: mentorData.linkedinUrl || null,
+              availability: mentorData.availability,
             },
           },
         });

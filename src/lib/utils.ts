@@ -31,6 +31,7 @@ export const transformNullValues = (data: any, role: "mentor" | "mentee"): Profi
       websiteUrl: data.websiteUrl || "",
       linkedinUrl: data.linkedinUrl || "",
       summary: data.summary || "",
+      availability: data.availability || "",
 
     } as MentorProfileFormValues;
   }

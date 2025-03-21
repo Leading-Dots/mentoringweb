@@ -36,6 +36,7 @@ export declare type MentorCreateFormInputValues = {
     summary?: string;
     linkedInUrl?: string;
     websiteUrl?: string;
+    availability?: string;
 };
 export declare type MentorCreateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -52,6 +53,7 @@ export declare type MentorCreateFormValidationValues = {
     summary?: ValidationFunction<string>;
     linkedInUrl?: ValidationFunction<string>;
     websiteUrl?: ValidationFunction<string>;
+    availability?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MentorCreateFormOverridesProps = {
@@ -70,6 +72,7 @@ export declare type MentorCreateFormOverridesProps = {
     summary?: PrimitiveOverrideProps<TextFieldProps>;
     linkedInUrl?: PrimitiveOverrideProps<TextFieldProps>;
     websiteUrl?: PrimitiveOverrideProps<TextFieldProps>;
+    availability?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MentorCreateFormProps = React.PropsWithChildren<{
     overrides?: MentorCreateFormOverridesProps | undefined | null;

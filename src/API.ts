@@ -2,36 +2,24 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateIntroductionSessionInput = {
+export type CreateMentorServicesInput = {
   id?: string | null,
-  duration?: string | null,
-  sessionDate?: string | null,
-  meetingLink?: string | null,
-  mentorshipID?: string | null,
-  sessionStatus?: MentorshipStatus | null,
-  menteeID: string,
+  title?: string | null,
+  description?: string | null,
+  cost?: string | null,
+  isPaid?: boolean | null,
   mentorID: string,
 };
 
-export enum MentorshipStatus {
-  INTRODUCTION = "INTRODUCTION",
-  ACCEPTED = "ACCEPTED",
-  REJECTED = "REJECTED",
-  PENDING = "PENDING",
-}
-
-
-export type ModelIntroductionSessionConditionInput = {
-  duration?: ModelStringInput | null,
-  sessionDate?: ModelStringInput | null,
-  meetingLink?: ModelStringInput | null,
-  mentorshipID?: ModelStringInput | null,
-  sessionStatus?: ModelMentorshipStatusInput | null,
-  menteeID?: ModelIDInput | null,
+export type ModelMentorServicesConditionInput = {
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  cost?: ModelStringInput | null,
+  isPaid?: ModelBooleanInput | null,
   mentorID?: ModelIDInput | null,
-  and?: Array< ModelIntroductionSessionConditionInput | null > | null,
-  or?: Array< ModelIntroductionSessionConditionInput | null > | null,
-  not?: ModelIntroductionSessionConditionInput | null,
+  and?: Array< ModelMentorServicesConditionInput | null > | null,
+  or?: Array< ModelMentorServicesConditionInput | null > | null,
+  not?: ModelMentorServicesConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
 };
@@ -76,9 +64,11 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type ModelMentorshipStatusInput = {
-  eq?: MentorshipStatus | null,
-  ne?: MentorshipStatus | null,
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
 export type ModelIDInput = {
@@ -95,6 +85,70 @@ export type ModelIDInput = {
   attributeExists?: boolean | null,
   attributeType?: ModelAttributeTypes | null,
   size?: ModelSizeInput | null,
+};
+
+export type MentorServices = {
+  __typename: "MentorServices",
+  id: string,
+  title?: string | null,
+  description?: string | null,
+  cost?: string | null,
+  isPaid?: boolean | null,
+  mentorID: string,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type UpdateMentorServicesInput = {
+  id: string,
+  title?: string | null,
+  description?: string | null,
+  cost?: string | null,
+  isPaid?: boolean | null,
+  mentorID?: string | null,
+};
+
+export type DeleteMentorServicesInput = {
+  id: string,
+};
+
+export type CreateIntroductionSessionInput = {
+  id?: string | null,
+  duration?: string | null,
+  sessionDate?: string | null,
+  meetingLink?: string | null,
+  mentorshipID?: string | null,
+  sessionStatus?: MentorshipStatus | null,
+  menteeID: string,
+  mentorID: string,
+};
+
+export enum MentorshipStatus {
+  INTRODUCTION = "INTRODUCTION",
+  ACCEPTED = "ACCEPTED",
+  REJECTED = "REJECTED",
+  PENDING = "PENDING",
+}
+
+
+export type ModelIntroductionSessionConditionInput = {
+  duration?: ModelStringInput | null,
+  sessionDate?: ModelStringInput | null,
+  meetingLink?: ModelStringInput | null,
+  mentorshipID?: ModelStringInput | null,
+  sessionStatus?: ModelMentorshipStatusInput | null,
+  menteeID?: ModelIDInput | null,
+  mentorID?: ModelIDInput | null,
+  and?: Array< ModelIntroductionSessionConditionInput | null > | null,
+  or?: Array< ModelIntroductionSessionConditionInput | null > | null,
+  not?: ModelIntroductionSessionConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+};
+
+export type ModelMentorshipStatusInput = {
+  eq?: MentorshipStatus | null,
+  ne?: MentorshipStatus | null,
 };
 
 export type IntroductionSession = {
@@ -376,6 +430,9 @@ export type CreateSessionRequestInput = {
   sessionTitle?: string | null,
   mentorshipID?: string | null,
   mentorID: string,
+  untitledfield?: string | null,
+  sessionDescription?: string | null,
+  mentorServicesID?: string | null,
 };
 
 export enum SessionRequestStatus {
@@ -398,6 +455,9 @@ export type ModelSessionRequestConditionInput = {
   sessionTitle?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
   mentorID?: ModelIDInput | null,
+  untitledfield?: ModelStringInput | null,
+  sessionDescription?: ModelStringInput | null,
+  mentorServicesID?: ModelStringInput | null,
   and?: Array< ModelSessionRequestConditionInput | null > | null,
   or?: Array< ModelSessionRequestConditionInput | null > | null,
   not?: ModelSessionRequestConditionInput | null,
@@ -437,6 +497,9 @@ export type SessionRequest = {
   sessionTitle?: string | null,
   mentorshipID?: string | null,
   mentorID: string,
+  untitledfield?: string | null,
+  sessionDescription?: string | null,
+  mentorServicesID?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -455,6 +518,9 @@ export type UpdateSessionRequestInput = {
   sessionTitle?: string | null,
   mentorshipID?: string | null,
   mentorID?: string | null,
+  untitledfield?: string | null,
+  sessionDescription?: string | null,
+  mentorServicesID?: string | null,
 };
 
 export type DeleteSessionRequestInput = {
@@ -504,7 +570,7 @@ export type DeleteMessagesInput = {
 
 export type CreateNotificationInput = {
   id?: string | null,
-  mentorID?: string | null,
+  mentorID: string,
   menteeID?: string | null,
   title?: string | null,
   body?: string | null,
@@ -530,17 +596,10 @@ export type ModelNotificationConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
-export type ModelBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
 export type Notification = {
   __typename: "Notification",
   id: string,
-  mentorID?: string | null,
+  mentorID: string,
   menteeID?: string | null,
   title?: string | null,
   body?: string | null,
@@ -581,6 +640,8 @@ export type CreateSessionInput = {
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
   mentorshipID?: string | null,
+  untitledfield?: string | null,
+  mentorServicesID?: string | null,
 };
 
 export enum Status {
@@ -603,6 +664,8 @@ export type ModelSessionConditionInput = {
   sessionTitle?: ModelStringInput | null,
   objectives?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
+  untitledfield?: ModelStringInput | null,
+  mentorServicesID?: ModelStringInput | null,
   and?: Array< ModelSessionConditionInput | null > | null,
   or?: Array< ModelSessionConditionInput | null > | null,
   not?: ModelSessionConditionInput | null,
@@ -630,6 +693,8 @@ export type Session = {
   objectives?: Array< string | null > | null,
   Reviews?: ModelReviewConnection | null,
   mentorshipID?: string | null,
+  untitledfield?: string | null,
+  mentorServicesID?: string | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -653,6 +718,8 @@ export type UpdateSessionInput = {
   sessionTitle?: string | null,
   objectives?: Array< string | null > | null,
   mentorshipID?: string | null,
+  untitledfield?: string | null,
+  mentorServicesID?: string | null,
 };
 
 export type DeleteSessionInput = {
@@ -675,6 +742,7 @@ export type CreateMentorInput = {
   summary?: string | null,
   linkedInUrl?: string | null,
   websiteUrl?: string | null,
+  availability?: string | null,
 };
 
 export enum ProfileStatus {
@@ -700,6 +768,7 @@ export type ModelMentorConditionInput = {
   summary?: ModelStringInput | null,
   linkedInUrl?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
+  availability?: ModelStringInput | null,
   and?: Array< ModelMentorConditionInput | null > | null,
   or?: Array< ModelMentorConditionInput | null > | null,
   not?: ModelMentorConditionInput | null,
@@ -748,6 +817,8 @@ export type Mentor = {
   SessionRequests?: ModelSessionRequestConnection | null,
   IntroductionRequests?: ModelIntroductionRequestConnection | null,
   IntroductionSessions?: ModelIntroductionSessionConnection | null,
+  availability?: string | null,
+  MentorServices?: ModelMentorServicesConnection | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -794,6 +865,12 @@ export type ModelIntroductionSessionConnection = {
   nextToken?: string | null,
 };
 
+export type ModelMentorServicesConnection = {
+  __typename: "ModelMentorServicesConnection",
+  items:  Array<MentorServices | null >,
+  nextToken?: string | null,
+};
+
 export type UpdateMentorInput = {
   id: string,
   firstName?: string | null,
@@ -810,6 +887,7 @@ export type UpdateMentorInput = {
   summary?: string | null,
   linkedInUrl?: string | null,
   websiteUrl?: string | null,
+  availability?: string | null,
 };
 
 export type DeleteMentorInput = {
@@ -910,6 +988,26 @@ export type DeleteMenteeInput = {
   id: string,
 };
 
+export type ModelMentorServicesFilterInput = {
+  id?: ModelIDInput | null,
+  title?: ModelStringInput | null,
+  description?: ModelStringInput | null,
+  cost?: ModelStringInput | null,
+  isPaid?: ModelBooleanInput | null,
+  mentorID?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelMentorServicesFilterInput | null > | null,
+  or?: Array< ModelMentorServicesFilterInput | null > | null,
+  not?: ModelMentorServicesFilterInput | null,
+};
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
 export type ModelIntroductionSessionFilterInput = {
   id?: ModelIDInput | null,
   duration?: ModelStringInput | null,
@@ -925,12 +1023,6 @@ export type ModelIntroductionSessionFilterInput = {
   or?: Array< ModelIntroductionSessionFilterInput | null > | null,
   not?: ModelIntroductionSessionFilterInput | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type ModelIntroductionRequestFilterInput = {
   id?: ModelIDInput | null,
@@ -1017,6 +1109,9 @@ export type ModelSessionRequestFilterInput = {
   sessionTitle?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
   mentorID?: ModelIDInput | null,
+  untitledfield?: ModelStringInput | null,
+  sessionDescription?: ModelStringInput | null,
+  mentorServicesID?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelSessionRequestFilterInput | null > | null,
@@ -1070,6 +1165,8 @@ export type ModelSessionFilterInput = {
   sessionTitle?: ModelStringInput | null,
   objectives?: ModelStringInput | null,
   mentorshipID?: ModelStringInput | null,
+  untitledfield?: ModelStringInput | null,
+  mentorServicesID?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelSessionFilterInput | null > | null,
@@ -1093,6 +1190,7 @@ export type ModelMentorFilterInput = {
   summary?: ModelStringInput | null,
   linkedInUrl?: ModelStringInput | null,
   websiteUrl?: ModelStringInput | null,
+  availability?: ModelStringInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelMentorFilterInput | null > | null,
@@ -1136,19 +1234,17 @@ export type ModelMenteeConnection = {
   nextToken?: string | null,
 };
 
-export type ModelSubscriptionIntroductionSessionFilterInput = {
+export type ModelSubscriptionMentorServicesFilterInput = {
   id?: ModelSubscriptionIDInput | null,
-  duration?: ModelSubscriptionStringInput | null,
-  sessionDate?: ModelSubscriptionStringInput | null,
-  meetingLink?: ModelSubscriptionStringInput | null,
-  mentorshipID?: ModelSubscriptionStringInput | null,
-  sessionStatus?: ModelSubscriptionStringInput | null,
-  menteeID?: ModelSubscriptionIDInput | null,
+  title?: ModelSubscriptionStringInput | null,
+  description?: ModelSubscriptionStringInput | null,
+  cost?: ModelSubscriptionStringInput | null,
+  isPaid?: ModelSubscriptionBooleanInput | null,
   mentorID?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
-  and?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
-  or?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
+  and?: Array< ModelSubscriptionMentorServicesFilterInput | null > | null,
+  or?: Array< ModelSubscriptionMentorServicesFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIDInput = {
@@ -1179,6 +1275,26 @@ export type ModelSubscriptionStringInput = {
   beginsWith?: string | null,
   in?: Array< string | null > | null,
   notIn?: Array< string | null > | null,
+};
+
+export type ModelSubscriptionBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+};
+
+export type ModelSubscriptionIntroductionSessionFilterInput = {
+  id?: ModelSubscriptionIDInput | null,
+  duration?: ModelSubscriptionStringInput | null,
+  sessionDate?: ModelSubscriptionStringInput | null,
+  meetingLink?: ModelSubscriptionStringInput | null,
+  mentorshipID?: ModelSubscriptionStringInput | null,
+  sessionStatus?: ModelSubscriptionStringInput | null,
+  menteeID?: ModelSubscriptionIDInput | null,
+  mentorID?: ModelSubscriptionIDInput | null,
+  createdAt?: ModelSubscriptionStringInput | null,
+  updatedAt?: ModelSubscriptionStringInput | null,
+  and?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
+  or?: Array< ModelSubscriptionIntroductionSessionFilterInput | null > | null,
 };
 
 export type ModelSubscriptionIntroductionRequestFilterInput = {
@@ -1255,6 +1371,9 @@ export type ModelSubscriptionSessionRequestFilterInput = {
   sessionTitle?: ModelSubscriptionStringInput | null,
   mentorshipID?: ModelSubscriptionStringInput | null,
   mentorID?: ModelSubscriptionIDInput | null,
+  untitledfield?: ModelSubscriptionStringInput | null,
+  sessionDescription?: ModelSubscriptionStringInput | null,
+  mentorServicesID?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionSessionRequestFilterInput | null > | null,
@@ -1304,11 +1423,6 @@ export type ModelSubscriptionNotificationFilterInput = {
   or?: Array< ModelSubscriptionNotificationFilterInput | null > | null,
 };
 
-export type ModelSubscriptionBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-};
-
 export type ModelSubscriptionSessionFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   duration?: ModelSubscriptionIntInput | null,
@@ -1322,6 +1436,8 @@ export type ModelSubscriptionSessionFilterInput = {
   sessionTitle?: ModelSubscriptionStringInput | null,
   objectives?: ModelSubscriptionStringInput | null,
   mentorshipID?: ModelSubscriptionStringInput | null,
+  untitledfield?: ModelSubscriptionStringInput | null,
+  mentorServicesID?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionSessionFilterInput | null > | null,
@@ -1344,6 +1460,7 @@ export type ModelSubscriptionMentorFilterInput = {
   summary?: ModelSubscriptionStringInput | null,
   linkedInUrl?: ModelSubscriptionStringInput | null,
   websiteUrl?: ModelSubscriptionStringInput | null,
+  availability?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMentorFilterInput | null > | null,
@@ -1383,6 +1500,63 @@ export type ModelSubscriptionMenteeFilterInput = {
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
   or?: Array< ModelSubscriptionMenteeFilterInput | null > | null,
+};
+
+export type CreateMentorServicesMutationVariables = {
+  input: CreateMentorServicesInput,
+  condition?: ModelMentorServicesConditionInput | null,
+};
+
+export type CreateMentorServicesMutation = {
+  createMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateMentorServicesMutationVariables = {
+  input: UpdateMentorServicesInput,
+  condition?: ModelMentorServicesConditionInput | null,
+};
+
+export type UpdateMentorServicesMutation = {
+  updateMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteMentorServicesMutationVariables = {
+  input: DeleteMentorServicesInput,
+  condition?: ModelMentorServicesConditionInput | null,
+};
+
+export type DeleteMentorServicesMutation = {
+  deleteMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
 };
 
 export type CreateIntroductionSessionMutationVariables = {
@@ -1751,6 +1925,9 @@ export type CreateSessionRequestMutation = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1777,6 +1954,9 @@ export type UpdateSessionRequestMutation = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1803,6 +1983,9 @@ export type DeleteSessionRequestMutation = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1880,7 +2063,7 @@ export type CreateNotificationMutation = {
   createNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -1902,7 +2085,7 @@ export type UpdateNotificationMutation = {
   updateNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -1924,7 +2107,7 @@ export type DeleteNotificationMutation = {
   deleteNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -1961,6 +2144,8 @@ export type CreateSessionMutation = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -1990,6 +2175,8 @@ export type UpdateSessionMutation = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2019,6 +2206,8 @@ export type DeleteSessionMutation = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2073,6 +2262,11 @@ export type CreateMentorMutation = {
     } | null,
     IntroductionSessions?:  {
       __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -2131,6 +2325,11 @@ export type UpdateMentorMutation = {
       __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2185,6 +2384,11 @@ export type DeleteMentorMutation = {
     } | null,
     IntroductionSessions?:  {
       __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -2360,6 +2564,74 @@ export type DeleteMenteeMutation = {
     } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type GetMentorServicesQueryVariables = {
+  id: string,
+};
+
+export type GetMentorServicesQuery = {
+  getMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListMentorServicesQueryVariables = {
+  filter?: ModelMentorServicesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListMentorServicesQuery = {
+  listMentorServices?:  {
+    __typename: "ModelMentorServicesConnection",
+    items:  Array< {
+      __typename: "MentorServices",
+      id: string,
+      title?: string | null,
+      description?: string | null,
+      cost?: string | null,
+      isPaid?: boolean | null,
+      mentorID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type MentorServicesByMentorIDQueryVariables = {
+  mentorID: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelMentorServicesFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type MentorServicesByMentorIDQuery = {
+  mentorServicesByMentorID?:  {
+    __typename: "ModelMentorServicesConnection",
+    items:  Array< {
+      __typename: "MentorServices",
+      id: string,
+      title?: string | null,
+      description?: string | null,
+      cost?: string | null,
+      isPaid?: boolean | null,
+      mentorID: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null >,
+    nextToken?: string | null,
   } | null,
 };
 
@@ -2868,6 +3140,9 @@ export type GetSessionRequestQuery = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -2897,6 +3172,9 @@ export type ListSessionRequestsQuery = {
       sessionTitle?: string | null,
       mentorshipID?: string | null,
       mentorID: string,
+      untitledfield?: string | null,
+      sessionDescription?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -2930,6 +3208,9 @@ export type SessionRequestsByMenteeIDQuery = {
       sessionTitle?: string | null,
       mentorshipID?: string | null,
       mentorID: string,
+      untitledfield?: string | null,
+      sessionDescription?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -2963,6 +3244,9 @@ export type SessionRequestsByMentorIDQuery = {
       sessionTitle?: string | null,
       mentorshipID?: string | null,
       mentorID: string,
+      untitledfield?: string | null,
+      sessionDescription?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -3052,7 +3336,7 @@ export type GetNotificationQuery = {
   getNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -3077,7 +3361,7 @@ export type ListNotificationsQuery = {
     items:  Array< {
       __typename: "Notification",
       id: string,
-      mentorID?: string | null,
+      mentorID: string,
       menteeID?: string | null,
       title?: string | null,
       body?: string | null,
@@ -3106,7 +3390,7 @@ export type NotificationsByMentorIDQuery = {
     items:  Array< {
       __typename: "Notification",
       id: string,
-      mentorID?: string | null,
+      mentorID: string,
       menteeID?: string | null,
       title?: string | null,
       body?: string | null,
@@ -3135,7 +3419,7 @@ export type NotificationsByMenteeIDQuery = {
     items:  Array< {
       __typename: "Notification",
       id: string,
-      mentorID?: string | null,
+      mentorID: string,
       menteeID?: string | null,
       title?: string | null,
       body?: string | null,
@@ -3173,6 +3457,8 @@ export type GetSessionQuery = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3201,6 +3487,8 @@ export type ListSessionsQuery = {
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
       mentorshipID?: string | null,
+      untitledfield?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -3233,6 +3521,8 @@ export type SessionsByMenteeIDQuery = {
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
       mentorshipID?: string | null,
+      untitledfield?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -3265,6 +3555,8 @@ export type SessionsByMentorIDQuery = {
       sessionTitle?: string | null,
       objectives?: Array< string | null > | null,
       mentorshipID?: string | null,
+      untitledfield?: string | null,
+      mentorServicesID?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -3322,6 +3614,11 @@ export type GetMentorQuery = {
       __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3353,6 +3650,7 @@ export type ListMentorsQuery = {
       summary?: string | null,
       linkedInUrl?: string | null,
       websiteUrl?: string | null,
+      availability?: string | null,
       createdAt: string,
       updatedAt: string,
     } | null >,
@@ -3447,6 +3745,60 @@ export type ListMenteesQuery = {
       updatedAt: string,
     } | null >,
     nextToken?: string | null,
+  } | null,
+};
+
+export type OnCreateMentorServicesSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorServicesFilterInput | null,
+};
+
+export type OnCreateMentorServicesSubscription = {
+  onCreateMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateMentorServicesSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorServicesFilterInput | null,
+};
+
+export type OnUpdateMentorServicesSubscription = {
+  onUpdateMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteMentorServicesSubscriptionVariables = {
+  filter?: ModelSubscriptionMentorServicesFilterInput | null,
+};
+
+export type OnDeleteMentorServicesSubscription = {
+  onDeleteMentorServices?:  {
+    __typename: "MentorServices",
+    id: string,
+    title?: string | null,
+    description?: string | null,
+    cost?: string | null,
+    isPaid?: boolean | null,
+    mentorID: string,
+    createdAt: string,
+    updatedAt: string,
   } | null,
 };
 
@@ -3797,6 +4149,9 @@ export type OnCreateSessionRequestSubscription = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3822,6 +4177,9 @@ export type OnUpdateSessionRequestSubscription = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3847,6 +4205,9 @@ export type OnDeleteSessionRequestSubscription = {
     sessionTitle?: string | null,
     mentorshipID?: string | null,
     mentorID: string,
+    untitledfield?: string | null,
+    sessionDescription?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -3920,7 +4281,7 @@ export type OnCreateNotificationSubscription = {
   onCreateNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -3941,7 +4302,7 @@ export type OnUpdateNotificationSubscription = {
   onUpdateNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -3962,7 +4323,7 @@ export type OnDeleteNotificationSubscription = {
   onDeleteNotification?:  {
     __typename: "Notification",
     id: string,
-    mentorID?: string | null,
+    mentorID: string,
     menteeID?: string | null,
     title?: string | null,
     body?: string | null,
@@ -3998,6 +4359,8 @@ export type OnCreateSessionSubscription = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4026,6 +4389,8 @@ export type OnUpdateSessionSubscription = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4054,6 +4419,8 @@ export type OnDeleteSessionSubscription = {
       nextToken?: string | null,
     } | null,
     mentorshipID?: string | null,
+    untitledfield?: string | null,
+    mentorServicesID?: string | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4107,6 +4474,11 @@ export type OnCreateMentorSubscription = {
     } | null,
     IntroductionSessions?:  {
       __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,
@@ -4164,6 +4536,11 @@ export type OnUpdateMentorSubscription = {
       __typename: "ModelIntroductionSessionConnection",
       nextToken?: string | null,
     } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
+      nextToken?: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -4217,6 +4594,11 @@ export type OnDeleteMentorSubscription = {
     } | null,
     IntroductionSessions?:  {
       __typename: "ModelIntroductionSessionConnection",
+      nextToken?: string | null,
+    } | null,
+    availability?: string | null,
+    MentorServices?:  {
+      __typename: "ModelMentorServicesConnection",
       nextToken?: string | null,
     } | null,
     createdAt: string,

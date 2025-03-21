@@ -204,6 +204,7 @@ export default function MentorCreateForm(props) {
     summary: "",
     linkedInUrl: "",
     websiteUrl: "",
+    availability: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -229,6 +230,9 @@ export default function MentorCreateForm(props) {
     initialValues.linkedInUrl
   );
   const [websiteUrl, setWebsiteUrl] = React.useState(initialValues.websiteUrl);
+  const [availability, setAvailability] = React.useState(
+    initialValues.availability
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setFirstName(initialValues.firstName);
@@ -246,6 +250,7 @@ export default function MentorCreateForm(props) {
     setSummary(initialValues.summary);
     setLinkedInUrl(initialValues.linkedInUrl);
     setWebsiteUrl(initialValues.websiteUrl);
+    setAvailability(initialValues.availability);
     setErrors({});
   };
   const [currentExpertiseValue, setCurrentExpertiseValue] = React.useState("");
@@ -265,6 +270,7 @@ export default function MentorCreateForm(props) {
     summary: [],
     linkedInUrl: [],
     websiteUrl: [],
+    availability: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -306,6 +312,7 @@ export default function MentorCreateForm(props) {
           summary,
           linkedInUrl,
           websiteUrl,
+          availability,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -382,6 +389,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -419,6 +427,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -456,6 +465,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -493,6 +503,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -530,6 +541,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -569,6 +581,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -602,6 +615,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             values = result?.expertise ?? values;
@@ -668,6 +682,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.yearsOfExperience ?? value;
@@ -711,6 +726,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.hourlyRate ?? value;
@@ -748,6 +764,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.profileStatus ?? value;
@@ -806,6 +823,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.mentorId ?? value;
@@ -843,6 +861,7 @@ export default function MentorCreateForm(props) {
               summary: value,
               linkedInUrl,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.summary ?? value;
@@ -880,6 +899,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl: value,
               websiteUrl,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.linkedInUrl ?? value;
@@ -917,6 +937,7 @@ export default function MentorCreateForm(props) {
               summary,
               linkedInUrl,
               websiteUrl: value,
+              availability,
             };
             const result = onChange(modelFields);
             value = result?.websiteUrl ?? value;
@@ -930,6 +951,44 @@ export default function MentorCreateForm(props) {
         errorMessage={errors.websiteUrl?.errorMessage}
         hasError={errors.websiteUrl?.hasError}
         {...getOverrideProps(overrides, "websiteUrl")}
+      ></TextField>
+      <TextField
+        label="Availability"
+        isRequired={false}
+        isReadOnly={false}
+        value={availability}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              expertise,
+              yearsOfExperience,
+              hourlyRate,
+              profileStatus,
+              mentorId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
+              availability: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.availability ?? value;
+          }
+          if (errors.availability?.hasError) {
+            runValidationTasks("availability", value);
+          }
+          setAvailability(value);
+        }}
+        onBlur={() => runValidationTasks("availability", availability)}
+        errorMessage={errors.availability?.errorMessage}
+        hasError={errors.availability?.hasError}
+        {...getOverrideProps(overrides, "availability")}
       ></TextField>
       <Flex
         justifyContent="space-between"

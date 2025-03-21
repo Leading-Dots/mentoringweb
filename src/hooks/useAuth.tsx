@@ -179,6 +179,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           await signOut();
           throw new Error("User not found");
         }
+        console.log("existingUser", existingUser);
         setUser({ ...existingUser, role: user.role });
       }
     } catch (error) {

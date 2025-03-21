@@ -19,6 +19,7 @@ import NotificationsPage from "@/pages/root/NotificationsPage";
 import SearchMentorPage from "@/pages/root/SearchMentorsPage";
 import SearchMenteePage from "@/pages/root/SearchMenteePage";
 import MyMentors from "@/pages/root/MyMentorships";
+import SessionPreferences from "@/pages/root/SessionServices";
 
 const routes = [
   {
@@ -65,7 +66,7 @@ const routes = [
       </DashboardLayout>
     ),
   },
-  
+
   {
     path: "/mentor/:id",
     element: (
@@ -143,6 +144,14 @@ const routes = [
     element: (
       <DashboardLayout>
         <SettingsPage />
+      </DashboardLayout>
+    ),
+  },
+  {
+    path: "preferences",
+    element: (
+      <DashboardLayout>
+        <SessionPreferences />
       </DashboardLayout>
     ),
   },

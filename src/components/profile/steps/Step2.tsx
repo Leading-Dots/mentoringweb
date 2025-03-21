@@ -16,6 +16,13 @@ import { listCategories } from "@/graphql/queries";
 import { createCategory } from "@/graphql/mutations";
 import { Button } from "@/components/ui/button";
 import { showToast } from "@/lib/toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface StepTwoProps {
   role: "mentor" | "mentee";
@@ -45,27 +52,35 @@ export function StepTwo({ role }: StepTwoProps) {
     try {
       if (topicValue === "") return;
       console.log("Topic created", topicValue);
-  
-      const existingTopic = topicOptions.find((topic) => topic.value === topicValue);
-  
-      if(existingTopic) {
+
+      const existingTopic = topicOptions.find(
+        (topic) => topic.value === topicValue
+      );
+
+      if (existingTopic) {
         showToast("Category already exists", "error");
         return;
       }
-  
+
       const { data } = await client.graphql({
         query: createCategory,
         variables: { input: { value: topicValue } },
       });
       console.log("Topic created", data);
-  
+
       const newTopicOption = { label: topicValue, value: topicValue };
       setTopicOptions([...topicOptions, newTopicOption]);
-  
+
       if (role === "mentee") {
-        form.setValue("topics", [...(form.getValues("topics") || []), newTopicOption]);
+        form.setValue("topics", [
+          ...(form.getValues("topics") || []),
+          newTopicOption,
+        ]);
       } else {
-        form.setValue("expertise", [...(form.getValues("expertise") || []), newTopicOption]);
+        form.setValue("expertise", [
+          ...(form.getValues("expertise") || []),
+          newTopicOption,
+        ]);
       }
       setNewTopic("");
     } catch (error) {
@@ -100,6 +115,9 @@ export function StepTwo({ role }: StepTwoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Expertise *</FormLabel>
+              <FormDescription>
+                What are you good at? Select up to 4
+              </FormDescription>
               <MultiSelect
                 options={topicOptions}
                 onAddOption={addTopic}
@@ -108,7 +126,6 @@ export function StepTwo({ role }: StepTwoProps) {
                 defaultValue={field.value}
               />
               <FormMessage />
-             
             </FormItem>
           )}
         />
@@ -138,6 +155,9 @@ export function StepTwo({ role }: StepTwoProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Hourly Rate ($) *</FormLabel>
+              <FormDescription>
+                How much do you charge for mentorship per hour?
+              </FormDescription>
               <FormControl>
                 <Input
                   {...field}
@@ -145,6 +165,33 @@ export function StepTwo({ role }: StepTwoProps) {
                   onChange={(e) => field.onChange(parseInt(e.target.value))}
                 />
               </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="availability"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Availability *</FormLabel>
+              <FormDescription>
+                When are you available for mentorship sessions?
+              </FormDescription>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select availability" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="daily">Daily</SelectItem>
+                  <SelectItem value="weekdays">Weekdays</SelectItem>
+                  <SelectItem value="weekends">Weekends</SelectItem>
+                  <SelectItem value="any">Any</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
@@ -161,12 +208,12 @@ export function StepTwo({ role }: StepTwoProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Learning Goals *</FormLabel>
+            <FormDescription>
+              What do you want to achieve from mentorship?
+            </FormDescription>
             <MultiSelect
-
               options={goalOptions}
-              onValueChange={(value) => field.onChange(value)
-
-              }
+              onValueChange={(value) => field.onChange(value)}
               defaultValue={field.value || []}
             />
             <FormMessage />
@@ -179,6 +226,9 @@ export function StepTwo({ role }: StepTwoProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>What do you want to become good in *</FormLabel>
+            <FormDescription>
+              Select up to 4 topics you want to learn about
+            </FormDescription>
             <MultiSelect
               onAddOption={addTopic}
               maxSelections={4}
@@ -187,8 +237,6 @@ export function StepTwo({ role }: StepTwoProps) {
               defaultValue={field.value || []}
             />
             <FormMessage />
-
-            
           </FormItem>
         )}
       />
@@ -199,6 +247,9 @@ export function StepTwo({ role }: StepTwoProps) {
         render={({ field }) => (
           <FormItem>
             <FormLabel>Preferred Mentor Experience (years) *</FormLabel>
+            <FormDescription>
+              How many years of experience should your mentor have?
+            </FormDescription>
             <FormControl>
               <Input
                 min={0}

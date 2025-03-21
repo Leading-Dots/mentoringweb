@@ -8,6 +8,66 @@ type GeneratedMutation<InputType, OutputType> = string & {
   __generatedMutationOutput: OutputType;
 };
 
+export const createMentorServices = /* GraphQL */ `mutation CreateMentorServices(
+  $input: CreateMentorServicesInput!
+  $condition: ModelMentorServicesConditionInput
+) {
+  createMentorServices(input: $input, condition: $condition) {
+    id
+    title
+    description
+    cost
+    isPaid
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateMentorServicesMutationVariables,
+  APITypes.CreateMentorServicesMutation
+>;
+export const updateMentorServices = /* GraphQL */ `mutation UpdateMentorServices(
+  $input: UpdateMentorServicesInput!
+  $condition: ModelMentorServicesConditionInput
+) {
+  updateMentorServices(input: $input, condition: $condition) {
+    id
+    title
+    description
+    cost
+    isPaid
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateMentorServicesMutationVariables,
+  APITypes.UpdateMentorServicesMutation
+>;
+export const deleteMentorServices = /* GraphQL */ `mutation DeleteMentorServices(
+  $input: DeleteMentorServicesInput!
+  $condition: ModelMentorServicesConditionInput
+) {
+  deleteMentorServices(input: $input, condition: $condition) {
+    id
+    title
+    description
+    cost
+    isPaid
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteMentorServicesMutationVariables,
+  APITypes.DeleteMentorServicesMutation
+>;
 export const createIntroductionSession = /* GraphQL */ `mutation CreateIntroductionSession(
   $input: CreateIntroductionSessionInput!
   $condition: ModelIntroductionSessionConditionInput
@@ -389,6 +449,9 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     sessionTitle
     mentorshipID
     mentorID
+    untitledfield
+    sessionDescription
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -416,6 +479,9 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     sessionTitle
     mentorshipID
     mentorID
+    untitledfield
+    sessionDescription
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -443,6 +509,9 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     sessionTitle
     mentorshipID
     mentorID
+    untitledfield
+    sessionDescription
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -608,6 +677,8 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
       __typename
     }
     mentorshipID
+    untitledfield
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -638,6 +709,8 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
       __typename
     }
     mentorshipID
+    untitledfield
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -668,6 +741,8 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
       __typename
     }
     mentorshipID
+    untitledfield
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -722,6 +797,11 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       __typename
     }
     IntroductionSessions {
+      nextToken
+      __typename
+    }
+    availability
+    MentorServices {
       nextToken
       __typename
     }
@@ -782,6 +862,11 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    availability
+    MentorServices {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -836,6 +921,11 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       __typename
     }
     IntroductionSessions {
+      nextToken
+      __typename
+    }
+    availability
+    MentorServices {
       nextToken
       __typename
     }

@@ -8,6 +8,81 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
+export const getMentorServices = /* GraphQL */ `query GetMentorServices($id: ID!) {
+  getMentorServices(id: $id) {
+    id
+    title
+    description
+    cost
+    isPaid
+    mentorID
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.GetMentorServicesQueryVariables,
+  APITypes.GetMentorServicesQuery
+>;
+export const listMentorServices = /* GraphQL */ `query ListMentorServices(
+  $filter: ModelMentorServicesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  listMentorServices(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    items {
+      id
+      title
+      description
+      cost
+      isPaid
+      mentorID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.ListMentorServicesQueryVariables,
+  APITypes.ListMentorServicesQuery
+>;
+export const mentorServicesByMentorID = /* GraphQL */ `query MentorServicesByMentorID(
+  $mentorID: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelMentorServicesFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  mentorServicesByMentorID(
+    mentorID: $mentorID
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      title
+      description
+      cost
+      isPaid
+      mentorID
+      createdAt
+      updatedAt
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.MentorServicesByMentorIDQueryVariables,
+  APITypes.MentorServicesByMentorIDQuery
+>;
 export const getIntroductionSession = /* GraphQL */ `query GetIntroductionSession($id: ID!) {
   getIntroductionSession(id: $id) {
     id
@@ -576,6 +651,9 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
     sessionTitle
     mentorshipID
     mentorID
+    untitledfield
+    sessionDescription
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -605,6 +683,9 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
       sessionTitle
       mentorshipID
       mentorID
+      untitledfield
+      sessionDescription
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -645,6 +726,9 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
       sessionTitle
       mentorshipID
       mentorID
+      untitledfield
+      sessionDescription
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -685,6 +769,9 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
       sessionTitle
       mentorshipID
       mentorID
+      untitledfield
+      sessionDescription
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -916,6 +1003,8 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
       __typename
     }
     mentorshipID
+    untitledfield
+    mentorServicesID
     createdAt
     updatedAt
     __typename
@@ -944,6 +1033,8 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       sessionTitle
       objectives
       mentorshipID
+      untitledfield
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -983,6 +1074,8 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       sessionTitle
       objectives
       mentorshipID
+      untitledfield
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -1022,6 +1115,8 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       sessionTitle
       objectives
       mentorshipID
+      untitledfield
+      mentorServicesID
       createdAt
       updatedAt
       __typename
@@ -1079,6 +1174,11 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    availability
+    MentorServices {
+      nextToken
+      __typename
+    }
     createdAt
     updatedAt
     __typename
@@ -1107,6 +1207,7 @@ export const listMentors = /* GraphQL */ `query ListMentors(
       summary
       linkedInUrl
       websiteUrl
+      availability
       createdAt
       updatedAt
       __typename
