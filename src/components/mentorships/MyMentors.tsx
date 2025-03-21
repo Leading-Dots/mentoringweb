@@ -18,6 +18,7 @@ import { Badge } from "../ui/badge";
 import { showToast } from "@/lib/toast";
 import { intiateChat } from "@/lib/dbActions";
 import { useNavigate } from "react-router-dom";
+import { CreateSessionRequestModal } from "../modal/CreateSessionRequestModal";
 
 const MyMentors = () => {
   const { user } = useAuth();
@@ -57,10 +58,6 @@ const MyMentors = () => {
         );
     }
   };
-
-
-
-  
 
   const handleChat = async (mentor: Mentor) => {
     try {
@@ -174,11 +171,27 @@ const MyMentors = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                      <DropdownMenuItem>View Profile</DropdownMenuItem>
-                      <DropdownMenuItem>Schedule Meeting</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          router(`/mentor/${mentor.mentorId}`);
+                        }}
+                      >
+                        View Profile
+                      </DropdownMenuItem>
+                      <CreateSessionRequestModal otherUserId={mentor.mentorId}>
+                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+                          Schedule Meeting
+                        </DropdownMenuItem>
+                      </CreateSessionRequestModal>
+
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        Remove Mentor
+                      <DropdownMenuItem
+                        onClick={() => {
+                          showToast("Feature coming soon", "info");
+                        }}
+                        className="text-red-600"
+                      >
+                        Remove Mentee
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>

@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { PublicProfileLoader } from "./PublicProfileLoader";
 import { useAuth } from "@/hooks/useAuth";
-import { listSessions } from "@/graphql/queries";
+import { listSessions, mentorServicesByMentorID } from "@/graphql/queries";
 import client from "@/lib/apiClient";
 import { showToast } from "@/lib/toast";
 import ReviewCard from "@/components/common/ReviewCard";
@@ -46,6 +46,7 @@ const MentorProfilePage = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentMeeting, setCurrentMeeting] = useState<Session | null>(null);
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [services, setServices] = useState([]);
   const { user } = useAuth();
 
   const isCurrentUser =
@@ -61,6 +62,22 @@ const MentorProfilePage = () => {
     }
   };
 
+  const fetchSessionServices = async () => {
+    try {
+      const { data } = await client.graphql({
+        query: mentorServicesByMentorID,
+        variables: {
+          mentorID: params.id,
+        },
+      });
+      if (data) {
+        setServices(data.mentorServicesByMentorID.items);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (params.id) {
       fetchMentorProfile();
@@ -69,6 +86,11 @@ const MentorProfilePage = () => {
     }
   }, [params.id]);
 
+  useEffect(() => {
+    if (params.id) {
+      fetchSessionServices();
+    }
+  }, []);
   const handleChat = async () => {
     try {
       if (!user) return showToast("Login to start a chat", "error");
@@ -232,6 +254,16 @@ const MentorProfilePage = () => {
               ) : null}
 
               <p className=" text-lg leading-relaxed">{mentor.bio}</p>
+              <Badge variant="secondary">
+                {mentor.availability ? (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="w-5 h-5" />
+                    <span>Available in: {mentor.availability}</span>
+                  </div>
+                ) : (
+                  "Availability not set"
+                )}
+              </Badge>
 
               {!isCurrentUser && (
                 <ProfileActions
@@ -345,6 +377,35 @@ const MentorProfilePage = () => {
             </Card>
           </div>
         </div>
+        {services.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <CalendarPlus className="w-5 h-5 text-primary" />
+                Available Services
+              </CardTitle>
+              <CardDescription>Services offered by the mentor</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {services.map((service: any, index) => (
+                    <Card key={index} className="mb-4 max-w-sm">
+                      <CardHeader className="p-4">
+                      <CardTitle className="text-sm">{service.title}</CardTitle>
+                      <CardDescription className="text-xs">{service.description}</CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-4 pt-0">
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="w-3 h-3" />
+                        <span className="text-xs font-medium">₹{service.cost}</span>
+                      </div>
+                      </CardContent>
+                    </Card>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </div>
   );
