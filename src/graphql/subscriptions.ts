@@ -18,6 +18,7 @@ export const onCreateMentorServices = /* GraphQL */ `subscription OnCreateMentor
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -37,6 +38,7 @@ export const onUpdateMentorServices = /* GraphQL */ `subscription OnUpdateMentor
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -56,6 +58,7 @@ export const onDeleteMentorServices = /* GraphQL */ `subscription OnDeleteMentor
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -409,7 +412,6 @@ export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessio
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -438,7 +440,6 @@ export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessio
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -467,7 +468,6 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -620,7 +620,7 @@ export const onCreateSession = /* GraphQL */ `subscription OnCreateSession($filt
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt
@@ -649,7 +649,7 @@ export const onUpdateSession = /* GraphQL */ `subscription OnUpdateSession($filt
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt
@@ -678,7 +678,7 @@ export const onDeleteSession = /* GraphQL */ `subscription OnDeleteSession($filt
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt

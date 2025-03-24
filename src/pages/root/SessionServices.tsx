@@ -157,9 +157,13 @@ const SessionPreferences = () => {
                 </Button>
               </div>
             </CardHeader>
-            <CardContent className="">
+            <CardContent className="flex flex-col items-start">
               <p className="font-medium">
-                {service.isPaid ? `Cost: $${service.cost}` : "Free"}
+                {service.isPaid ? `Cost: $${service.cost}` : <span className="text-green-500">Free</span> }
+              </p>
+
+              <p>
+                {service.duration} {service.duration === "1" ? "month" : "months"}
               </p>
             </CardContent>
           </Card>

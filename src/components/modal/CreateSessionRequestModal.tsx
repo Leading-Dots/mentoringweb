@@ -12,7 +12,7 @@ import { SessionRequestForm } from "@/components/session/SessionRequestForm";
 import { useEffect, useState } from "react";
 import { UserCard } from "../common/UserCard";
 import { getUser } from "@/lib/dbActions";
-import { Mentee, Mentor, ProfileStatus, SessionRequestStatus } from "@/API";
+import { CreateSessionRequestInput, Mentee, Mentor, ProfileStatus, SessionRequestStatus } from "@/API";
 import { showToast } from "@/lib/toast";
 import { DialogLoader } from "../common/DialogLoader";
 import client from "@/lib/apiClient";
@@ -63,11 +63,13 @@ export function CreateSessionRequestModal({
       if (userRole === "mentor") {
         // Send session request to mentee
 
-        const requestData = {
+        const requestData : CreateSessionRequestInput = {
           sessionTitle: data.title,
+          sessionDescription: data.description,
           mentorID: user?.mentorId,
           menteeID: otherUserId,
           status: SessionRequestStatus.SENT,
+          mentorServicesID : data.mentorServiceId,
           mentorNote: data.mentorNote,
           menteeNote: "No Note",
           duration: data.duration,
@@ -175,6 +177,7 @@ export function CreateSessionRequestModal({
               )}
               <div className="grid gap-4 py-4">
                 <SessionRequestForm
+                  mentorId={userRole === "mentor" ? user?.mentorId : otherUserId}
                   onSubmit={handleSubmit}
                   isMentor={userRole === "mentor"}
                 />
@@ -213,6 +216,7 @@ export function CreateSessionRequestModal({
             )}
             <div className="grid gap-4 py-4">
               <SessionRequestForm
+                mentorId={userRole === "mentor" ? user?.mentorId || '' : otherUserId} 
                 onSubmit={handleSubmit}
                 isMentor={userRole === "mentor"}
               />

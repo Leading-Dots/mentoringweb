@@ -16,6 +16,7 @@ export const getMentorServices = /* GraphQL */ `query GetMentorServices($id: ID!
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -38,6 +39,7 @@ export const listMentorServices = /* GraphQL */ `query ListMentorServices(
       cost
       isPaid
       mentorID
+      duration
       createdAt
       updatedAt
       __typename
@@ -71,6 +73,7 @@ export const mentorServicesByMentorID = /* GraphQL */ `query MentorServicesByMen
       cost
       isPaid
       mentorID
+      duration
       createdAt
       updatedAt
       __typename
@@ -651,7 +654,6 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -683,7 +685,6 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
       sessionTitle
       mentorshipID
       mentorID
-      untitledfield
       sessionDescription
       mentorServicesID
       createdAt
@@ -726,7 +727,6 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
       sessionTitle
       mentorshipID
       mentorID
-      untitledfield
       sessionDescription
       mentorServicesID
       createdAt
@@ -769,7 +769,6 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
       sessionTitle
       mentorshipID
       mentorID
-      untitledfield
       sessionDescription
       mentorServicesID
       createdAt
@@ -1003,7 +1002,7 @@ export const getSession = /* GraphQL */ `query GetSession($id: ID!) {
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt
@@ -1033,7 +1032,7 @@ export const listSessions = /* GraphQL */ `query ListSessions(
       sessionTitle
       objectives
       mentorshipID
-      untitledfield
+      sessionDescription
       mentorServicesID
       createdAt
       updatedAt
@@ -1074,7 +1073,7 @@ export const sessionsByMenteeID = /* GraphQL */ `query SessionsByMenteeID(
       sessionTitle
       objectives
       mentorshipID
-      untitledfield
+      sessionDescription
       mentorServicesID
       createdAt
       updatedAt
@@ -1115,7 +1114,7 @@ export const sessionsByMentorID = /* GraphQL */ `query SessionsByMentorID(
       sessionTitle
       objectives
       mentorshipID
-      untitledfield
+      sessionDescription
       mentorServicesID
       createdAt
       updatedAt

@@ -19,6 +19,7 @@ export const createMentorServices = /* GraphQL */ `mutation CreateMentorServices
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -39,6 +40,7 @@ export const updateMentorServices = /* GraphQL */ `mutation UpdateMentorServices
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -59,6 +61,7 @@ export const deleteMentorServices = /* GraphQL */ `mutation DeleteMentorServices
     cost
     isPaid
     mentorID
+    duration
     createdAt
     updatedAt
     __typename
@@ -449,7 +452,6 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -479,7 +481,6 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -509,7 +510,6 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
     sessionTitle
     mentorshipID
     mentorID
-    untitledfield
     sessionDescription
     mentorServicesID
     createdAt
@@ -677,7 +677,7 @@ export const createSession = /* GraphQL */ `mutation CreateSession(
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt
@@ -709,7 +709,7 @@ export const updateSession = /* GraphQL */ `mutation UpdateSession(
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt
@@ -741,7 +741,7 @@ export const deleteSession = /* GraphQL */ `mutation DeleteSession(
       __typename
     }
     mentorshipID
-    untitledfield
+    sessionDescription
     mentorServicesID
     createdAt
     updatedAt

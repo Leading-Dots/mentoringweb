@@ -22,6 +22,7 @@ import {
   FormMessage,
   FormItem,
   FormControl,
+  FormDescription,
 } from "../ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -56,6 +57,7 @@ const AddSessionServicesModal = ({
       .min(10, "Description must be atleast 10 characters")
       .max(500),
     isPaid: z.boolean().default(false),
+    duration: z.number().min(1, "Duration must be at least 1 month"),
     cost: z.number().min(0).optional(),
   });
 
@@ -68,6 +70,7 @@ const AddSessionServicesModal = ({
       description: existingService?.description || "",
       isPaid: existingService?.isPaid || false,
       cost: Number(existingService?.cost) || 0,
+      duration: Number(existingService?.duration) || 1,
     },
   });
 
@@ -86,6 +89,7 @@ const AddSessionServicesModal = ({
               description: formData.description,
               isPaid: formData.isPaid,
               cost: String(formData.cost),
+              duration: String(formData.duration),
             },
           },
         });
@@ -108,6 +112,7 @@ const AddSessionServicesModal = ({
             description: formData.description,
             isPaid: formData.isPaid,
             cost: String(formData.cost),
+            duration: String(formData.duration),
           },
         },
       });
@@ -166,6 +171,8 @@ const AddSessionServicesModal = ({
                   )}
                 />
 
+              
+
                 <FormField
                   control={form.control}
                   name="description"
@@ -182,19 +189,45 @@ const AddSessionServicesModal = ({
                     </FormItem>
                   )}
                 />
+                  <FormField
+                  control={form.control}
+                  name="duration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Duration</FormLabel>
+                      <FormDescription>
+                        Service can be booked for a minimum of 1 month to a year max
+                      </FormDescription>
+                      <FormControl>
+                        <Input
+                          type="number"
+                          min={1}
+                          placeholder="Enter service cost"
+                          {...field}
+                          onChange={(e) =>
+                            field.onChange(Number(e.target.value))
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
                 <FormField
                   control={form.control}
                   name="isPaid"
                   render={({ field }) => (
-                    <FormItem className="flex items-center space-x-2">
-                      <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel>This is a paid session</FormLabel>
+                    <FormItem className="flex items-center space-x-2 ">
+                      <div className="flex items-center space-x-2">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <FormLabel>This is a paid session</FormLabel>
+                      </div>
                       <FormMessage />
                     </FormItem>
                   )}

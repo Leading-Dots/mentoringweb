@@ -1,4 +1,4 @@
-import { Mentor, Mentorship, Review, Session } from "@/API";
+import { Mentor, MentorServices, Mentorship, Review, Session } from "@/API";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
@@ -388,16 +388,18 @@ const MentorProfilePage = () => {
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                {services.map((service: any, index) => (
+                {services.map((service: MentorServices, index) => (
                     <Card key={index} className="mb-4 max-w-sm">
                       <CardHeader className="p-4">
                       <CardTitle className="text-sm">{service.title}</CardTitle>
                       <CardDescription className="text-xs">{service.description}</CardDescription>
                       </CardHeader>
                       <CardContent className="p-4 pt-0">
-                      <div className="flex items-center gap-1">
-                        <DollarSign className="w-3 h-3" />
-                        <span className="text-xs font-medium">₹{service.cost}</span>
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-medium">₹{service.cost}</span>
+                        <span className="text-sm">
+                          {service.duration} {service.duration === "1" ? "Month" : "Months"}
+                        </span>
                       </div>
                       </CardContent>
                     </Card>

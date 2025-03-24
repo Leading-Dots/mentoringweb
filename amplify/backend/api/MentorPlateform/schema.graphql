@@ -5,6 +5,7 @@ type MentorServices @model @auth(rules: [{allow: public}]) {
   cost: String
   isPaid: Boolean
   mentorID: ID! @index(name: "byMentor")
+  duration: String
 }
 
 type IntroductionSession @model @auth(rules: [{allow: public}]) {
@@ -86,7 +87,6 @@ type SessionRequest @model @auth(rules: [{allow: public}]) {
   sessionTitle: String
   mentorshipID: String
   mentorID: ID! @index(name: "byMentor")
-  untitledfield: String
   sessionDescription: String
   mentorServicesID: String
 }
@@ -142,7 +142,7 @@ type Session @model @auth(rules: [{allow: public}]) {
   objectives: [String]
   Reviews: [Review] @hasMany(indexName: "bySession", fields: ["id"])
   mentorshipID: String
-  untitledfield: String
+  sessionDescription: String
   mentorServicesID: String
 }
 
