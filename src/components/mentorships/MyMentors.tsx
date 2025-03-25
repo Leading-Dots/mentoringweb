@@ -19,6 +19,7 @@ import { showToast } from "@/lib/toast";
 import { intiateChat } from "@/lib/dbActions";
 import { useNavigate } from "react-router-dom";
 import { CreateSessionRequestModal } from "../modal/CreateSessionRequestModal";
+import MentorshipActionsForMentor from "./MentorshipActionsForMentor";
 
 const MyMentors = () => {
   const { user } = useAuth();
@@ -109,7 +110,7 @@ const MyMentors = () => {
           query: listMentors,
           variables: {
             filter: {
-              mentorId: { eq: mentorIds[0] }, // Note: This will only match the first mentor
+              or: mentorIds.map((id) => ({ mentorId: { eq: id } })),
             },
           },
         });
@@ -164,37 +165,14 @@ const MyMentors = () => {
                   >
                     Chat
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          router(`/mentor/${mentor.mentorId}`);
-                        }}
-                      >
-                        View Profile
-                      </DropdownMenuItem>
-                      <CreateSessionRequestModal otherUserId={mentor.mentorId}>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-                          Schedule Meeting
-                        </DropdownMenuItem>
-                      </CreateSessionRequestModal>
-
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => {
-                          showToast("Feature coming soon", "info");
-                        }}
-                        className="text-red-600"
-                      >
-                        Remove Mentee
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <MentorshipActionsForMentor
+                    mentor={mentor}
+                    mentorshipId={
+                      mentorships?.find((m) => m?.mentorID === mentor?.mentorId)
+                        ?.id
+                    }
+                    mentorshipStatus={findMentorshipStatus(mentor)}
+                  />
                 </div>
               </CardContent>
             </Card>

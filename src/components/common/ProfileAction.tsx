@@ -34,13 +34,7 @@ export const ProfileActions = ({
 
 
 
-  if(!currentMentorship) {
-    return (
-      <p>
-        Loading
-      </p>
-    )
-  }
+ 
   const [introductionMeeting, setIntroductionMeeting] =
     useState<IntroductionSession | null>(null);
 

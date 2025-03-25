@@ -20,6 +20,7 @@ import { showToast } from "@/lib/toast";
 import { intiateChat } from "@/lib/dbActions";
 import { useNavigate } from "react-router-dom";
 import { CreateSessionRequestModal } from "../modal/CreateSessionRequestModal";
+import MentorshipActionsForMentee from "./MentorshipActionsForMentee";
 
 const MyMentees = () => {
   const { user } = useAuth();
@@ -52,12 +53,12 @@ const MyMentees = () => {
       ];
 
       if (menteeIds.length) {
-        // Fetch all mentees in a single query
+        // Fetch all mentees in a single query with OR filter
         const { data: menteesData } = await client.graphql({
           query: listMentees,
           variables: {
             filter: {
-              menteeId: { eq: menteeIds[0] }, // Note: This will only match the first mentee
+              or: menteeIds.map((id) => ({ menteeId: { eq: id } })),
             },
           },
         });
@@ -160,35 +161,14 @@ const MyMentees = () => {
                   >
                     Chat
                   </Button>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                      <DropdownMenuItem
-                        onClick={() => {
-                          router(`/mentee/${mentee.menteeId}`);
-                        }}
-                      >
-                        View Profile
-                      </DropdownMenuItem>
-                      <CreateSessionRequestModal otherUserId={mentee.menteeId}>
-                        <DropdownMenuItem onSelect={(e) => e.preventDefault()}>Schedule Meeting</DropdownMenuItem>
-                      </CreateSessionRequestModal>
-
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => {
-                          showToast("Feature coming soon", "info");
-                        }}
-                        className="text-red-600"
-                      >
-                        Remove Mentee
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                  <MentorshipActionsForMentee
+                    mentee={mentee}
+                    mentorshipStatus={findMentorshipStatus(mentee)}
+                    mentorshipId={
+                      mentorships?.find((m) => m?.menteeID === mentee?.menteeId)
+                        ?.id
+                    }
+                  />
                 </div>
               </CardContent>
             </Card>
