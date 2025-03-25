@@ -5,13 +5,6 @@ import client from "@/lib/apiClient";
 import React, { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardContent } from "../ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
 import { MoreVertical } from "lucide-react";
 import ListLoader from "../common/ListLoader";
 import { Badge } from "../ui/badge";

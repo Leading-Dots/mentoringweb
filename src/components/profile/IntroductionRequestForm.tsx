@@ -12,6 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
@@ -25,10 +26,11 @@ export function IntroductionRequestForm({
 }: {
   onSubmit: (data: FormSchema) => void;
 }) {
+  const {user} = useAuth();
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      title: "",
+      title: `Introduction Request from ${user?.name}`,
       note: "",
     },
   });
@@ -48,7 +50,7 @@ export function IntroductionRequestForm({
           control={form.control}
           name="title"
           render={({ field }) => (
-            <FormItem>
+            <FormItem className="hidden">
               <FormLabel>Title</FormLabel>
               <FormControl>
                 <Input placeholder="Enter title" {...field} />
@@ -64,12 +66,12 @@ export function IntroductionRequestForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Note</FormLabel>
-              <FormControl>
+                <FormControl>
                 <Textarea
-                  placeholder="Write a message to introduce yourself and explain why you'd like to connect"
+                  placeholder="Write a brief message about why you'd like to connect..."
                   {...field}
                 />
-              </FormControl>
+                </FormControl>
               <FormMessage />
             </FormItem>
           )}

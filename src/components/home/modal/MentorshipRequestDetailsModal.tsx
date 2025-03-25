@@ -80,7 +80,11 @@ const MentorshipRequestDetailsModal = ({
         showToast("Failed to create mentorship", "error");
       }
 
-      showToast("Mentorship request accepted", "success", "You are now in mentorship session!");
+      showToast(
+        "Mentorship request accepted",
+        "success",
+        "You are now in mentorship session!"
+      );
 
       sendNotification({
         title: "Mentor Request Accepted",
@@ -97,6 +101,7 @@ const MentorshipRequestDetailsModal = ({
     } finally {
       setLoading(false);
       onClose();
+      onConfirm?.();
     }
   };
 
@@ -179,36 +184,42 @@ const MentorshipRequestDetailsModal = ({
   const Content = () => (
     <>
       <Card className="mb-4">
-        <CardContent className="space-y-5 w-full">
+        <CardContent className="space-y-5 p-6">
           <Link
             to={
               introRequest.initiatedBy === "mentor"
                 ? `/mentos/${introRequest.mentorID}`
                 : `/mentee/${introRequest.menteeID}`
             }
+            className="block"
           >
             <UserCard
               otherUserData={initiatorData}
               role={introRequest.initiatedBy as UserRole}
             />
           </Link>
-          <div className="space-y-3">
-            {introRequest.note && (
-              <div className="flex gap-3 p-4 rounded-lg bg-muted border">
-                <MessageSquare className="h-5 w-5 text-primary shrink-0" />
-                <div>
-                  <span className="text-sm font-medium text-primary">Note</span>
-                  <p className="text-sm mt-1 text-muted-foreground">
+          {introRequest.note && (
+            <div className="bg-muted border rounded-lg p-4">
+              <div className="flex items-start gap-3">
+                <MessageSquare className="h-5 w-5 text-primary mt-0.5" />
+                <div className="flex-1">
+                  <h4 className="text-sm font-semibold text-primary mb-1">
+                    Note
+                  </h4>
+                  <p className="text-sm text-muted-foreground whitespace-pre-wrap">
                     {introRequest.note}
                   </p>
                 </div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
         </CardContent>
       </Card>
       <div className="gap-4  w-full">
-        <Button className="w-full mb-2" onClick={() => onMentorshipRequest(introRequest)}>
+        <Button
+          className="w-full mb-2"
+          onClick={() => onMentorshipRequest(introRequest)}
+        >
           Accept Mentorship
         </Button>
         <CreateIntroductionSessionModal
@@ -220,7 +231,7 @@ const MentorshipRequestDetailsModal = ({
             router("/home");
           }}
         >
-          <Button variant="outline" className="w-full" >
+          <Button variant="outline" className="w-full">
             Request Introduction Session
           </Button>
         </CreateIntroductionSessionModal>
