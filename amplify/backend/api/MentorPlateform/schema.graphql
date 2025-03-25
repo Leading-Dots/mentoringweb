@@ -17,6 +17,8 @@ type IntroductionSession @model @auth(rules: [{allow: public}]) {
   sessionStatus: MentorshipStatus
   menteeID: ID! @index(name: "byMentee")
   mentorID: ID! @index(name: "byMentor")
+  mentorName: String
+  MenteeName: String
 }
 
 type IntroductionRequest @model @auth(rules: [{allow: public}]) {
@@ -118,7 +120,7 @@ type Messages @model @auth(rules: [{allow: public}]) {
 
 type Notification @model @auth(rules: [{allow: public}]) {
   id: ID!
-  mentorID: ID! @index(name: "byMentor")
+  mentorID: ID @index(name: "byMentor")
   menteeID: ID @index(name: "byMentee")
   title: String
   body: String
@@ -171,6 +173,7 @@ type Mentor @model @auth(rules: [{allow: public}]) {
   IntroductionSessions: [IntroductionSession] @hasMany(indexName: "byMentor", fields: ["id"])
   availability: String
   MentorServices: [MentorServices] @hasMany(indexName: "byMentor", fields: ["id"])
+  name: String
 }
 
 type Mentee @model @auth(rules: [{allow: public}]) {
@@ -197,5 +200,6 @@ type Mentee @model @auth(rules: [{allow: public}]) {
   Mentorships: [Mentorship] @hasMany(indexName: "byMentee", fields: ["id"])
   IntroductionRequests: [IntroductionRequest] @hasMany(indexName: "byMentee", fields: ["id"])
   IntroductionSessions: [IntroductionSession] @hasMany(indexName: "byMentee", fields: ["id"])
+  name: String
 }
  

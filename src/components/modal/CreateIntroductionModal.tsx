@@ -49,7 +49,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { DateTimePicker } from "../common/DatePicker";
 import { useNavigate } from "react-router-dom";
-import { addMentorship } from "@/lib/dbActions";
+import { addMentorship, getUser } from "@/lib/dbActions";
 
 interface CreateIntroductionSessionModalProps {
   children: React.ReactNode;
@@ -94,16 +94,20 @@ export function CreateIntroductionSessionModal({
     try {
       setLoading(true);
 
-
       const mentorship = await addMentorship(
         mentorId,
         menteeId,
         MentorshipStatus.INTRODUCTION
       );
 
-      const sessionInput = {
+      const mentee = await getUser(menteeId, "mentee");
+      const menteeName = `${mentee?.firstName} ${mentee?.lastName}`;
+
+      const sessionInput: CreateIntroductionSessionInput = {
         menteeID: menteeId,
         mentorID: mentorId,
+        mentorName: `${user?.firstName} ${user?.lastName}`,
+        MenteeName: menteeName,
         duration: data.duration || "30", // default 30 minutes
         sessionDate: data.sessionDate,
         meetingLink: data.meetingLink,
@@ -134,7 +138,6 @@ export function CreateIntroductionSessionModal({
             },
           },
         });
-       
       }
 
       sendNotification({

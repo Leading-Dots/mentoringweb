@@ -96,6 +96,8 @@ export const getIntroductionSession = /* GraphQL */ `query GetIntroductionSessio
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -124,6 +126,8 @@ export const listIntroductionSessions = /* GraphQL */ `query ListIntroductionSes
       sessionStatus
       menteeID
       mentorID
+      mentorName
+      MenteeName
       createdAt
       updatedAt
       __typename
@@ -159,6 +163,8 @@ export const introductionSessionsByMenteeID = /* GraphQL */ `query IntroductionS
       sessionStatus
       menteeID
       mentorID
+      mentorName
+      MenteeName
       createdAt
       updatedAt
       __typename
@@ -194,6 +200,8 @@ export const introductionSessionsByMentorID = /* GraphQL */ `query IntroductionS
       sessionStatus
       menteeID
       mentorID
+      mentorName
+      MenteeName
       createdAt
       updatedAt
       __typename
@@ -1178,6 +1186,7 @@ export const getMentor = /* GraphQL */ `query GetMentor($id: ID!) {
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -1207,6 +1216,7 @@ export const listMentors = /* GraphQL */ `query ListMentors(
       linkedInUrl
       websiteUrl
       availability
+      name
       createdAt
       updatedAt
       __typename
@@ -1265,6 +1275,7 @@ export const getMentee = /* GraphQL */ `query GetMentee($id: ID!) {
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -1294,6 +1305,7 @@ export const listMentees = /* GraphQL */ `query ListMentees(
       websiteUrl
       resumeUrl
       topics
+      name
       createdAt
       updatedAt
       __typename

@@ -207,6 +207,7 @@ export default function MenteeUpdateForm(props) {
     websiteUrl: "",
     resumeUrl: "",
     topics: [],
+    name: "",
   };
   const [firstName, setFirstName] = React.useState(initialValues.firstName);
   const [lastName, setLastName] = React.useState(initialValues.lastName);
@@ -232,6 +233,7 @@ export default function MenteeUpdateForm(props) {
   const [websiteUrl, setWebsiteUrl] = React.useState(initialValues.websiteUrl);
   const [resumeUrl, setResumeUrl] = React.useState(initialValues.resumeUrl);
   const [topics, setTopics] = React.useState(initialValues.topics);
+  const [name, setName] = React.useState(initialValues.name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = menteeRecord
@@ -254,6 +256,7 @@ export default function MenteeUpdateForm(props) {
     setResumeUrl(cleanValues.resumeUrl);
     setTopics(cleanValues.topics ?? []);
     setCurrentTopicsValue("");
+    setName(cleanValues.name);
     setErrors({});
   };
   const [menteeRecord, setMenteeRecord] = React.useState(menteeModelProp);
@@ -292,6 +295,7 @@ export default function MenteeUpdateForm(props) {
     websiteUrl: [{ type: "URL" }],
     resumeUrl: [],
     topics: [],
+    name: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -334,6 +338,7 @@ export default function MenteeUpdateForm(props) {
           websiteUrl: websiteUrl ?? null,
           resumeUrl: resumeUrl ?? null,
           topics: topics ?? null,
+          name: name ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -409,6 +414,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.firstName ?? value;
@@ -447,6 +453,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.lastName ?? value;
@@ -485,6 +492,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.email ?? value;
@@ -523,6 +531,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.bio ?? value;
@@ -561,6 +570,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.profilePictureUrl ?? value;
@@ -601,6 +611,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.firebaseToken ?? value;
@@ -635,6 +646,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             values = result?.goals ?? values;
@@ -702,6 +714,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.preferredMentorExperience ?? value;
@@ -745,6 +758,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.profileStatus ?? value;
@@ -804,6 +818,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.menteeId ?? value;
@@ -842,6 +857,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.summary ?? value;
@@ -880,6 +896,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.linkedInUrl ?? value;
@@ -918,6 +935,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl: value,
               resumeUrl,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.websiteUrl ?? value;
@@ -956,6 +974,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl: value,
               topics,
+              name,
             };
             const result = onChange(modelFields);
             value = result?.resumeUrl ?? value;
@@ -990,6 +1009,7 @@ export default function MenteeUpdateForm(props) {
               websiteUrl,
               resumeUrl,
               topics: values,
+              name,
             };
             const result = onChange(modelFields);
             values = result?.topics ?? values;
@@ -1029,6 +1049,45 @@ export default function MenteeUpdateForm(props) {
           {...getOverrideProps(overrides, "topics")}
         ></TextField>
       </ArrayField>
+      <TextField
+        label="Name"
+        isRequired={false}
+        isReadOnly={false}
+        value={name}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              firstName,
+              lastName,
+              email,
+              bio,
+              profilePictureUrl,
+              firebaseToken,
+              goals,
+              preferredMentorExperience,
+              profileStatus,
+              menteeId,
+              summary,
+              linkedInUrl,
+              websiteUrl,
+              resumeUrl,
+              topics,
+              name: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.name ?? value;
+          }
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
+          }
+          setName(value);
+        }}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

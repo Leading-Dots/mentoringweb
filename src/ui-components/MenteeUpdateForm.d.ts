@@ -38,6 +38,7 @@ export declare type MenteeUpdateFormInputValues = {
     websiteUrl?: string;
     resumeUrl?: string;
     topics?: string[];
+    name?: string;
 };
 export declare type MenteeUpdateFormValidationValues = {
     firstName?: ValidationFunction<string>;
@@ -55,6 +56,7 @@ export declare type MenteeUpdateFormValidationValues = {
     websiteUrl?: ValidationFunction<string>;
     resumeUrl?: ValidationFunction<string>;
     topics?: ValidationFunction<string>;
+    name?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MenteeUpdateFormOverridesProps = {
@@ -74,6 +76,7 @@ export declare type MenteeUpdateFormOverridesProps = {
     websiteUrl?: PrimitiveOverrideProps<TextFieldProps>;
     resumeUrl?: PrimitiveOverrideProps<TextFieldProps>;
     topics?: PrimitiveOverrideProps<TextFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MenteeUpdateFormProps = React.PropsWithChildren<{
     overrides?: MenteeUpdateFormOverridesProps | undefined | null;

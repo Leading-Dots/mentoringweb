@@ -10,4 +10,6 @@ export { default as MenteeCreateForm } from "./MenteeCreateForm";
 export { default as MenteeUpdateForm } from "./MenteeUpdateForm";
 export { default as MentorCreateForm } from "./MentorCreateForm";
 export { default as MentorUpdateForm } from "./MentorUpdateForm";
+export { default as NotificationCreateForm } from "./NotificationCreateForm";
+export { default as NotificationUpdateForm } from "./NotificationUpdateForm";
 export { default as studioTheme } from "./studioTheme";

@@ -31,6 +31,16 @@ export const ProfileActions = ({
   isGuest,
   onChatClick,
 }: ProfileActionsProps) => {
+
+
+
+  if(!currentMentorship) {
+    return (
+      <p>
+        Loading
+      </p>
+    )
+  }
   const [introductionMeeting, setIntroductionMeeting] =
     useState<IntroductionSession | null>(null);
 
@@ -44,7 +54,7 @@ export const ProfileActions = ({
             Login to Connect
           </Button>
         </Link>
-      </div>
+      </div> 
     );
   }
 
@@ -107,6 +117,7 @@ export const ProfileActions = ({
             Loading...
           </Button>
         ) : (
+          introductionMeeting && 
           <ViewIntroductionSession introSession={introductionMeeting}>
             <Button variant="outline" className="">
               <Calendar className="w-4 h-4" />

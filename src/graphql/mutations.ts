@@ -84,6 +84,8 @@ export const createIntroductionSession = /* GraphQL */ `mutation CreateIntroduct
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -106,6 +108,8 @@ export const updateIntroductionSession = /* GraphQL */ `mutation UpdateIntroduct
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -128,6 +132,8 @@ export const deleteIntroductionSession = /* GraphQL */ `mutation DeleteIntroduct
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -805,6 +811,7 @@ export const createMentor = /* GraphQL */ `mutation CreateMentor(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -867,6 +874,7 @@ export const updateMentor = /* GraphQL */ `mutation UpdateMentor(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -929,6 +937,7 @@ export const deleteMentor = /* GraphQL */ `mutation DeleteMentor(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -987,6 +996,7 @@ export const createMentee = /* GraphQL */ `mutation CreateMentee(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -1045,6 +1055,7 @@ export const updateMentee = /* GraphQL */ `mutation UpdateMentee(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -1103,6 +1114,7 @@ export const deleteMentee = /* GraphQL */ `mutation DeleteMentee(
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename

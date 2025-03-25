@@ -80,6 +80,8 @@ export const onCreateIntroductionSession = /* GraphQL */ `subscription OnCreateI
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -101,6 +103,8 @@ export const onUpdateIntroductionSession = /* GraphQL */ `subscription OnUpdateI
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -122,6 +126,8 @@ export const onDeleteIntroductionSession = /* GraphQL */ `subscription OnDeleteI
     sessionStatus
     menteeID
     mentorID
+    mentorName
+    MenteeName
     createdAt
     updatedAt
     __typename
@@ -739,6 +745,7 @@ export const onCreateMentor = /* GraphQL */ `subscription OnCreateMentor($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -798,6 +805,7 @@ export const onUpdateMentor = /* GraphQL */ `subscription OnUpdateMentor($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -857,6 +865,7 @@ export const onDeleteMentor = /* GraphQL */ `subscription OnDeleteMentor($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -912,6 +921,7 @@ export const onCreateMentee = /* GraphQL */ `subscription OnCreateMentee($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -967,6 +977,7 @@ export const onUpdateMentee = /* GraphQL */ `subscription OnUpdateMentee($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
@@ -1022,6 +1033,7 @@ export const onDeleteMentee = /* GraphQL */ `subscription OnDeleteMentee($filter
       nextToken
       __typename
     }
+    name
     createdAt
     updatedAt
     __typename
