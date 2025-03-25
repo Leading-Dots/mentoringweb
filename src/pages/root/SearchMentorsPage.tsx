@@ -29,10 +29,7 @@ const SearchPage = () => {
             profileStatus: {
               eq: ProfileStatus.PUBLISHED,
             },
-            firstName: {
-              contains: nameFilter,
-            },
-            lastName: {
+            name : {
               contains: nameFilter,
             },
             yearsOfExperience: {

@@ -90,7 +90,7 @@ export const ViewIntroductionSession = ({
           recipientRole: "mentee",
         });
 
-        router("/mentorships");
+        router("/mentorships", { replace: true });
       }
     } catch (error) {
       console.error("Error accepting mentorship:", error);

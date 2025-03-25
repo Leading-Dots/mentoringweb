@@ -59,7 +59,7 @@ const MentorshipActionsForMentor = ({
   useEffect(() => {
     fetchIntroductionSession();
   }, []);
-  
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -82,14 +82,13 @@ const MentorshipActionsForMentor = ({
             </DropdownMenuItem>
           </CreateSessionRequestModal>
         )}
-                {mentorshipStatus === MentorshipStatus.INTRODUCTION && (
-
-        <ViewIntroductionSession introSession={introductionMeeting}>
-          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-            View Introduction Meeting
-          </DropdownMenuItem>
-        </ViewIntroductionSession>
-                )}
+        {mentorshipStatus === MentorshipStatus.INTRODUCTION && (
+          <ViewIntroductionSession introSession={introductionMeeting}>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              View Introduction Meeting
+            </DropdownMenuItem>
+          </ViewIntroductionSession>
+        )}
 
         <DropdownMenuSeparator />
         <DropdownMenuItem

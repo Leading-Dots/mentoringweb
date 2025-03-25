@@ -31,10 +31,7 @@ const SearchMenteePage = () => {
             profileStatus: {
               eq: ProfileStatus.PUBLISHED,
             },
-            firstName: {
-              contains: nameFilter,
-            },
-            lastName: {
+            name : {
               contains: nameFilter,
             },
             preferredMentorExperience: {
