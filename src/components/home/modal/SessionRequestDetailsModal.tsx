@@ -111,6 +111,9 @@ const SessionRequestDetailsModal = ({
           variables: {
             input: {
               sessionTitle: sessionRequest.sessionTitle,
+              sessionDescription: sessionRequest.sessionDescription,
+              mentorServicesID: sessionRequest.mentorServicesID,
+              // mentorshipID: sessionRequest.mentorshipID || "",
               mentorID: sessionRequest.mentorID,
               menteeID: sessionRequest.menteeID,
               sessionRequestID: sessionRequest.id,
