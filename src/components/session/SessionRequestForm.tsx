@@ -18,6 +18,8 @@ import { useEffect, useState } from "react";
 import { Switch } from "../ui/switch";
 import SessionServiceSelector from "./SessionServiceSelector";
 import { MentorServices } from "@/API";
+import AddSessionServicesModal from "../preferences/AddSessionServicesModal";
+import { Button } from "../ui/button";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
@@ -67,6 +69,7 @@ export function SessionRequestForm({
 
   const handleSubmit = (data: FormSchema) => {
     // Transform the data to match the schema
+    
     const transformedData = {
       ...data,
       mentorServiceId : selectedServiceId,
@@ -98,119 +101,60 @@ export function SessionRequestForm({
 
   return (
     <Form {...form}>
-      <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-4"
-        id="session-request-form"
-      >
-        <FormField
-          control={form.control}
-          name="title"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Title</FormLabel>
-              <FormControl>
-                <Input readOnly placeholder="Enter title" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Description</FormLabel>
-              <FormControl>
-                <Input readOnly placeholder="Enter description" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+    <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
+    {isMentor && (
+      <div className="mb-4">
+       <AddSessionServicesModal onConfirm={() => {}}>
+        <Button variant="ghost" size="sm">
+          Add New Service
+        </Button>
+       </AddSessionServicesModal>
+      </div>
+    )}
+    <form
+      onSubmit={form.handleSubmit(handleSubmit)}
+      className="space-y-4"
+      id="session-request-form"
+    >
+      {/* Hidden fields for storing auto-filled data */}
+      <input type="hidden" {...form.register("title")} />
+      <input type="hidden" {...form.register("description")} />
+      <input type="hidden" {...form.register("proposedCost")} />
+      <input type="hidden" {...form.register("duration")} />
 
-        <div className="flex items-center gap-2">
-          <Switch
-           disabled
-            className="data-[state=checked]:bg-green-500"
-            checked={isFree}
-            onCheckedChange={setIsFree}
-          />
-          <span className="text-sm font-medium">Free Session</span>
-        </div>
-
-        {!isFree && (
-          <FormField
-            control={form.control}
-            name="proposedCost"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Proposed Cost ($)</FormLabel>
-                <FormControl>
-                  <Input readOnly type="number" placeholder="Enter amount" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+      <FormField
+        control={form.control}
+        name="proposedSessionTime"
+        render={({ field }) => (
+          <FormItem className="flex flex-col">
+            <FormLabel>Session Date & Time</FormLabel>
+            <DateTimePicker date={field.value} onChange={field.onChange} />
+            <FormMessage />
+          </FormItem>
         )}
+      />
 
-        <FormField
-          control={form.control}
-          name="duration"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Duration (Months)</FormLabel>
-              <FormControl>
-                <Input
-                  readOnly
-                  type="number"
-                  placeholder="60"
-                  {...field}
-                  onChange={(e) => field.onChange(parseInt(e.target.value))}
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="proposedSessionTime"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Session Date & Time</FormLabel>
-              <DateTimePicker date={field.value} onChange={field.onChange} />
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="note"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{isMentor ? "Mentor Note" : "Mentee Note"}</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder={
-                    isMentor
-                      ? "Write a note about the session details..."
-                      : "Write a note about what you'd like to discuss..."
-                  }
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </form>
-    </Form>
+      <FormField
+        control={form.control}
+        name="note"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Send a note</FormLabel>
+            <FormControl>
+              <Textarea
+                placeholder={
+                  isMentor
+                    ? "Write a note about the session details..."
+                    : "Write a note about what you'd like to discuss..."
+                }
+                {...field}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </form>
+  </Form>
   );
 }

@@ -407,8 +407,7 @@ export const onCreateSessionRequest = /* GraphQL */ `subscription OnCreateSessio
   onCreateSessionRequest(filter: $filter) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
@@ -435,8 +434,7 @@ export const onUpdateSessionRequest = /* GraphQL */ `subscription OnUpdateSessio
   onUpdateSessionRequest(filter: $filter) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
@@ -463,8 +461,7 @@ export const onDeleteSessionRequest = /* GraphQL */ `subscription OnDeleteSessio
   onDeleteSessionRequest(filter: $filter) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID

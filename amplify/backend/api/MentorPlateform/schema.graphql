@@ -78,8 +78,7 @@ enum SessionRequestStatus {
 type SessionRequest @model @auth(rules: [{allow: public}]) {
   id: ID!
   proposedCost: String
-  mentorNote: String
-  menteeNote: String
+  note: String
   duration: Int
   proposedSessionTime: AWSDateTime
   menteeID: ID! @index(name: "byMentee")

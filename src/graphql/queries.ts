@@ -651,8 +651,7 @@ export const getSessionRequest = /* GraphQL */ `query GetSessionRequest($id: ID!
   getSessionRequest(id: $id) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
@@ -682,8 +681,7 @@ export const listSessionRequests = /* GraphQL */ `query ListSessionRequests(
     items {
       id
       proposedCost
-      mentorNote
-      menteeNote
+      note
       duration
       proposedSessionTime
       menteeID
@@ -724,8 +722,7 @@ export const sessionRequestsByMenteeID = /* GraphQL */ `query SessionRequestsByM
     items {
       id
       proposedCost
-      mentorNote
-      menteeNote
+      note
       duration
       proposedSessionTime
       menteeID
@@ -766,8 +763,7 @@ export const sessionRequestsByMentorID = /* GraphQL */ `query SessionRequestsByM
     items {
       id
       proposedCost
-      mentorNote
-      menteeNote
+      note
       duration
       proposedSessionTime
       menteeID

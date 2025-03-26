@@ -447,8 +447,7 @@ export const createSessionRequest = /* GraphQL */ `mutation CreateSessionRequest
   createSessionRequest(input: $input, condition: $condition) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
@@ -476,8 +475,7 @@ export const updateSessionRequest = /* GraphQL */ `mutation UpdateSessionRequest
   updateSessionRequest(input: $input, condition: $condition) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
@@ -505,8 +503,7 @@ export const deleteSessionRequest = /* GraphQL */ `mutation DeleteSessionRequest
   deleteSessionRequest(input: $input, condition: $condition) {
     id
     proposedCost
-    mentorNote
-    menteeNote
+    note
     duration
     proposedSessionTime
     menteeID
