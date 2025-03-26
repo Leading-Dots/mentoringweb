@@ -280,10 +280,10 @@ export const intiateChat = async ({
 
 export const getSessionReviews = async (sessionID: string) => {
   try {
+    console.log("fetching reviews", sessionID);
     const { data } = await client.graphql({
       query: listReviews,
       variables: {
-        limit: 2,
         filter: {
           sessionID: {
             eq: sessionID,
@@ -292,6 +292,7 @@ export const getSessionReviews = async (sessionID: string) => {
       },
     });
     if (data.listReviews.items.length > 0) {
+      console.log("reviews", data.listReviews.items);
       return data.listReviews.items;
     }
     return null;

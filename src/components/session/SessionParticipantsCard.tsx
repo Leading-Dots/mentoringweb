@@ -60,14 +60,15 @@ const SessionParticipantsCard = ({
   const fetchReviews = async () => {
     try {
       setLoading(true);
-      const reviewData: Review[] = await getSessionReviews(session.id!!);
+      const reviewData = await getSessionReviews(session.id!!);
+      console.log("reviewData", reviewData);
       if (reviewData) {
         const reviewByMentor = reviewData.find(
           (review) => review.reviewerRole === "mentor"
         );
         const reviewByMentee = reviewData.find(
           (review) => review.reviewerRole === "mentee"
-        );
+        ); 
 
         console.log("reviewByMentor", reviewByMentor);
         console.log("reviewByMentee", reviewByMentee);

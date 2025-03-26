@@ -21,6 +21,7 @@ import { MentorServices } from "@/API";
 import AddSessionServicesModal from "../preferences/AddSessionServicesModal";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
+import { showToast } from "@/lib/toast";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
@@ -63,9 +64,9 @@ export function SessionRequestForm({
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema(isMentor)),
     defaultValues: {
-      title: "",
-      description: "",
-      proposedCost: "",
+      title: "notitle",
+      description: "nodescription",
+      proposedCost: "novalue",
       note: "",
       duration: 1,
       proposedSessionTime: new Date(),
@@ -75,6 +76,11 @@ export function SessionRequestForm({
   const handleSubmit = (data: FormSchema) => {
     // Transform the data to match the schema
 
+   
+    if (!selectedServiceId ) {
+      showToast("Please select a service", "error");
+      return
+    }
     const transformedData = {
       ...data,
       mentorServiceId: selectedServiceId,
@@ -123,10 +129,10 @@ export function SessionRequestForm({
         id="session-request-form"
       >
         {/* Hidden fields for storing auto-filled data */}
-        <input type="hidden" {...form.register("title")} />
-        <input type="hidden" {...form.register("description")} />
-        <input type="hidden" {...form.register("proposedCost")} />
-        <input type="hidden" {...form.register("duration")} />
+        <input defaultValue={"notitle"}  type="hidden" {...form.register("title")} />
+        <input defaultValue={"nodescription"} type="hidden" {...form.register("description")} />
+        <input defaultValue={"novalue"} type="hidden" {...form.register("proposedCost")} />
+        <input defaultValue={"novalue"} type="hidden" {...form.register("duration")} />
 
         <FormField
           control={form.control}
