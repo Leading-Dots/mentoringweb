@@ -20,11 +20,14 @@ import SessionServiceSelector from "./SessionServiceSelector";
 import { MentorServices } from "@/API";
 import AddSessionServicesModal from "../preferences/AddSessionServicesModal";
 import { Button } from "../ui/button";
+import { PlusCircleIcon } from "lucide-react";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
     title: z.string().min(1, "Title is required"),
-    description : z.string().min(10, "Description must be at least 10 characters"),
+    description: z
+      .string()
+      .min(10, "Description must be at least 10 characters"),
     proposedCost: z.string().min(1, "Proposed cost is required"),
     note: z
       .string()
@@ -51,7 +54,9 @@ export function SessionRequestForm({
   isMentor: boolean;
 }) {
   const [isFree, setIsFree] = useState(false);
-  const [selectedServiceId, setSelectedServiceId] = useState<string | null>(null);
+  const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
+    null
+  );
 
   console.log(isMentor, mentorId);
 
@@ -69,11 +74,10 @@ export function SessionRequestForm({
 
   const handleSubmit = (data: FormSchema) => {
     // Transform the data to match the schema
-    
+
     const transformedData = {
       ...data,
-      mentorServiceId : selectedServiceId,
-   
+      mentorServiceId: selectedServiceId,
     };
     onSubmit(transformedData);
   };
@@ -83,78 +87,80 @@ export function SessionRequestForm({
     }
   }, [isFree, form]);
 
-
-  const autoFillFormData = (service : MentorServices) => {
+  const autoFillFormData = (service: MentorServices) => {
     setSelectedServiceId(service.id);
     form.setValue("title", service.title);
     form.setValue("description", service.description);
     form.setValue("proposedCost", service.cost);
     form.setValue("duration", Number(service.duration));
-    if(service.isPaid) {
+    if (service.isPaid) {
       setIsFree(false);
       form.setValue("proposedCost", service.cost);
-      
     } else {
       setIsFree(true);
     }
-   }
+  };
 
   return (
     <Form {...form}>
-    <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
-    {isMentor && (
-      <div className="mb-4">
-       <AddSessionServicesModal onConfirm={() => {}}>
-        <Button variant="ghost" size="sm">
-          Add New Service
-        </Button>
-       </AddSessionServicesModal>
-      </div>
-    )}
-    <form
-      onSubmit={form.handleSubmit(handleSubmit)}
-      className="space-y-4"
-      id="session-request-form"
-    >
-      {/* Hidden fields for storing auto-filled data */}
-      <input type="hidden" {...form.register("title")} />
-      <input type="hidden" {...form.register("description")} />
-      <input type="hidden" {...form.register("proposedCost")} />
-      <input type="hidden" {...form.register("duration")} />
+      <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
+      {isMentor && (  
+        <div className="mb-4">
+          <AddSessionServicesModal onConfirm={() => {
+            //reload Session Service Selector
+            form.reset();
+          }}>
+            <Button variant="ghost" size="lg">
+              <PlusCircleIcon className="h-6 w-6" />
+              Add New Service
+            </Button>
+          </AddSessionServicesModal>
+        </div>
+      )}
+      <form
+        onSubmit={form.handleSubmit(handleSubmit)}
+        className="space-y-4"
+        id="session-request-form"
+      >
+        {/* Hidden fields for storing auto-filled data */}
+        <input type="hidden" {...form.register("title")} />
+        <input type="hidden" {...form.register("description")} />
+        <input type="hidden" {...form.register("proposedCost")} />
+        <input type="hidden" {...form.register("duration")} />
 
-      <FormField
-        control={form.control}
-        name="proposedSessionTime"
-        render={({ field }) => (
-          <FormItem className="flex flex-col">
-            <FormLabel>Session Date & Time</FormLabel>
-            <DateTimePicker date={field.value} onChange={field.onChange} />
-            <FormMessage />
-          </FormItem>
-        )}
-      />
+        <FormField
+          control={form.control}
+          name="proposedSessionTime"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Session Date & Time</FormLabel>
+              <DateTimePicker date={field.value} onChange={field.onChange} />
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-      <FormField
-        control={form.control}
-        name="note"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabel>Send a note</FormLabel>
-            <FormControl>
-              <Textarea
-                placeholder={
-                  isMentor
-                    ? "Write a note about the session details..."
-                    : "Write a note about what you'd like to discuss..."
-                }
-                {...field}
-              />
-            </FormControl>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-    </form>
-  </Form>
+        <FormField
+          control={form.control}
+          name="note"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Send a note</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder={
+                    isMentor
+                      ? "Write a note about the session details..."
+                      : "Write a note about what you'd like to discuss..."
+                  }
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </form>
+    </Form>
   );
 }

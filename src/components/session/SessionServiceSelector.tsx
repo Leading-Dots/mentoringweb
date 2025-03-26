@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "../ui/card";
 import { DollarSign } from "lucide-react";
+import ListLoader from "../common/ListLoader";
 
 interface SessionServiceSelectorProps {
   mentorId: string;
@@ -57,6 +58,11 @@ const SessionServiceSelector = ({
     fetchServiceByMentor();
   }, []);
 
+
+  if(loading) {
+    return <ListLoader />;
+  }
+
   return (
     <div>
       {services.map((service) => (
@@ -64,7 +70,7 @@ const SessionServiceSelector = ({
           key={service.id}
           className={`mb-4 max-w-sm cursor-pointer transition-all hover:shadow-md active:scale-98 ${
             currentService?.id === service.id
-              ? "border-2 border-primary bg-primary/5"
+              ? "border-2 border-primary bg-primary/5 hover:border-2 hover:border-primary"
               : ""
           }`}
           onClick={() => handleSelect(service)}
@@ -76,23 +82,23 @@ const SessionServiceSelector = ({
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="flex items-center gap-1">
-              <span className="text-xs font-medium">
+            <div className="flex items-center justify-between">
+              <span className="flex items-center text-sm font-medium">
                 {service.isPaid ? (
-                  <div className="flex items-center ">
-                    <DollarSign size={16} />
-                    {service.cost}
+                  <div className="flex items-center gap-1">
+                    <span>₹{service.cost}</span>
                   </div>
                 ) : (
                   <span className="text-green-500">Free</span>
                 )}
               </span>
+              <div className="text-sm text-muted-foreground">
+                {service.duration === "1"
+                  ? "1 month"
+                  : `${service.duration} months`}
+              </div>
             </div>
           </CardContent>
-          <CardFooter>
-            {service.duration === "1" ? "1 month" : `${service.duration} months`}
-          </CardFooter>
-
         </Card>
       ))}
     </div>

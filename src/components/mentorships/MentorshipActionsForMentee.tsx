@@ -61,13 +61,13 @@ const MentorshipActionsForMentee = ({
   }, []);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent >
         <DropdownMenuItem
           onClick={() => {
             router(`/mentee/${mentee.menteeId}`);

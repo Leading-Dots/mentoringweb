@@ -31,6 +31,7 @@ const MentorshipActionsForMentor = ({
   const [introductionMeeting, setIntroductionMeeting] =
     React.useState<IntroductionSession | null>(null);
   const [loading, setLoading] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
 
   const fetchIntroductionSession = async () => {
     try {
@@ -61,30 +62,40 @@ const MentorshipActionsForMentor = ({
   }, []);
 
   return (
-    <DropdownMenu>
+    <DropdownMenu modal={false} open={open} onOpenChange={setOpen}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
           <MoreVertical className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent  >
         <DropdownMenuItem
-          onClick={() => {
+          onSelect={() => {
             router(`/mentor/${mentor.mentorId}`);
+            setOpen(false);
           }}
         >
           View Profile
         </DropdownMenuItem>
         {mentorshipStatus === MentorshipStatus.ACCEPTED && (
           <CreateSessionRequestModal otherUserId={mentor.mentorId}>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem
+              onSelect={(e) => {
+                e.preventDefault();
+              }}
+            >
               Schedule Meeting
             </DropdownMenuItem>
           </CreateSessionRequestModal>
         )}
         {mentorshipStatus === MentorshipStatus.INTRODUCTION && (
           <ViewIntroductionSession introSession={introductionMeeting}>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+            <DropdownMenuItem
+              onSelect={(e) => {
+                e.preventDefault();
+                setOpen(false);
+              }}
+            >
               View Introduction Meeting
             </DropdownMenuItem>
           </ViewIntroductionSession>
@@ -93,6 +104,7 @@ const MentorshipActionsForMentor = ({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
+            setOpen(false);
             showToast("Feature coming soon", "info");
           }}
           className="text-red-600"

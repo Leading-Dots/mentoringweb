@@ -138,7 +138,7 @@ const AddSessionServicesModal = ({
   // }, []);
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog modal open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         {loading ? (
