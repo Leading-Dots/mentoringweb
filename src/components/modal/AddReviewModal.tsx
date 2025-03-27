@@ -77,6 +77,8 @@ const AddReviewModal = ({
 
     if(session.status !== "COMPLETED") {
       showToast("You can only review completed sessions", "error");
+      setOpen(false);
+      form.reset();
       return;
     }
 

@@ -68,7 +68,7 @@ const SessionParticipantsCard = ({
         );
         const reviewByMentee = reviewData.find(
           (review) => review.reviewerRole === "mentee"
-        ); 
+        );
 
         console.log("reviewByMentor", reviewByMentor);
         console.log("reviewByMentee", reviewByMentee);
@@ -124,13 +124,14 @@ const SessionParticipantsCard = ({
                   </div>
                 </div>
               </Link>
-            
+
               <div className="flex items-center gap-2">
                 {userRole === "mentee" && (
                   <>
                     <Button
                       variant="ghost"
                       size="sm"
+                      disabled={session.status !== "COMPLETED"}
                       onClick={handleReviewClick}
                     >
                       {menteeReview ? "See Review" : "Leave a Review"}
@@ -165,7 +166,12 @@ const SessionParticipantsCard = ({
               </Link>
               <div className="flex items-center gap-2">
                 {userRole === "mentor" && (
-                  <Button variant="ghost" size="sm" onClick={handleReviewClick}>
+                  <Button
+                    disabled={session.status !== "COMPLETED"}
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleReviewClick}
+                  >
                     {mentorReview ? "See Review" : "Leave a Review"}
                   </Button>
                 )}

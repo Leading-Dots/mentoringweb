@@ -11,9 +11,10 @@ import { getChatRoom, messagesByChatroomID } from "@/graphql/queries";
 import { ChatRoom, Messages } from "@/API";
 import { useAuth } from "@/hooks/useAuth";
 import { createMessages } from "@/graphql/mutations";
-import { getInitials } from "@/lib/utils";
+import { extractChatName, getInitials } from "@/lib/utils";
 import { onCreateMessages } from "@/graphql/subscriptions";
 import { uploadCommentImage } from "@/lib/storage";
+import NotificationLoaderSkeleton from "@/components/notification/NotificationLoaderSkeleton";
 
 const ChatPage = () => {
   const params = useParams();
@@ -28,6 +29,7 @@ const ChatPage = () => {
   const [isUploading, setIsUploading] = useState(false);
 
   const currentUserId = user?.role === "mentor" ? user.mentorId : user.menteeId;
+  const [loading, setLoading] = useState(false);
 
   if (!params.id) {
     <Navigate to="/inbox" />;
@@ -49,6 +51,7 @@ const ChatPage = () => {
 
   const fetchChatData = async () => {
     try {
+      setLoading(true);
       const { data } = await client.graphql({
         query: getChatRoom,
         variables: {
@@ -61,20 +64,22 @@ const ChatPage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() && !selectedFile) return;
-  
+
     try {
       setIsUploading(true);
       let url = "";
       if (selectedFile) {
         url = await uploadCommentImage(selectedFile, params.id!!);
       }
-  
+
       await client.graphql({
         query: createMessages,
         variables: {
@@ -89,7 +94,7 @@ const ChatPage = () => {
           },
         },
       });
-  
+
       setNewMessage("");
       setSelectedFile(null);
       setSelectedFilePreview(null);
@@ -103,6 +108,7 @@ const ChatPage = () => {
 
   const fetchMessages = async () => {
     try {
+      setLoading(true);
       const { data } = await client.graphql({
         query: messagesByChatroomID,
         variables: {
@@ -116,6 +122,8 @@ const ChatPage = () => {
       }
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -133,8 +141,8 @@ const ChatPage = () => {
         variables: {
           filter: {
             chatroomID: { eq: params.id },
-          }
-        }
+          },
+        },
       })
       .subscribe({
         next: ({ data }) => {
@@ -158,8 +166,11 @@ const ChatPage = () => {
     (a, b) => new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
   );
 
+  if (loading) {
+    return <NotificationLoaderSkeleton />;
+  }
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl p-2 mx-auto">
+    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl p-2 ">
       {/* Chat Header */}
       <Card className="p-2 mb-2 flex items-center space-x-4">
         <div className="flex items-center space-x-4">
@@ -168,7 +179,9 @@ const ChatPage = () => {
             <AvatarFallback>{getInitials(chatroom?.name)}</AvatarFallback>
           </Avatar>
           <div>
-            <h2 className="text-lg font-semibold">{chatroom?.name}</h2>
+            <h2 className="text-lg font-semibold">
+              {chatroom?.name && extractChatName(chatroom?.name!!, user.role)}
+            </h2>
             <p className="text-sm text-muted-foreground">Online</p>
           </div>
         </div>
@@ -195,9 +208,9 @@ const ChatPage = () => {
               >
                 {message.imageUrl && (
                   <img
-                  src={message.imageUrl}
-                  alt="Attached image"
-                  className="max-w-[200px] rounded-lg mb-2"
+                    src={message.imageUrl}
+                    alt="Attached image"
+                    className="max-w-[200px] rounded-lg mb-2"
                   />
                 )}
                 <p>{message.content}</p>
