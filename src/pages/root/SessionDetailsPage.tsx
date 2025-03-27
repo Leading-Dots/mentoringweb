@@ -319,7 +319,7 @@ const SessionDetailsPage = () => {
                     </AddMeetingLinkModal>
                   )}
 
-                  <DropdownMenu>
+                  <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                       <Button variant="outline" className="w-full col-span-1">
                         <span className="flex items-center">
