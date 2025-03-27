@@ -59,7 +59,7 @@ const MentorProfilePage = () => {
 
 
   //guard the page from other mentors
-  if (user?.role === "mentor") {
+  if (user?.role === "mentor" && user?.mentorId !== params.id) {
     router("/home");
   }
 

@@ -53,7 +53,7 @@ const MenteeProfilePage = () => {
   const isGuest = !user;
 
 
-  if (user?.role === "mentee") {
+  if (user?.role === "mentee" && user?.menteeId !== params.id) {
     router("/home");
   }
 
