@@ -53,6 +53,16 @@ const MentorProfilePage = () => {
     user && (user?.menteeId === params.id || user?.mentorId === params.id);
   const isGuest = !user;
 
+
+
+
+
+
+  //guard the page from other mentors
+  if (user?.role === "mentor") {
+    router("/home");
+  }
+
   const fetchReviews = async (userId: string) => {
     try {
       const data = await getUserReviews(userId);

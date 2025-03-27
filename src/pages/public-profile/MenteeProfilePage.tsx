@@ -52,6 +52,11 @@ const MenteeProfilePage = () => {
   console.log("isCurrentUser", isCurrentUser);
   const isGuest = !user;
 
+
+  if (user?.role === "mentee") {
+    router("/home");
+  }
+
   const fetchReviews = async (userId: string) => {
     try {
       const data = await getUserReviews(userId);
