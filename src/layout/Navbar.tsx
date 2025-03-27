@@ -198,12 +198,13 @@ const Navbar = () => {
     <>
       {/* Desktop Navigation */}
       <div className="hidden md:flex h-screen w-64 flex-col border-r bg-background p-6 gap-6">
-        <div className="flex flex-col items-center my-2">
-          <Link to="/home" className="flex flex-col items-center gap-2">
-            <School2 className="h-10 w-10 text-primary" />
-            <span className="font-semibold text-xl text-primary">
-              Mentor Platform
-            </span>
+        <div className="flex flex-col items-center">
+          <Link to="/home" className="">
+            <img
+              src="/logo.png"
+              alt="Mentor Platform"
+              className="h-20 w-80 object-cover"
+            />
           </Link>
         </div>
 
@@ -231,7 +232,11 @@ const Navbar = () => {
         <SheetContent side="left" className="w-64 p-6">
           <div className="flex flex-col items-center">
             <Link to="/home">
-              <School2 className="h-8 w-8 text-primary" />
+            <img
+              src="/logo.png"
+              alt="Mentor Platform"
+              className="h-20 w-80 object-cover "
+            />
             </Link>
           </div>
           <NavContent />

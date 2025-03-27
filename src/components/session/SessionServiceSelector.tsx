@@ -11,8 +11,11 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { DollarSign } from "lucide-react";
+import { DollarSign, PlusCircleIcon } from "lucide-react";
 import ListLoader from "../common/ListLoader";
+import { useAuth } from "@/hooks/useAuth";
+import AddSessionServicesModal from "../preferences/AddSessionServicesModal";
+import { Button } from "../ui/button";
 
 interface SessionServiceSelectorProps {
   mentorId: string;
@@ -27,6 +30,7 @@ const SessionServiceSelector = ({
     React.useState<MentorServices | null>(null);
   const [services, setServices] = React.useState<MentorServices[]>([]);
   const [loading, setLoading] = React.useState(false);
+  const { user } = useAuth();
 
   const fetchServiceByMentor = async () => {
     try {
@@ -58,8 +62,7 @@ const SessionServiceSelector = ({
     fetchServiceByMentor();
   }, []);
 
-
-  if(loading) {
+  if (loading) {
     return <ListLoader />;
   }
 
@@ -99,8 +102,21 @@ const SessionServiceSelector = ({
               </div>
             </div>
           </CardContent>
+       
         </Card>
       ))}
+
+
+      <div className="flex">
+      {user?.role === "mentor" && (
+              <AddSessionServicesModal onConfirm={() => fetchServiceByMentor()}>
+                <Button variant="ghost" size="lg">
+                  <PlusCircleIcon className="h-6 w-6" />
+                  Add New Service
+                </Button>
+              </AddSessionServicesModal>
+            )}
+      </div>
     </div>
   );
 };

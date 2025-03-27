@@ -110,19 +110,7 @@ export function SessionRequestForm({
   return (
     <Form {...form}>
       <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
-      {isMentor && (  
-        <div className="mb-4">
-          <AddSessionServicesModal onConfirm={() => {
-            //reload Session Service Selector
-            form.reset();
-          }}>
-            <Button variant="ghost" size="lg">
-              <PlusCircleIcon className="h-6 w-6" />
-              Add New Service
-            </Button>
-          </AddSessionServicesModal>
-        </div>
-      )}
+     
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-4"
