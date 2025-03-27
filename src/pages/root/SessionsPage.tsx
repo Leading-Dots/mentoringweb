@@ -25,6 +25,13 @@ import { Link } from "react-router-dom";
 import { formatTime } from "@/lib/utils";
 import SessionLoader from "@/components/common/SessionLoader";
 import { ViewIntroductionSession } from "@/components/modal/ViewIntroductionSession";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 const SessionsPage = () => {
   const { user } = useAuth();
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -32,6 +39,23 @@ const SessionsPage = () => {
     IntroductionSession[]
   >([]);
   const [loading, setLoading] = useState(false);
+  const [currentSessionStatusFilter, setCurrentSessionStatusFilter] =
+    useState<Status>(Status.SCHEDULED);
+
+  const filters = [
+    {
+      label: "Scheduled",
+      value: Status.SCHEDULED,
+    },
+    {
+      label: "Rescheduled",
+      value: Status.RESCHEDULED,
+    },
+    {
+      label: "Completed",
+      value: Status.COMPLETED,
+    },
+  ];
 
   const fetchSessions = async (role: UserRole) => {
     try {
@@ -42,6 +66,11 @@ const SessionsPage = () => {
           query: sessionsByMentorID,
           variables: {
             mentorID: user.mentorId,
+            filter: {
+              status: {
+                eq: currentSessionStatusFilter,
+              },
+            },
           },
         });
 
@@ -74,6 +103,11 @@ const SessionsPage = () => {
           query: sessionsByMenteeID,
           variables: {
             menteeID: user.menteeId,
+            filter: {
+              status: {
+                eq: currentSessionStatusFilter,
+              },
+            },
           },
         });
         if (data) {
@@ -118,8 +152,8 @@ const SessionsPage = () => {
             filter: {
               sessionStatus: {
                 eq: MentorshipStatus.INTRODUCTION,
-              }
-            }
+              },
+            },
           },
         });
         if (data) {
@@ -133,8 +167,8 @@ const SessionsPage = () => {
             filter: {
               sessionStatus: {
                 eq: MentorshipStatus.INTRODUCTION,
-              }
-            }
+              },
+            },
           },
         });
         if (data) {
@@ -149,14 +183,33 @@ const SessionsPage = () => {
   useEffect(() => {
     fetchSessions(user.role);
     fetchIntroductionSessions(user.role);
-  }, [user.role]);
+  }, [user.role, currentSessionStatusFilter]);
   return (
     <div className="flex flex-col p-3 max-w-4xl">
       {loading ? (
         <SessionLoader />
       ) : (
-        <div className="flex flex-col max-w-4xl">
-          <h2 className="text-xl font-semibold mb-10">Ongoing Sessions</h2>
+        <div className="flex flex-col max-w-3xl">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-semibold">Ongoing Sessions</h2>
+            <Select
+              value={currentSessionStatusFilter}
+              onValueChange={(value) =>
+              setCurrentSessionStatusFilter(value as Status)
+              }
+            >
+              <SelectTrigger className="w-[160px]">
+              <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+              {filters.map((filter) => (
+                <SelectItem key={filter.value} value={filter.value}>
+                {filter.label}
+                </SelectItem>
+              ))}
+              </SelectContent>
+            </Select>
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {sessions.map((session) => (
               <Card
@@ -239,7 +292,7 @@ const SessionsPage = () => {
                 </div>
               </CardContent>
               <CardFooter className="pt-0">
-                <ViewIntroductionSession introSession={session} >
+                <ViewIntroductionSession introSession={session}>
                   <Button variant="outline" size="sm" className="w-full">
                     View Details
                   </Button>
