@@ -93,7 +93,6 @@ const MentorshipActionsForMentor = ({
             <DropdownMenuItem
               onSelect={(e) => {
                 e.preventDefault();
-                setOpen(false);
               }}
             >
               View Introduction Meeting

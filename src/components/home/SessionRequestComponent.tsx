@@ -122,9 +122,7 @@ const SessionRequestComponent = () => {
               </CardHeader>
               <CardContent className="p-0">
                 <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-none">
-                  {request.initiatedBy === "mentor"
-                    ? request.mentorNote
-                    : request.menteeNote}
+                  {request.sessionDescription}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
                   <Badge variant="secondary" className="text-xs md:text-sm">
