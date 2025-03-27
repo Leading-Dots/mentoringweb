@@ -22,6 +22,7 @@ import AddSessionServicesModal from "../preferences/AddSessionServicesModal";
 import { Button } from "../ui/button";
 import { PlusCircleIcon } from "lucide-react";
 import { showToast } from "@/lib/toast";
+import { useAuth } from "@/hooks/useAuth";
 
 const formSchema = (isMentor: boolean) =>
   z.object({
@@ -59,6 +60,7 @@ export function SessionRequestForm({
     null
   );
 
+  const { user } = useAuth();
   console.log(isMentor, mentorId);
 
   const form = useForm<FormSchema>({
@@ -76,10 +78,9 @@ export function SessionRequestForm({
   const handleSubmit = (data: FormSchema) => {
     // Transform the data to match the schema
 
-   
-    if (!selectedServiceId ) {
+    if (!selectedServiceId) {
       showToast("Please select a service", "error");
-      return
+      return;
     }
     const transformedData = {
       ...data,
@@ -95,7 +96,7 @@ export function SessionRequestForm({
 
   const autoFillFormData = (service: MentorServices) => {
     setSelectedServiceId(service.id);
-    form.setValue("title", service.title);
+    form.setValue("title", `${service.title} from ${user?.firstName}`);
     form.setValue("description", service.description);
     form.setValue("proposedCost", service.cost);
     form.setValue("duration", Number(service.duration));
@@ -110,17 +111,33 @@ export function SessionRequestForm({
   return (
     <Form {...form}>
       <SessionServiceSelector mentorId={mentorId} onSelect={autoFillFormData} />
-     
+
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         className="space-y-4"
         id="session-request-form"
       >
         {/* Hidden fields for storing auto-filled data */}
-        <input defaultValue={"notitle"}  type="hidden" {...form.register("title")} />
-        <input defaultValue={"nodescription"} type="hidden" {...form.register("description")} />
-        <input defaultValue={"novalue"} type="hidden" {...form.register("proposedCost")} />
-        <input defaultValue={"novalue"} type="hidden" {...form.register("duration")} />
+        <input
+          defaultValue={"notitle"}
+          type="hidden"
+          {...form.register("title")}
+        />
+        <input
+          defaultValue={"nodescription"}
+          type="hidden"
+          {...form.register("description")}
+        />
+        <input
+          defaultValue={"novalue"}
+          type="hidden"
+          {...form.register("proposedCost")}
+        />
+        <input
+          defaultValue={"novalue"}
+          type="hidden"
+          {...form.register("duration")}
+        />
 
         <FormField
           control={form.control}

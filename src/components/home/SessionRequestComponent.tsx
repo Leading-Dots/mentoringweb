@@ -79,7 +79,7 @@ const SessionRequestComponent = () => {
     return null;
   }
   return (
-    <div className="w-full p-4">
+    <div className="container max-w-md ">
       <div className="flex items-center gap-2 mb-4">
         <h2 className="text-xl font-semibold">Session Requests</h2>
       </div>
@@ -95,8 +95,8 @@ const SessionRequestComponent = () => {
           </Card>
         ) : (
           sessionRequests.map((request) => (
-            <Card key={request.id} className="p-4">
-              <CardHeader className="p-0 pb-4">
+            <Card key={request.id} className="transition-all duration-200 hover:shadow-md">
+              <CardHeader className="p-4">
                 <div className="flex justify-between items-center">
                   <Link
                     to={
@@ -104,38 +104,45 @@ const SessionRequestComponent = () => {
                         ? `/mentee/${request.menteeID}`
                         : `/mentor/${request.mentorID}`
                     }
+                    className="hover:opacity-80 transition-opacity"
                   >
-                    <div className="flex items-center gap-2">
-                      <User className="w-4 h-4" />
-                      <h3 className="font-semibold">
-                        {request.sessionTitle}-Request
+                    <div className="flex items-center gap-3">
+                      <div className="bg-primary/10 p-2 rounded-full">
+                        <User className="w-4 h-4 text-primary" />
+                      </div>
+                      <h3 className="font-semibold text-lg">
+                        {request.sessionTitle}
+                       
                       </h3>
                     </div>
                   </Link>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-4 h-4 text-muted-foreground" />
-                    <span className="text-sm text-muted-foreground">
+                  <div className="flex items-center gap-2 bg-secondary/20 px-3 py-1 rounded-full">
+                    <Calendar className="w-4 h-4 text-primary" />
+                    <span className="text-sm">
                       {new Date(request.createdAt).toLocaleDateString()}
                     </span>
                   </div>
                 </div>
               </CardHeader>
-              <CardContent className="p-0">
-                <p className="text-sm text-muted-foreground line-clamp-2 md:line-clamp-none">
+              <CardContent className="px-4 py-3">
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2 md:line-clamp-none">
                   {request.sessionDescription}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-4">
-                  <Badge variant="secondary" className="text-xs md:text-sm">
-                    Status: {request.status}
+                  <Badge 
+                    variant="secondary" 
+                    className="px-3 py-1 text-xs font-medium rounded-full"
+                  >
+                    {request.status}
                   </Badge>
                 </div>
               </CardContent>
 
-              <CardFooter className="p-0 pt-4">
+              <CardFooter className="p-4">
                 <SessionRequestDetailsModal sessionRequest={request}>
                   {userRole !== request.initiatedBy && (
-                    <span className="text-primary underline cursor-pointer">
-                      View
+                    <span className="text-primary hover:text-primary/80 font-medium cursor-pointer transition-colors">
+                      View Details →
                     </span>
                   )}
                 </SessionRequestDetailsModal>
