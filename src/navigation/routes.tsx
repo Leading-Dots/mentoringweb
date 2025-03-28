@@ -1,6 +1,5 @@
-import LoginPage from "@/pages/auth/LoginPage";
 import Home from "@/pages/root/Home";
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 import HomeRouter from "./HomeRouter";
 import DashboardLayout from "@/layout/DashboardLayout";
 import AuthLayout from "@/layout/AuthLayout";
@@ -20,6 +19,10 @@ import SearchMentorPage from "@/pages/root/SearchMentorsPage";
 import SearchMenteePage from "@/pages/root/SearchMenteePage";
 import MyMentors from "@/pages/root/MyMentorships";
 import SessionPreferences from "@/pages/root/SessionServices";
+import MenteeLoginPage from "@/pages/auth/MenteeLoginPage";
+import MentorLoginPage from "@/pages/auth/MentorLoginPage";
+import MentorSignUpPage from "@/pages/auth/MentorSignUpPage";
+import MenteeSignUpPage from "@/pages/auth/MenteeSignUpPage";
 
 const routes = [
   {
@@ -27,18 +30,50 @@ const routes = [
     element: <HomeRouter />,
   },
   {
-    path: "/login",
+    path: "/login/mentor",
     element: (
       <AuthLayout>
-        <LoginPage />
+        <MentorLoginPage />
       </AuthLayout>
     ),
   },
   {
-    path: "/signup",
+    path: "/login/",
     element: (
       <AuthLayout>
-        <SignUpPage />
+       <Navigate to="/login/mentee" />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/login/mentee",
+    element: (
+      <AuthLayout>
+        <MenteeLoginPage />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/signup/",
+    element: (
+      <AuthLayout>
+        <Navigate to="/signup/mentee" />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/signup/mentor",
+    element: (
+      <AuthLayout>
+        <MentorSignUpPage />
+      </AuthLayout>
+    ),
+  },
+  {
+    path: "/signup/mentee",
+    element: (
+      <AuthLayout>
+        <MenteeSignUpPage />
       </AuthLayout>
     ),
   },

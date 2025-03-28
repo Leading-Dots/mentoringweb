@@ -22,20 +22,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LandingPage() {
+  const { user } = useAuth();
 
-
-
-
-
-  const {user} = useAuth();
-
-  if(user){
-    return <Navigate to="/home" />
+  if (user) {
+    return <Navigate to="/home" />;
   }
-
-
-
-
 
   const getStartedStepsMentee = [
     {
@@ -66,6 +57,12 @@ export default function LandingPage() {
       description:
         "Sign up and share your expertise, experience, and availability to help others.",
     },
+    {
+      title: "Add Your Services",
+      description:
+        "Set your availability, services offered, and pricing to start receiving requests.",
+    },
+
     {
       title: "Send or Accept Requests",
       description:
@@ -113,10 +110,13 @@ export default function LandingPage() {
   return (
     <div className="flex min-h-screen flex-col mx-auto max-w-7xl">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
-          <Link to={"/"} className="flex items-center gap-2">
-            <Users className="h-6 w-6" />
-            <span className="text-xl font-bold">Mentor Platform</span>
+        <div className="container flex h-16 items-center  justify-between px-4 md:px-6">
+          <Link to={"/"} className="flex ">
+            <img
+              src="/logo.png"
+              alt="Mentor Platform"
+              className="h-20 w-60 object-cover"
+            />
           </Link>
           <nav className="hidden md:flex gap-6">
             <a
@@ -125,9 +125,10 @@ export default function LandingPage() {
             >
               Features
             </a>
-            <a 
+            <a
               href="#how-it-works"
-            className="text-sm font-medium hover:text-primary">
+              className="text-sm font-medium hover:text-primary"
+            >
               How It Works
             </a>
             <a
@@ -170,7 +171,7 @@ export default function LandingPage() {
                     <Link to="/home">Find a Mentor</Link>
                   </Button>
                   <Button size="lg" variant="outline" asChild>
-                    <Link to="/signup">Become a Mentor</Link>
+                    <Link to="/signup/mentor">Become a Mentor</Link>
                   </Button>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -295,7 +296,7 @@ export default function LandingPage() {
             </div>
             <div className="flex justify-center">
               <Button size="lg" className="gap-2" asChild>
-                <Link to="/signup">
+                <Link to="/signup/mentee">
                   Get Started Today
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -409,7 +410,7 @@ export default function LandingPage() {
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
                 <Button size="lg" variant="secondary" asChild>
-                  <Link to="/signup">Find Your Mentor</Link>
+                  <Link to="/home">Find Your Mentor</Link>
                 </Button>
                 <Button
                   size="lg"
@@ -417,7 +418,7 @@ export default function LandingPage() {
                   className="bg-transparent"
                   asChild
                 >
-                  <Link to="/become-mentor">Become a Mentor</Link>
+                  <Link to="/signup/mentor">Become a Mentor</Link>
                 </Button>
               </div>
             </div>
