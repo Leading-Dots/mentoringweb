@@ -127,7 +127,9 @@ export function LoginForm({ role, redirectPath = "/home" }: LoginFormProps) {
       <div className="flex flex-col gap-6 items-center">
         <Link to={`/login/${otherRole}`} className="">
           <Button variant="secondary">
-            Login as <span className="capitalize">{otherRole}</span>
+            <span>
+              Login as <span className="capitalize">{otherRole}</span>
+            </span>
             <ChevronRightCircle size={24} />
           </Button>
         </Link>
