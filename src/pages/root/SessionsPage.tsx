@@ -239,7 +239,7 @@ const SessionsPage = () => {
                       {formatTime(new Date(session.sessionDate!!))}
                     </div>
                     <Badge variant="default" className="w-fit">
-                      ${session.cost}
+                     {Number(session?.cost) === 0 ? "Free" : session.cost}
                     </Badge>
                   </div>
                 </CardContent>

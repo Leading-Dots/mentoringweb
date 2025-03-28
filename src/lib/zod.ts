@@ -2,10 +2,10 @@ import * as z from "zod";
 
 export const MentorProfileFormSchema = z.object({
   // Step 1
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  bio: z.string().min(10, "Bio must be at least 10 characters"),
+  firstName: z.string().min(2, "First name must be at least 2 characters").max(50, "First name cannot exceed 50 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters").max(50, "Last name cannot exceed 50 characters"),
+  email: z.string().email("Invalid email address").max(100, "Email cannot exceed 100 characters"),
+  bio: z.string().min(10, "Bio must be at least 10 characters").max(500, "Bio cannot exceed 500 characters"),
   profilePictureUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   // Step 2
   expertise: z.array(z.string()).min(1, "Select at least one expertise"),
@@ -21,10 +21,10 @@ export const MentorProfileFormSchema = z.object({
 
 export const MenteeProfileFormSchema = z.object({
   // Step 1
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  bio: z.string().min(10, "Bio must be at least 10 characters"),
+  firstName: z.string().min(2, "First name must be at least 2 characters").max(50, "First name cannot exceed 50 characters"),
+  lastName: z.string().min(2, "Last name must be at least 2 characters").max(50, "Last name cannot exceed 50 characters"),
+  email: z.string().email("Invalid email address").max(100, "Email cannot exceed 100 characters"),
+  bio: z.string().min(10, "Bio must be at least 10 characters").max(500, "Bio cannot exceed 500 characters"),
   profilePictureUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
 
   //Step 2
@@ -38,7 +38,7 @@ export const MenteeProfileFormSchema = z.object({
   //Step 3
   resumeUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
   websiteUrl: z.union([z.string().url("Invalid website url"), z.string().length(0)]).optional(),
-  summary: z.string().min(10, "Summary must be at least 10 characters"),
+  summary: z.string().min(10, "Summary must be at least 10 characters").max(1000, "Summary cannot exceed 1000 characters"),
   linkedinUrl: z.union([z.string().url("Invalid linkedin url"), z.string().length(0)]).optional(),
 });
 
