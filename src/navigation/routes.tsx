@@ -3,12 +3,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import HomeRouter from "./HomeRouter";
 import DashboardLayout from "@/layout/DashboardLayout";
 import AuthLayout from "@/layout/AuthLayout";
-import SignUpPage from "@/pages/auth/SignUpPage";
 import ConfirmSignUpPage from "@/pages/auth/ConfirmSignUpPage";
 import ProfilePage from "@/pages/root/ProfilePage";
 import MentorProfilePage from "@/pages/public-profile/MentorProfilePage";
 import MenteeProfilePage from "@/pages/public-profile/MenteeProfilePage";
-import SearchPage from "@/pages/root/SearchMentorsPage";
 import SessionsPage from "@/pages/root/SessionsPage";
 import SessionDetailsPage from "@/pages/root/SessionDetailsPage";
 import InboxPage from "@/pages/root/InboxPage";
@@ -23,6 +21,9 @@ import MenteeLoginPage from "@/pages/auth/MenteeLoginPage";
 import MentorLoginPage from "@/pages/auth/MentorLoginPage";
 import MentorSignUpPage from "@/pages/auth/MentorSignUpPage";
 import MenteeSignUpPage from "@/pages/auth/MenteeSignUpPage";
+import AdminLayout from "@/layout/AdminLayout";
+import AdminDashboardPage from "@/pages/admin/AdminDashboardPage";
+import AdminLoginPage from "@/pages/admin/AdminLoginPage";
 
 const routes = [
   {
@@ -38,10 +39,42 @@ const routes = [
     ),
   },
   {
+    path: "/admin/login",
+    element: (
+    
+        <AdminLoginPage />
+     
+    ),
+  },
+  {
+    path: "/admin/dashboard",
+    element: (
+      <AdminLayout>
+        <AdminDashboardPage />
+      </AdminLayout>
+    ),
+  },
+  {
+    path: "/admin/mentors",
+    element: (
+      <AdminLayout>
+        <AdminDashboardPage />
+      </AdminLayout>
+    ),
+  },
+  {
+    path: "/admin/mentees",
+    element: (
+      <AdminLayout>
+        <AdminDashboardPage />
+      </AdminLayout>
+    ),
+  },
+  {
     path: "/login/",
     element: (
       <AuthLayout>
-       <Navigate to="/login/mentee" />
+        <Navigate to="/login/mentee" />
       </AuthLayout>
     ),
   },

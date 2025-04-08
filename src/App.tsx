@@ -8,10 +8,9 @@ import { requestFCMToken } from "./lib/firebase/notifications";
 import { onMessage } from "firebase/messaging";
 import { cloudMessaging } from "./lib/firebase/app";
 import { showToast } from "./lib/toast";
+import { AdminAuthProvider } from "./hooks/useAdminAuth";
 
 export default function App() {
-
-  
   useEffect(() => {
     requestFCMToken();
     onMessage(cloudMessaging, (payload) => {
@@ -20,14 +19,12 @@ export default function App() {
 
       showToast(notificationTitle, "info", notificationBody);
     });
-
-
-
   }, []);
   return (
-    <AuthProvider>
-      
-      <RouterProvider router={router} />
-    </AuthProvider>
+    <AdminAuthProvider>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </AdminAuthProvider>
   );
 }

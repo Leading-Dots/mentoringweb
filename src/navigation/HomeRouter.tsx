@@ -22,11 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function LandingPage() {
-  const { user } = useAuth();
-
-  if (user) {
-    return <Navigate to="/home" />;
-  }
+  
 
   const getStartedStepsMentee = [
     {
