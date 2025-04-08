@@ -19,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/useAuth";
 import { ProfileStatus } from "@/API";
+import { useTheme } from "@/components/theme/theme-provider";
 
 type NavItem = {
   title: string;
@@ -118,6 +119,11 @@ const Navbar = () => {
   const navItems = user?.role === "mentor" ? mentorNavItems : menteeNavItems;
   const isNotPending = user?.profileStatus !== ProfileStatus.PENDING;
 
+  const {theme} = useTheme();
+  const isDarkMode = theme === "dark";
+  const isLightMode = theme === "light";
+  const isSystemMode = theme === "system";
+
   const NavContent = () => {
     // For guest users, show guest nav items
     if (!user) {
@@ -203,7 +209,10 @@ const Navbar = () => {
             <img
               src="/logo.png"
               alt="Mentor Platform"
-              className="h-20 w-80 object-cover"
+              className={cn(
+                "h-20 w-80 object-cover",
+                isDarkMode && "bg-foreground rounded-lg"
+              )}
             />
           </Link>
         </div>
@@ -232,11 +241,14 @@ const Navbar = () => {
         <SheetContent side="left" className="w-64 p-6">
           <div className="flex flex-col items-center">
             <Link to="/home">
-            <img
+              <img
               src="/logo.png"
               alt="Mentor Platform"
-              className="h-20 w-80 object-cover "
-            />
+              className={cn(
+                "h-20 w-80 object-cover",
+                isDarkMode && "bg-foreground rounded-lg"
+              )}
+              />
             </Link>
           </div>
           <NavContent />
