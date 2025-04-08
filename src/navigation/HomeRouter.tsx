@@ -20,10 +20,10 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "@/hooks/useAuth";
+import { useTheme } from "@/components/theme/theme-provider";
+import { cn } from "@/lib/utils";
 
 export default function LandingPage() {
-  
-
   const getStartedStepsMentee = [
     {
       title: "Create Your Mentee Profile",
@@ -102,7 +102,8 @@ export default function LandingPage() {
       icon: CheckCircle,
     },
   ];
-
+  const { theme } = useTheme();
+  const isDarkMode = theme === "dark";
   return (
     <div className="flex min-h-screen flex-col mx-auto max-w-7xl">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -111,7 +112,10 @@ export default function LandingPage() {
             <img
               src="/logo.png"
               alt="Mentor Platform"
-              className="h-20 w-60 object-cover"
+              className={cn(
+                "h-20 w-60 object-cover",
+                isDarkMode && "bg-foreground/5 rounded-lg"
+              )}
             />
           </Link>
           <nav className="hidden md:flex gap-6">
